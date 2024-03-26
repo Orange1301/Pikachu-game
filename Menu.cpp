@@ -1,11 +1,12 @@
 #include "Menu.h"
 
-int Menu::CurrentOption;
+int Menu::currentOption = 0;
+const string Menu::options[5] = {"Play normal mode", "Play hard mode", "Tutorial", "High Scores", "Exit"}
 
 void DisplayMenu() {
     system("cls"); // Xóa màn hình hiện tại
     cout << "<Menu>" //Bà kiếm cái chữ nổi nào đó để xuất ra chỗ này cho đẹp nha
-
+    
 }
 
 void MoveMenuCursor(int direction) {
