@@ -9,6 +9,7 @@
 using namespace std;
 
 int main() {
+    cout << "Hello Hello";
     while (true) {
         char c = getch();
         switch (c) {
