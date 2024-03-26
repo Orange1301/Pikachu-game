@@ -9,28 +9,6 @@
 using namespace std;
 
 int main() {
-    cout << "Hello Hello";
-    while (true) {
-        char c = getch();
-        switch (c) {
-            case UP:
-                cout << "UP";
-                break;
-            case DOWN:
-                cout << "DOWN";
-                break;
-            case LEFT:
-                cout << "LEFT";
-                break;
-            case RIGHT:
-                cout << "RIGHT";
-                break;
-            default:
-                break;
-        }
-    }
-    cout << endl;
-    cout << "Hello world";
-    cout << "ok";
+    cout << "Canh";
     return 0;
 }
