@@ -9,26 +9,26 @@ void DisplayMenu() {
     
 }
 
-void MoveMenuCursor(int direction) {
-    // Kiểm tra xem con trỏ menu có hợp lệ hay không
-    if (currentMenuItem >= menuItems.size()) {
-        return;
-    }
+// void MoveMenuCursor(int direction) {
+//     // Kiểm tra xem con trỏ menu có hợp lệ hay không
+//     if (currentMenuItem >= menuItems.size()) {
+//         return;
+//     }
 
-    // Di chuyển con trỏ menu theo hướng được chỉ định
-    if (direction == UP) {
-        currentMenuItem--;
-    } else if (direction == DOWN) {
-        currentMenuItem++;
-    }
+//     // Di chuyển con trỏ menu theo hướng được chỉ định
+//     if (direction == UP) {
+//         currentMenuItem--;
+//     } else if (direction == DOWN) {
+//         currentMenuItem++;
+//     }
 
-    // Giữ con trỏ menu trong phạm vi hợp lệ
-    if (currentMenuItem < 0) {
-        currentMenuItem = 0;
-    } else if (currentMenuItem >= menuItems.size()) {
-        currentMenuItem = menuItems.size() - 1;
-    }
+//     // Giữ con trỏ menu trong phạm vi hợp lệ
+//     if (currentMenuItem < 0) {
+//         currentMenuItem = 0;
+//     } else if (currentMenuItem >= menuItems.size()) {
+//         currentMenuItem = menuItems.size() - 1;
+//     }
 
-    // Hiển thị lại menu với con trỏ được cập nhật
-    DisplayMenu();
-}
+//     // Hiển thị lại menu với con trỏ được cập nhật
+//     DisplayMenu();
+// }
