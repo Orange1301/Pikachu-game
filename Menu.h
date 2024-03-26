@@ -7,8 +7,6 @@
 
 struct Player {
 	string playerName;
-	string playerID;
-	string className;
 	int score;
 	string mode;
 };
