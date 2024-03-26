@@ -30,5 +30,6 @@ int main() {
         }
     }
     cout << endl;
+    cout << "Hello world";
     return 0;
 }
