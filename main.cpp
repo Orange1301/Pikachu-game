@@ -6,13 +6,6 @@
 #define LEFT 75
 #define RIGHT 77
 
-int getKeyBoard() {
-    switch(getch()) {
-        case UP:
-            return 0;
-    }
-}
-
 using namespace std;
 
 int main() {
