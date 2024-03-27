@@ -16,17 +16,17 @@ struct Menu
 {
 	static bool exit;									// cờ thoát game
 	static int currentOption;							// lựa chọn hiện tại
-	const static string options[9];						// tên các lựa chọn (gồm 5 lựa chọn)
+	const static string options[9];						// tên các lựa chọn
 	static void MainScreen();							// màn hình chính
 	static void MainMenu();								// menu
 	static void PlayMenu();								// menu play
 	static void HighScores();							// màn hình load file high scores
 	static void TutorialScreen();						// màn hình hướng dẫn cách chơi
-	static void ExitScreen();							// màn hình thoát trò ch?i
+	static void ExitScreen();							// màn hình thoát trò chơi
 	static void NormalMode();							// chế độ thường
 	static void HardMode();								// chế độ khó
 	static void DropMode();								// chế độ rơi
-	static void PrintLogo();							// in logo
+	static void DisplayMenu();							// in logo
 	static void GoBack() {};							// trở về menu
 	static void PrintOptionsBoard();					// in ra bảng các lựa chọn
 	static void PrintAnimation();						// in ra hiệu ứng mở đầu
