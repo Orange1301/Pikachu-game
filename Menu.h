@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <random>
 #include <fstream>
-#include "Controller.h"
 #include "Game.h"
+#include "Controller.h"
 
 #define NORMAL 4;
 #define HARD 8;
