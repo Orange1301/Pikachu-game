@@ -20,10 +20,7 @@
 
 using namespace std;
 
-int main() {
-    HWND consoleWindow = GetConsoleWindow();
-    SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
-    
+int main() {    
     system("cls");
     cout << "ok";
     return 0; 
