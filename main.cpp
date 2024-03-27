@@ -1,5 +1,7 @@
 #include <iostream>
+#include <stdlib.h>
 #include <conio.h>
+#include <windows.h>
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -14,11 +16,15 @@
 #define KEY_ENTER 13
 #define KEY_ESC 27
 
-// using namespace std;
+#define _WIN32_WINNT 0x0500
 
-#include <SFML/Window.hpp> 
-#include <iostream> 
-  
+using namespace std;
+
 int main() {
+    HWND consoleWindow = GetConsoleWindow();
+    SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
+    
+    system("cls");
+    cout << "ok";
     return 0; 
 }
