@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 int Menu::currentOption = 0;
-const string Menu::options[5] = {"Play normal mode", "Play hard mode", "Tutorial", "High Scores", "Exit"}
+const string Menu::options[9] = {"Play", "High Scores", "Tutorial", "Exit", "Normal Mode", "Hard Mode", "Drop Mode", "Back", "Exit"};
 
 void DisplayMenu() {
     system("cls"); // Xóa màn hình hiện tại
