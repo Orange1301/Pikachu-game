@@ -1,5 +1,5 @@
 #pragma once
-#pragma comment(lib, "Winmm.lib");
+#pragma comment(lib, "Winmm.lib")
 
 #include <Windows.h>
 #include <conio.h>
