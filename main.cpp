@@ -9,6 +9,8 @@
 using namespace std;
 
 int main() {
-    cout << "Canh";
+    int a = 2;
+    a = (a + 4) % 5;
+    cout << a;
     return 0;
 }
