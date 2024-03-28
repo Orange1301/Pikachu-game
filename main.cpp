@@ -18,8 +18,10 @@
 
 using namespace std;
 
-int main() {    
-    system("cls");
-    cout << "ok";
-    return 0; 
+int main()
+{
+	Controller::SetUpConsole();
+	//Menu::MainScreen();
+	Menu::DisplayMenu();
+    return 0;
 }
