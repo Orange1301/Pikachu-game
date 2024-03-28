@@ -40,10 +40,10 @@ void Controller::HideScrollBars()	// ẩn thanh cuộn (scroll bars) trên cửa
 	ShowScrollBar(consoleWindow, SB_BOTH, 0);
 }
 
-void Controller::SetConsoleTitle()	// đặt tiêu đề cho cửa sổ console
-{
-	SetConsoleTitle(L"\u0050\u0049\u004b\u0041\u0043\u0048\u0055"); // PIKACHU
-}
+// void Controller::SetConsoleTitle()	// đặt tiêu đề cho cửa sổ console
+// {
+// 	SetConsoleTitle(L"\u0050\u0049\u004b\u0041\u0043\u0048\u0055"); // PIKACHU
+// }
 
 void Controller::DisableMaximize()	// vô hiệu hoá khả năng phóng to cửa sổ console
 {
@@ -57,17 +57,17 @@ void Controller::ShowCursor(bool show)	// ẩn hoặc hiển thị con trỏ nh�
 	SetConsoleCursorInfo(consoleOutput, &info);
 }
 
-void Controller::SetFontInfo()	// thiết lập thông tin về font chữ cho cửa sổ console
-{
-	// 12 - 24
-	CONSOLE_FONT_INFOEX info;
-	info.cbSize = sizeof(info);
-	GetCurrentConsoleFontEx(consoleOutput, FALSE, &info);
-	info.dwFontSize.X = 12;
-	info.dwFontSize.Y = 24;
-	wcscpy_s(info.FaceName, L"Consolas");
-	SetCurrentConsoleFontEx(consoleOutput, FALSE, &info);
-}
+// void Controller::SetFontInfo()	// thiết lập thông tin về font chữ cho cửa sổ console
+// {
+// 	// 12 - 24
+// 	CONSOLE_FONT_INFOEX info;
+// 	info.cbSize = sizeof(info);
+// 	GetCurrentConsoleFontEx(consoleOutput, FALSE, &info);
+// 	info.dwFontSize.X = 12;
+// 	info.dwFontSize.Y = 24;
+// 	wcscpy_s(info.FaceName, L"Consolas");
+// 	SetCurrentConsoleFontEx(consoleOutput, FALSE, &info);
+// }
 
 void Controller::ClearConsole()	// xoá nội dung của cửa sổ console
 {
