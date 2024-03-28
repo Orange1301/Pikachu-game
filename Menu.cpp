@@ -28,11 +28,20 @@ void Menu::DisplayMenu()
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 }
 
-void MoveMenuCursor(int direc)
-{
-    if (direc == UP || direc = LEFT)
+void Menu::HandleKeyEvent() {
+    int key = getch();
+    if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
+        MoveMenuCursor(UP);
+    else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
+        MoveMenuCursor(DOWN);
+    else if (key == KEY_ENTER)
+
+}
+
+void Menu::MoveMenuCursor(int direc) {
+    if (direc == UP)
         currentOption = (currentOption + 4) % 5;
-    else if (direc == DOWN || direc == RIGHT)
+    else if (direc == DOWN)
         currentOption = (currentOption + 1) % 5;
     DisplayMenu();
 }
