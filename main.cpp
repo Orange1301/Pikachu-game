@@ -16,8 +16,6 @@
 #define KEY_ENTER 13
 #define KEY_ESC 27
 
-#define _WIN32_WINNT 0x0500
-
 using namespace std;
 
 int main() {    
