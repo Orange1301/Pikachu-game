@@ -4,15 +4,18 @@ int Menu::currentOption = 0;
 const string Menu::MainOptions[4] = {"Play", "High Scores", "Tutorial", "Exit"};
 const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "Back"};
 
-
 void Menu::MainScreen() {
 	DisplayMenu(MainOptions);
 	while(true) {
 		int key = getch();
-		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
-			MoveMenuCursor(UP);
-		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
-			MoveMenuCursor(DOWN);
+		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
+			currentOption = (currentOption + 4) % 5;
+			DisplayMenu(MainOptions);
+		}
+		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D) {
+			currentOption = (currentOption + 1) % 5;
+			DisplayMenu(MainOptions);
+		}
 		else if (key == KEY_ENTER)
 			switch (currentOption) {
 				case 0:
@@ -22,13 +25,20 @@ void Menu::MainScreen() {
 					HighScores();
 					break;
 				case 2:
+					TutorialScreen();
+					break;
+				case 3:
+					ExitScreen();
+					break;
 			}
+		else if (key == KEY_ESC)
+			ExitScreen();
 
 
 	}
 }
 
-void Menu::DisplayMenu(string options[])
+void Menu::DisplayMenu(const string options[])
 {
     system("cls"); // Xóa màn hình hiện tại
     unsigned char logo[] = R"(  
@@ -57,28 +67,22 @@ void Menu::DisplayMenu(string options[])
 	Controller::GoToXY(38, 8);
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
 
-	for () {
+	// for () {
 
-	}
+	// }
 	
 }
 
-void Menu::MoveMenuCursor(int direc) {
-    if (direc == UP)
-        currentOption = (currentOption + 4) % 5;
-    else if (direc == DOWN)
-        currentOption = (currentOption + 1) % 5;
-    DisplayMenu();
-}
-
 void Menu::PlayMenu() {
-	DisplayMenu(PlayOptions);
+	currentOption = 0;
 	while(true) {
+		DisplayMenu(PlayOptions);
+
 		int key = getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
-			MoveMenuCursor(UP);
+			currentOption = (currentOption + 4) % 5;
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
-			MoveMenuCursor(DOWN);
+			currentOption = (currentOption + 1) % 5;
 		else if (key == KEY_ENTER)
 			switch (currentOption) {
 				case 0:
@@ -97,4 +101,25 @@ void Menu::PlayMenu() {
 
 void Menu::HighScores() {
 	
+}
+
+void Menu::TutorialScreen() {
+
+}
+
+void Menu::ExitScreen() {
+
+}
+
+void Menu::NormalMode() {
+
+}
+void Menu::HardMode() {
+
+}
+void Menu::DropMode() {
+
+}
+void Menu::GoBack() {
+
 }
