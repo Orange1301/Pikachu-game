@@ -29,7 +29,6 @@ struct Menu
 	static void NormalMode();							// chế độ thường
 	static void HardMode();								// chế độ khó
 	static void DropMode();								// chế độ rơi
-	static void GoBack();								// trở về menu
 
 	static void PrintOptionsBoard();					// in ra bảng các lựa chọn
 	static void PrintAnimation();						// in ra hiệu ứng mở đầu

@@ -89,9 +89,13 @@ void Menu::PlayMenu() {
 					NormalMode();
 					break;
 				case 1:
-					HighScores();
+					HardMode();
 					break;
 				case 2:
+					DropMode();
+					break;
+				case 3:
+					return;
 			}
 
 
