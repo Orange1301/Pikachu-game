@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <random>
 #include <fstream>
-#include "Game.h"
+// #include "Game.h"
 #include "Controller.h"
 
 #define NORMAL 4;
@@ -18,6 +18,8 @@ struct Menu
 	static int currentOption;							// lựa chọn hiện tại
 	const static string options[9];						// tên các lựa chọn
 	static void MainScreen();							// màn hình chính
+	static void HandleKeyEvent();						// kiểm tra sự kiện nhấn phím
+	static void MoveMenuCursor(int);					// thay đổi menu cursor
 	static void MainMenu();								// menu
 	static void PlayMenu();								// menu play
 	static void HighScores();							// màn hình load file high scores
