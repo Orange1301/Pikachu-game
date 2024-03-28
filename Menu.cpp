@@ -66,7 +66,7 @@ void Menu::DisplayMenu(const string options[])
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
 	Controller::GoToXY(40, 1);
-	cout << "23127161 - 23127";
+	cout << "23127161 - 23127236";
 	Controller::GoToXY(38, 8);
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
 
@@ -131,10 +131,6 @@ void Menu::PrintRectangle(int left, int top, int width, int height)
 	putchar(217);
 }
 
-<<<<<<< HEAD
-void Menu::NormalMode() {
-	
-=======
 void Menu::HighScores()
 {
 	currentOption = 0;
@@ -149,7 +145,6 @@ void Menu::HighScores()
 			|_| |_|___\____|_| |_| |____/ \____\___/|_| \_\_____|____/ 
 
 	)";
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	PrintRectangle(5, 8, 85, 17);
 
@@ -251,7 +246,6 @@ void Menu::HighScores()
 	// {
 	// 	Controller::PlaySound(ERROR_SOUND);
 	// }
->>>>>>> main
 }
 
 void Menu::TutorialScreen()
