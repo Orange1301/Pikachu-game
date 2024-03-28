@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <random>
 #include <fstream>
-#include "Game.h"
+#include "NormalAndHardMode.h"
 #include "Controller.h"
 
 #define NORMAL_SCORE 2;
