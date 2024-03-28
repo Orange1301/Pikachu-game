@@ -9,7 +9,7 @@ void DisplayMenu() {
     
 }
 
-void HandleKeyEvent() {
+void Menu::HandleKeyEvent() {
     int key = getch();
     if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
         MoveMenuCursor(UP);
@@ -19,7 +19,7 @@ void HandleKeyEvent() {
 
 }
 
-void MoveMenuCursor(int direc) {
+void Menu::MoveMenuCursor(int direc) {
     if (direc == UP)
         currentOption = (currentOption + 4) % 5;
     else if (direc == DOWN)
