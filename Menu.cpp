@@ -1,16 +1,18 @@
 #include "Menu.h"
 
 int Menu::currentOption = 0;
-const string Menu::MainOptions[4] = {"Play", "High Scores", "Tutorial", "Exit"};
-const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "Back"};
+const string Menu::MainOptions[4] = { "Play", "High Scores", "Tutorial", "Exit" };
+const string Menu::PlayOptions[4] = { "Normal Mode", "Hard Mode", "Drop Mode", "Back" };
 
 void Menu::MainScreen()
 {
 	DisplayMenu(MainOptions);
-	while(true) {
+	while (true)
+	{
 		// xử lý sự kiện nhấn phím
-		int key = getch();
-		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
+		int key = _getch();
+		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
+		{
 			currentOption = (currentOption + 4) % 5;
 			DisplayMenu(MainOptions);
 		}
@@ -20,21 +22,22 @@ void Menu::MainScreen()
 			DisplayMenu(MainOptions);
 		}
 		else if (key == KEY_ENTER)
-			switch (currentOption) {
-				case 0:
-					PlayMenu();
-					currentOption = 0;
-					DisplayMenu(MainOptions);
-					break;
-				case 1:
-					HighScores();
-					break;
-				case 2:
-					TutorialScreen();
-					break;
-				case 3:
-					ExitScreen();
-					break;
+			switch (currentOption)
+			{
+			case 0:
+				PlayMenu();
+				currentOption = 0;
+				DisplayMenu(MainOptions);
+				break;
+			case 1:
+				HighScores();
+				break;
+			case 2:
+				TutorialScreen();
+				break;
+			case 3:
+				ExitScreen();
+				break;
 			}
 		else if (key == KEY_ESC)
 			ExitScreen();
@@ -62,45 +65,90 @@ void Menu::DisplayMenu(const string options[])
 		   `---`            '---'                       `---`    '---'        `--`----'                                                                                                                                                  
 	)";
 	cout << logo;
-	Controller::GoToXY(38, 0);
+	Controller::GoToXY(44, 0);
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
-	Controller::GoToXY(40, 1);
-	cout << "23127161 - 23127";
+	Controller::GoToXY(48, 1);
+	cout << "23127161 - 23127236";
 	Controller::GoToXY(38, 8);
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
 
-	// for () {
-
-	// }
+	PrintOptionsBoard(options);
 }
 
-void Menu::PlayMenu() {
+void Menu::PrintOptionsBoard(const string options[])
+{
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	int left = 50;
+	int top = 20;
+	Controller::GoToXY(left, top);
+	putchar(201);
+	for (int i = 1; i < 14; i++)
+	{
+		putchar(205);
+	}
+	putchar(187);
+	for (int i = 1; i < 4 * 2; i++)
+	{
+		if (i % 2 != 0)
+		{
+			Controller::GoToXY(left, top + i);
+			putchar(186);
+			cout << " " << options[i / 2];
+			Controller::GoToXY(left + 14, top + i);
+			putchar(186);
+		}
+		else
+		{
+			Controller::GoToXY(left, top + i);
+			putchar(199);
+			for (int j = 1; j < 14; j++)
+			{
+				putchar(196);
+			}
+			putchar(182);
+		}
+	}
+	Controller::GoToXY(left, top + 4 * 2);
+	putchar(200);
+	for (int i = 1; i < 14; i++)
+	{
+		putchar(205);
+	}
+	putchar(188);
+}
+
+void Menu::PlayMenu()
+{
 	DisplayMenu(PlayOptions);
-	while(true) {
+	while (true)
+	{
 		// xử lý sự kiện nhấn phím
-		int key = getch();
-		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
+		int key = _getch();
+		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
+		{
 			currentOption = (currentOption + 4) % 5;
 			DisplayMenu(PlayOptions);
 		}
-		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D) {
+		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
+		{
 			currentOption = (currentOption + 1) % 5;
 			DisplayMenu(PlayOptions);
 		}
 		else if (key == KEY_ENTER)
-			switch (currentOption) {
-				case 0:
-					NormalMode();
-					break;
-				case 1:
-					HardMode();
-					break;
-				case 2:
-					DropMode();
-					break;
-				case 3:
-					return;
+			switch (currentOption)
+			{
+			case 0:
+				NormalMode();
+				break;
+			case 1:
+				HardMode();
+				break;
+			case 2:
+				DropMode();
+				break;
+			case 3:
+				return;
 			}
 		else if (key == KEY_ESC)
 			return;
@@ -147,7 +195,7 @@ void Menu::HighScores()
 	)";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(5, 8, 85, 17);
+	PrintRectangle(5, 8, 56, 17);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	Controller::GoToXY(8, 9);
