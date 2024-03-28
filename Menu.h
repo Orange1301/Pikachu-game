@@ -15,10 +15,10 @@ using namespace std;
 struct Menu
 {
 	static int currentOption;							// lựa chọn hiện tại
-	const static string options[9];						// tên các lựa chọn
+	const static string MainOptions[4];					// tên các lựa chọn chính
+	const static string PlayOptions[4]					// tên các lựa chọn chơi
 	static void MainScreen();							// màn hình chính
 	static void DisplayMenu();							// hiển thị Menu
-	static void HandleKeyEvent();						// kiểm tra sự kiện nhấn phím
 	static void MoveMenuCursor(int);					// thay đổi menu cursor
 	static void MainMenu();								// menu
 	static void PlayMenu();								// menu play
