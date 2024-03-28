@@ -7,6 +7,7 @@ const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "B
 void Menu::MainScreen() {
 	DisplayMenu(MainOptions);
 	while(true) {
+		// xử lý sự kiện nhấn phím
 		int key = getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
 			currentOption = (currentOption + 4) % 5;
@@ -20,6 +21,8 @@ void Menu::MainScreen() {
 			switch (currentOption) {
 				case 0:
 					PlayMenu();
+					currentOption = 0;
+					DisplayMenu(MainOptions);
 					break;
 				case 1:
 					HighScores();
@@ -33,8 +36,6 @@ void Menu::MainScreen() {
 			}
 		else if (key == KEY_ESC)
 			ExitScreen();
-
-
 	}
 }
 
@@ -61,9 +62,9 @@ void Menu::DisplayMenu(const string options[])
     cout << logo;
     Controller::GoToXY(38, 0);
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	cout << "Tran Tung Lam - Le Minh";
+	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
 	Controller::GoToXY(40, 1);
-	cout << "21127337 - 21127165";
+	cout << "23127161 - 23127";
 	Controller::GoToXY(38, 8);
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
 
@@ -74,39 +75,43 @@ void Menu::DisplayMenu(const string options[])
 }
 
 void Menu::PlayMenu() {
-	currentOption = 0;
+	DisplayMenu(PlayOptions);
 	while(true) {
-		DisplayMenu(PlayOptions);
-
+		// xử lý sự kiện nhấn phím
 		int key = getch();
-		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
+		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
 			currentOption = (currentOption + 4) % 5;
-		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
+			DisplayMenu(PlayOptions);
+		}
+		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D) {
 			currentOption = (currentOption + 1) % 5;
+			DisplayMenu(PlayOptions);
+		}
 		else if (key == KEY_ENTER)
 			switch (currentOption) {
 				case 0:
 					NormalMode();
 					break;
 				case 1:
-					HighScores();
+					HardMode();
 					break;
 				case 2:
+					DropMode();
+					break;
+				case 3:
+					return;
 			}
-
-
+		else if (key == KEY_ESC)
+			return;
 	}
-	
 }
 
 void Menu::HighScores() {
 	
 }
-
 void Menu::TutorialScreen() {
 
 }
-
 void Menu::ExitScreen() {
 
 }
@@ -118,8 +123,5 @@ void Menu::HardMode() {
 
 }
 void Menu::DropMode() {
-
-}
-void Menu::GoBack() {
 
 }
