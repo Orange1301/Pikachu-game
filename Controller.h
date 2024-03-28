@@ -55,6 +55,9 @@ struct Controller
 	static void GoToXY(int, int);				// di chuyển con trỏ đến vị trí x, y
 	static void SetAndCenterWindow();			// căn giữa và thiết lập độ phân giải màn hình console
 	static void SetConsoleColor(int, int);		// thiết lập màu chữ và màu nền
+	static void HideScrollBars();				// ẩn thanh cuộn
+	// static void SetConsoleTitle();				// cài đặt tiêu đề console
+	static void DisableMaximize();				// vô hiệu hóa phóng to màn hình
 	static void SetConsoleTitle();				// cài đặt tiêu đề console
 	static void ShowCursor(bool);				// ẩn hoặc hiện con trỏ
 	static int GetConsoleInput();				// lấy lệnh từ bàn phím
