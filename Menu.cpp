@@ -48,6 +48,7 @@ void Menu::DisplayMenu(const string options[])
 {
 	system("cls"); // Xóa màn hình hiện tại
 	unsigned char logo[] = R"(  
+
                                                                         
 		  ,-.----.                  ,--.                                  ,--,               
 		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
@@ -94,7 +95,17 @@ void Menu::PrintOptionsBoard(const string options[])
 		{
 			Controller::GoToXY(left, top + i);
 			putchar(186);
-			cout << " " << options[i / 2];
+			if ((i / 2) == currentOption) 
+			{
+				Controller::SetConsoleColor(BRIGHT_WHITE, RED);
+				int space = (13 - options[i / 2].length()) / 2;
+				cout << string(space, ' ') << options[i / 2] << string(space, ' ');
+				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+			}
+			else {
+				int space = (13 - options[i / 2].length()) / 2; 
+				cout << string(space, ' ') << options[i / 2] << string(space, ' ');
+			}
 			Controller::GoToXY(left + 14, top + i);
 			putchar(186);
 		}
@@ -116,6 +127,13 @@ void Menu::PrintOptionsBoard(const string options[])
 		putchar(205);
 	}
 	putchar(188);
+
+	int arrowLeft = 48;
+	int arrowTop = 20 + currentOption * 2 + 1;
+	Controller::GoToXY(arrowLeft, arrowTop);
+	cout << "=>";
+	Controller::GoToXY(left + 15, arrowTop);
+	cout << "<=";
 }
 
 void Menu::PlayMenu()
