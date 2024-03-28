@@ -1,0 +1,8 @@
+hn,normal,10
+ngua,hard,20
+qn,normal,8
+canh,hard,18
+ruby,hard,17
+abc,normal,9
+sdc,normal,5
+cvd,normal,10

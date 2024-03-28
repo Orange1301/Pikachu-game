@@ -36,6 +36,6 @@ struct Menu
 struct Player
 {
 	string playerName;
-	int score;
 	string mode;
+	int score;
 };
