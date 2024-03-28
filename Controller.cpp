@@ -8,7 +8,7 @@ void Controller::SetUpConsole()		// thiết kế cấu hình cửa sổ console
 	SetFontInfo();					// thông tin về font chữ cho cửa sổ console
 	SetAndCenterWindow();			// căn giữa và thiết lập kích thước cửa sổ console
 	DisableMaximize();				// vô hiệu hoá phóng to cửa sổ console
-	SetConsoleTitle();				// đặt tiêu đề cho cửa sổ console
+	// SetConsoleTitle();				// đặt tiêu đề cho cửa sổ console
 	HideScrollBars();				// ẩn thanh cuộn trên cửa sổ console
 	ShowCursor(false);				// ẩn con trỏ trên của sổ console
 	DisableMouseInput();			// vô hiệu hoá đầu vào từ chuột
@@ -40,10 +40,10 @@ void Controller::HideScrollBars()	// ẩn thanh cuộn (scroll bars) trên cửa
 	ShowScrollBar(consoleWindow, SB_BOTH, 0);
 }
 
-void Controller::SetConsoleTitle()	// đặt tiêu đề cho cửa sổ console
-{
-	SetConsoleTitle(L"\u0050\u0049\u004b\u0041\u0043\u0048\u0055"); // PIKACHU
-}
+// void Controller::SetConsoleTitle()	// đặt tiêu đề cho cửa sổ console
+// {
+// 	SetConsoleTitle(L"\u0050\u0049\u004b\u0041\u0043\u0048\u0055"); // PIKACHU
+// }
 
 void Controller::DisableMaximize()	// vô hiệu hoá khả năng phóng to cửa sổ console
 {

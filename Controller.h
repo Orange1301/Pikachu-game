@@ -53,7 +53,7 @@ struct Controller
 	static void SetAndCenterWindow();			// căn giữa và thiết lập độ phân giải màn hình console
 	static void SetConsoleColor(int, int);		// thiết lập màu chữ và màu nền
 	static void HideScrollBars();				// ẩn thanh cuộn
-	static void SetConsoleTitle();				// cài đặt tiêu đề console
+	// static void SetConsoleTitle();				// cài đặt tiêu đề console
 	static void DisableMaximize();				// vô hiệu hóa phóng to màn hình
 	static void ShowCursor(bool);				// ẩn hoặc hiện con trỏ
 	static void SetFontInfo();					// cài đặt font chữ
