@@ -131,6 +131,10 @@ void Menu::PrintRectangle(int left, int top, int width, int height)
 	putchar(217);
 }
 
+<<<<<<< HEAD
+void Menu::NormalMode() {
+	
+=======
 void Menu::HighScores()
 {
 	currentOption = 0;
@@ -247,6 +251,7 @@ void Menu::HighScores()
 	// {
 	// 	Controller::PlaySound(ERROR_SOUND);
 	// }
+>>>>>>> main
 }
 
 void Menu::TutorialScreen()
