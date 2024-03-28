@@ -15,16 +15,16 @@ void Controller::GoToXY(int x, int y)	// di chuyển con trỏ đến vị trí 
 	SetConsoleCursorPosition(consoleOutput, COORD{ (short)x, (short)y });
 }
 
-// void Controller::SetAndCenterWindow()	// căn giữa cửa sổ console và thiết lập kích thước của nó
-// {
-// 	RECT rectClient, rectWindow;
-// 	GetClientRect(consoleWindow, &rectClient), GetWindowRect(consoleWindow, &rectWindow);
-// 	int width = 1100;
-// 	int height = 1500;
-// 	int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-// 	int posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
-// 	MoveWindow(consoleWindow, posX, posY, width, height, TRUE);
-// }
+void Controller::SetAndCenterWindow()	// căn giữa cửa sổ console và thiết lập kích thước của nó
+{
+	RECT rectClient, rectWindow;
+	GetClientRect(consoleWindow, &rectClient), GetWindowRect(consoleWindow, &rectWindow);
+	int width = 1100;
+	int height = 1500;
+	int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
+	int posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+	MoveWindow(consoleWindow, posX, posY, width, height, TRUE);
+}
 
 void Controller::ShowCursor(bool show)	// ẩn hoặc hiển thị con trỏ nhấp nháy trên cửa sổ console
 {

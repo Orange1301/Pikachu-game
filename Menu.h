@@ -14,7 +14,6 @@ using namespace std;
 
 struct Menu
 {
-	static bool exit;									// cờ thoát game
 	static int currentOption;							// lựa chọn hiện tại
 	const static string options[9];						// tên các lựa chọn
 	static void MainScreen();							// màn hình chính
