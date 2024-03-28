@@ -23,7 +23,6 @@ using namespace std;
 int main()
 {
 	Controller::SetUpConsole();
-	//Menu::MainScreen();
 	Menu::DisplayMenu();
 	getch();
     return 0;
