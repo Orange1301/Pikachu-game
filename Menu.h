@@ -4,11 +4,12 @@
 #include <unordered_map>
 #include <random>
 #include <fstream>
-// #include "Game.h"
+#include "NormalAndHardMode.h"
 #include "Controller.h"
 
-#define NORMAL 4;
-#define HARD 8;
+#define NORMAL_SCORE 2;
+#define HARD_SCORE 3;
+#define DROP_SCORE 4;
 
 using namespace std;
 
