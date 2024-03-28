@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
+#include "Controller.h"
+#include "Menu.h"
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -23,5 +25,6 @@ int main()
 	Controller::SetUpConsole();
 	//Menu::MainScreen();
 	Menu::DisplayMenu();
+	getch();
     return 0;
 }

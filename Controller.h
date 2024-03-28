@@ -1,7 +1,4 @@
-#pragma once
-#pragma comment(lib, "Winmm.lib")
-
-#include <Windows.h>
+#include <windows.h>
 #include <conio.h>
 #include <vector>
 #include <random>
