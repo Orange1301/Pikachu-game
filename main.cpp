@@ -10,7 +10,7 @@ using namespace std;
 int main()
 {
 	Controller::SetUpConsole();
-	Menu::HighScores();
+	Menu::MainScreen();
 	_getch();
     return 0;
 }
