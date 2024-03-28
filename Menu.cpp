@@ -117,7 +117,7 @@ void Menu::ExitScreen() {
 }
 
 void Menu::NormalMode() {
-
+	
 }
 void Menu::HardMode() {
 
