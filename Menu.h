@@ -18,6 +18,7 @@ struct Menu
 	static int currentOption;							// lựa chọn hiện tại
 	const static string options[9];						// tên các lựa chọn
 	static void MainScreen();							// màn hình chính
+	static void DisplayMenu();							// hiển thị Menu
 	static void HandleKeyEvent();						// kiểm tra sự kiện nhấn phím
 	static void MoveMenuCursor(int);					// thay đổi menu cursor
 	static void MainMenu();								// menu
@@ -28,7 +29,6 @@ struct Menu
 	static void NormalMode();							// chế độ thường
 	static void HardMode();								// chế độ khó
 	static void DropMode();								// chế độ rơi
-	static void DisplayMenu();							// in logo
 	static void GoBack() {};							// trở về menu
 	static void PrintOptionsBoard();					// in ra bảng các lựa chọn
 	static void PrintAnimation();						// in ra hiệu ứng mở đầu
