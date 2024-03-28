@@ -4,17 +4,18 @@ int Menu::currentOption = 0;
 const string Menu::MainOptions[4] = {"Play", "High Scores", "Tutorial", "Exit"};
 const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "Back"};
 
-
-
 void Menu::MainScreen() {
+	DisplayMenu(MainOptions);
 	while(true) {
-		DisplayMenu(MainOptions);
-
 		int key = getch();
-		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
+		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
 			currentOption = (currentOption + 4) % 5;
-		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
+			DisplayMenu(MainOptions);
+		}
+		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D) {
 			currentOption = (currentOption + 1) % 5;
+			DisplayMenu(MainOptions);
+		}
 		else if (key == KEY_ENTER)
 			switch (currentOption) {
 				case 0:
@@ -30,6 +31,8 @@ void Menu::MainScreen() {
 					ExitScreen();
 					break;
 			}
+		else if (key == KEY_ESC)
+			ExitScreen();
 
 
 	}
@@ -71,8 +74,10 @@ void Menu::DisplayMenu(const string options[])
 }
 
 void Menu::PlayMenu() {
-	DisplayMenu(PlayOptions);
+	currentOption = 0;
 	while(true) {
+		DisplayMenu(PlayOptions);
+
 		int key = getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 			currentOption = (currentOption + 4) % 5;
