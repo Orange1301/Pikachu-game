@@ -1,12 +1,31 @@
 #include "Menu.h"
 
 int Menu::currentOption = 0;
-const string Menu::options[8] = {"Play", "Normal Mode", "Hard Mode", "Drop Mode", "Tutorial", "High Scores", "Back", "Exit"}
+const string Menu::options[9] = {"Play", "High Scores", "Tutorial", "Exit", "Normal Mode", "Hard Mode", "Drop Mode", "Back", "Exit"};
 
-void DisplayMenu() {
+void Menu::DisplayMenu()
+{
     system("cls"); // Xóa màn hình hiện tại
-    cout << "<Menu>" //Bà kiếm cái chữ nổi nào đó để xuất ra chỗ này cho đẹp nha
-    
+    unsigned char logo[] = R"(  
+                                                                        
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+		  .   :  |: |:   |  '|   '   ,  :  :       \   .   |  ;. /|   | : _' |  .--. |  | :  
+		  |   |   \ :|   :  |'   |  /   :  |   /\   \  .   ; /--` :   : |.'  |,'_ /| :  . |  
+		  |   : .   /'   '  ;|   ;  ;   |  :  ' ;.   : ;   | ;    |   ' '  ; :|  ' | |  . .  
+		  ;   | |`-' |   |  |:   '   \  |  |  ;/  \   \|   : |    '   |  .'. ||  | ' |  | |  
+		  |   | ;    '   :  ;|   |    ' '  :  | \  \ ,'.   | '___ |   | :  | ':  | | :  ' ;  
+		  :   ' |    |   |  ''   : |.  \|  |  '  '--'  '   ; : .'|'   : |  : ;|  ; ' |  | '  
+		  :   : :    '   :  ||   | '_\.'|  :  :        '   | '/  :|   | '  ,/ :  | : ;  ; |  
+		  |   | :    ;   |.' '   : |    |  | ,'        |   :    / ;   : ;--'  '  :  `--'   \ 
+		  `---'.|    '---'   ;   |,'    `--''           \   \ .'  |   ,/      :  ,      .-./ 
+		   `---`            '---'                       `---`    '---'        `--`----'                                                                                                                                                  
+	)";
+    cout << logo;
+    Controller::GoToXY(38, 0);
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 }
 
 void Menu::HandleKeyEvent() {
