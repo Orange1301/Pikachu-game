@@ -25,7 +25,13 @@ void Menu::DisplayMenu()
 	)";
     cout << logo;
     Controller::GoToXY(38, 0);
-    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	cout << "Tran Tung Lam - Le Minh";
+	Controller::GoToXY(40, 1);
+	cout << "21127337 - 21127165";
+	Controller::GoToXY(38, 8);
+	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+	
 }
 
 // void Menu::HandleKeyEvent() {
