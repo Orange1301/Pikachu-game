@@ -194,6 +194,7 @@ void Menu::HighScores()
 
 	)";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	PrintRectangle(5, 8, 56, 17);
 
