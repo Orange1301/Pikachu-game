@@ -1,9 +1,7 @@
 #pragma once
-#pragma comment(lib, "Winmm.lib")
 
-#include <Windows.h>
+#include <windows.h>
 #include <conio.h>
-#include <vector>
 #include <random>
 #include <string>
 
@@ -55,12 +53,8 @@ struct Controller
 	static void HideScrollBars();				// ẩn thanh cuộn
 	// static void SetConsoleTitle();				// cài đặt tiêu đề console
 	static void DisableMaximize();				// vô hiệu hóa phóng to màn hình
+	static void SetConsoleTitle();				// cài đặt tiêu đề console
 	static void ShowCursor(bool);				// ẩn hoặc hiện con trỏ
-	static void SetFontInfo();					// cài đặt font chữ
-	static void ClearConsole();					// xóa màn hình console
-	static void DisableMouseInput();			// vô hiệu hoá con chuột trong console
 	static int GetConsoleInput();				// lấy lệnh từ bàn phím
 	static void PlaySound(int);					// phát âm thanh
 };
-
-int GetRandomInt(int begin, int end);			// hàm lấy số nguyên ngẫu nhiên

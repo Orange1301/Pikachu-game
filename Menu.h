@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <random>
 #include <fstream>
-#include "Game.h"
+// #include "Game.h"
 #include "Controller.h"
 
 #define NORMAL 4;
@@ -14,10 +14,12 @@ using namespace std;
 
 struct Menu
 {
-	static bool exit;									// cờ thoát game
 	static int currentOption;							// lựa chọn hiện tại
-	const static string options[9];						// tên các lựa chọn
+	const static string MainOptions[4];					// tên các lựa chọn chính
+	const static string PlayOptions[4]					// tên các lựa chọn chơi
 	static void MainScreen();							// màn hình chính
+	static void DisplayMenu();							// hiển thị Menu
+	static void MoveMenuCursor(int);					// thay đổi menu cursor
 	static void MainMenu();								// menu
 	static void PlayMenu();								// menu play
 	static void HighScores();							// màn hình load file high scores
@@ -26,7 +28,6 @@ struct Menu
 	static void NormalMode();							// chế độ thường
 	static void HardMode();								// chế độ khó
 	static void DropMode();								// chế độ rơi
-	static void DisplayMenu();							// in logo
 	static void GoBack() {};							// trở về menu
 	static void PrintOptionsBoard();					// in ra bảng các lựa chọn
 	static void PrintAnimation();						// in ra hiệu ứng mở đầu
@@ -39,4 +40,3 @@ struct Player
 	int score;
 	string mode;
 };
-
