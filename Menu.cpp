@@ -21,6 +21,8 @@ void Menu::MainScreen() {
 			switch (currentOption) {
 				case 0:
 					PlayMenu();
+					currentOption = 0;
+					DisplayMenu(MainOptions);
 					break;
 				case 1:
 					HighScores();
@@ -77,10 +79,14 @@ void Menu::PlayMenu() {
 	while(true) {
 		// xử lý sự kiện nhấn phím
 		int key = getch();
-		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
+		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A) {
 			currentOption = (currentOption + 4) % 5;
-		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
+			DisplayMenu(PlayOptions);
+		}
+		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D) {
 			currentOption = (currentOption + 1) % 5;
+			DisplayMenu(PlayOptions);
+		}
 		else if (key == KEY_ENTER)
 			switch (currentOption) {
 				case 0:
@@ -95,20 +101,17 @@ void Menu::PlayMenu() {
 				case 3:
 					return;
 			}
-
-
+		else if (key == KEY_ESC)
+			return;
 	}
-	
 }
 
 void Menu::HighScores() {
 	
 }
-
 void Menu::TutorialScreen() {
 
 }
-
 void Menu::ExitScreen() {
 
 }
