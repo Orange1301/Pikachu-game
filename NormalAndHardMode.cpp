@@ -10,10 +10,12 @@ void NAHGame::StartGame(int MODE) {
         case 2:
             gameBoard.size = 4;
             gameBoard.left = 0;
-            gameBoard.top = 0;            
+            gameBoard.top = 0;
             break;
         case 3:
             gameBoard.size = 8;
+            gameBoard.left = 0;
+            gameBoard.top = 0;
             break;
     }
 
