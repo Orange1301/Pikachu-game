@@ -1,6 +1,7 @@
 #include "NormalAndHardMode.h"
 #include "Menu.h"
-
+GameBoard NAHGame::gameBoard;
+InfoBoard NAHGame::infoBoard;
 void NAHGame::SetupGame() {
 
 }
@@ -10,10 +11,12 @@ void NAHGame::StartGame(int MODE) {
         case NORMAL:
             gameBoard.size = 4;
             gameBoard.left = 0;
-            gameBoard.top = 0;            
+            gameBoard.top = 0;
             break;
         case HARD:
             gameBoard.size = 8;
+            gameBoard.left = 0;
+            gameBoard.top = 0;
             break;
     }
 
