@@ -9,6 +9,7 @@ using namespace std;
 
 int main()
 {
+	SetConsoleOutputCP(65001);
 	system("color F0");
 	Controller::SetUpConsole();
 	Menu::MainScreen();
