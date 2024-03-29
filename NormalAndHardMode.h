@@ -8,13 +8,15 @@
 #define HARD 3
 
 struct GameBoard {
+    int size;
+    int left, top;
+    int remainCells;
+
     pair<int, int> currentCell = {0, 0};
     pair<int, int> chosenCell1 = {-1, -1};
     pair<int, int> chosenCell2 = {-1, -1};
 
-    int size;
-    int left, top;
-    int remainCells;
+    char** pokemonsBoard;
 
     void Render();
     void RemoveCell();
