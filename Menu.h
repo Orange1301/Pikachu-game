@@ -7,9 +7,9 @@
 #include "NormalAndHardMode.h"
 #include "Controller.h"
 
-#define NORMAL_SCORE 2;
-#define HARD_SCORE 3;
-#define DROP_SCORE 4;
+#define NORMAL 2;
+#define HARD 3;
+#define DROP 4;
 
 using namespace std;
 

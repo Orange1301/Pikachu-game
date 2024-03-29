@@ -330,6 +330,9 @@ void Menu::ExitScreen()
 
 void Menu::NormalMode()
 {
+	Game game(NORMAL);
+	game.SetupGame();
+	game.StartGame();
 }
 void Menu::HardMode()
 {
