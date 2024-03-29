@@ -19,7 +19,7 @@ struct Menu
 	const static string MainOptions[4];		 // tên các lựa chọn chính
 	const static string PlayOptions[4];		 // tên các lựa chọn chơi
 	static void MainScreen();				 // màn hình chính
-	static void DisplayMenu(const string[]); // hiển thị Menu
+	static void PrintLogo();				 // hiển thị logo
 
 	static void PlayMenu();		  // menu play
 	static void HighScores();	  // màn hình load file high scores
