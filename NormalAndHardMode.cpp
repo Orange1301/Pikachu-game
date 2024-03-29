@@ -1,25 +1,40 @@
 #include "NormalAndHardMode.h"
 #include "Menu.h"
 
-void GameBoard::RenderGameBoard() {
-    int size, left, top;
-    int mode;
-    cin >> mode;
-    switch (mode) {
-    case 2: // NORMAL mode
-        size = 4;
-        left = 20;
-        top = 6;
-        break;
-    case 3: // HARD mode
-        size = 8;
-        left = 0;
-        top = 0;
-        break;
-    default:
-        return;
+void NAHGame::SetupGame() {
+
+}
+
+void NAHGame::StartGame(int MODE) {
+    switch (MODE) {
+        case 2:
+            gameBoard.size = 4;
+            gameBoard.left = 0;
+            gameBoard.top = 0;            
+            break;
+        case 3:
+            gameBoard.size = 8;
+            break;
     }
 
+    system("cls");
+    gameBoard.Render();
+    infoBoard.Render();
+
+    while (true) {
+        // xử lý sự kiện nhấn phím
+        int key = getch();
+        if (key == KEY_UP || key == KEY_W) {
+            gameBoard.currentCell.first = (gameBoard.currentCell.first + gameBoard.size - 1) % gameBoard.size;
+            gameBoard.Render();
+        }
+        else if (key == KEY_DOWN || key == KEY_S) {
+            gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
+        }
+    }
+}
+
+void GameBoard::Render() {
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Controller::GoToXY(left + 1, top);
@@ -76,9 +91,7 @@ void GameBoard::RenderGameBoard() {
     }
 }
 
-
-
-void InfoBoard::RenderInfoBoard() {
+void InfoBoard::Render() {
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(75, 1, 33, 8);
     Menu::PrintRectangle(75, 10, 33, 12);

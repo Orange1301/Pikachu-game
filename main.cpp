@@ -9,6 +9,9 @@ using namespace std;
 
 int main()
 {
+	// UINT currentCodePage = GetConsoleOutputCP();
+	// cout << currentCodePage;
+	// SetConsoleOutputCP(65001);
 	system("color F0");
 	// Controller::SetUpConsole();
 	Menu::MainScreen();

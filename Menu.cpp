@@ -350,9 +350,8 @@ void Menu::ExitScreen()
 
 void Menu::NormalMode()
 {
-	// Game game(NORMAL);
-	// game.SetupGame();
-	// game.StartGame();
+	NAHGame::SetupGame();
+	NAHGame::StartGame(NORMAL);
 }
 void Menu::HardMode()
 {
