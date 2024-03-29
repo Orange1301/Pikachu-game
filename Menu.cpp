@@ -70,7 +70,7 @@ void Menu::PrintLogo()
 	)";
 	cout << logo;
 	Controller::GoToXY(44, 0);
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	Controller::SetConsoleColor(BRIGHT_WHITE, AQUA);
 	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
 	Controller::GoToXY(48, 1);
 	cout << "23127161 - 23127236";
@@ -80,23 +80,27 @@ void Menu::PrintLogo()
 
 void Menu::PrintOptionsBoard(const string options[])
 {
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	int left = 50;
 	int top = 20;
-	Controller::GoToXY(left, top);
-	putchar(201);
-	for (int i = 1; i < 14; i++)
-	{
-		putchar(205);
-	}
-	putchar(187);
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	Controller::GoToXY(51, top);
+	//putchar(201);
+	//for (int i = 1; i < 14; i++)
+	//{
+	//	putchar(205);
+	//}
+	//putchar(187);
+	cout << "-------------";
 	for (int i = 1; i < 4 * 2; i++)
 	{
 		if (i % 2 != 0)
 		{
+			Controller::GoToXY(48, 20 + i);
+			cout << "  ";
 			Controller::GoToXY(left, top + i);
-			putchar(186);
-			if ((i / 2) == currentOption) 
+			//putchar(186);
+			cout << "|";
+			if ((i / 2) == currentOption)
 			{
 				Controller::SetConsoleColor(BRIGHT_WHITE, RED);
 				int space = (13 - options[i / 2].length()) / 2;
@@ -104,31 +108,35 @@ void Menu::PrintOptionsBoard(const string options[])
 				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 			}
 			else {
-				int space = (13 - options[i / 2].length()) / 2; 
+				int space = (13 - options[i / 2].length()) / 2;
 				cout << string(space, ' ') << options[i / 2] << string(space, ' ');
 			}
 			Controller::GoToXY(left + 14, top + i);
-			putchar(186);
+			//putchar(186);
+			cout << "|";
+			Controller::GoToXY(65, 20 + i);
+			cout << "  ";
 		}
 		else
 		{
-			Controller::GoToXY(left, top + i);
-			putchar(199);
-			for (int j = 1; j < 14; j++)
-			{
-				putchar(196);
-			}
-			putchar(182);
+			Controller::GoToXY(51, top + i);
+			//putchar(199);
+			//for (int j = 1; j < 14; j++)
+			//{
+			//	putchar(196);
+			//}
+			//putchar(182);
+			cout << "-------------";
 		}
 	}
-	Controller::GoToXY(left, top + 4 * 2);
-	putchar(200);
-	for (int i = 1; i < 14; i++)
-	{
-		putchar(205);
-	}
-	putchar(188);
-
+	Controller::GoToXY(51, top + 4 * 2);
+	//putchar(200);
+	//for (int i = 1; i < 14; i++)
+	//{
+	//	putchar(205);
+	//}
+	//putchar(188);
+	cout << "-------------";
 	int arrowLeft = 48;
 	int arrowTop = 20 + currentOption * 2 + 1;
 	Controller::GoToXY(arrowLeft, arrowTop);
@@ -316,7 +324,7 @@ void Menu::HighScores()
 	// 	Controller::PlaySound(ERROR_SOUND);
 	// }
 	while (true)
-		if (getch() == KEY_ENTER)
+		if (_getch() == KEY_ENTER)
 			return;
 }
 
