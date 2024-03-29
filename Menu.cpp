@@ -6,20 +6,21 @@ const string Menu::PlayOptions[4] = { "Normal Mode", "Hard Mode", "Drop Mode", "
 
 void Menu::MainScreen()
 {
-	DisplayMenu(MainOptions);
+	PrintLogo();
+	PrintOptionsBoard(MainOptions);
 	while (true)
 	{
 		// xử lý sự kiện nhấn phím
 		int key = _getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 		{
-			currentOption = (currentOption + 4) % 5;
-			DisplayMenu(MainOptions);
+			currentOption = (currentOption + 3) % 4;
+			PrintOptionsBoard(MainOptions);
 		}
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
 		{
-			currentOption = (currentOption + 1) % 5;
-			DisplayMenu(MainOptions);
+			currentOption = (currentOption + 1) % 4;
+			PrintOptionsBoard(MainOptions);
 		}
 		else if (key == KEY_ENTER)
 			switch (currentOption)
@@ -27,10 +28,12 @@ void Menu::MainScreen()
 			case 0:
 				PlayMenu();
 				currentOption = 0;
-				DisplayMenu(MainOptions);
+				PrintOptionsBoard(MainOptions);
 				break;
 			case 1:
 				HighScores();
+				PrintLogo();
+				PrintOptionsBoard(MainOptions);
 				break;
 			case 2:
 				TutorialScreen();
@@ -44,7 +47,7 @@ void Menu::MainScreen()
 	}
 }
 
-void Menu::DisplayMenu(const string options[])
+void Menu::PrintLogo()
 {
 	system("cls"); // Xóa màn hình hiện tại
 	unsigned char logo[] = R"(  
@@ -73,8 +76,6 @@ void Menu::DisplayMenu(const string options[])
 	cout << "23127161 - 23127236";
 	Controller::GoToXY(38, 8);
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-
-	PrintOptionsBoard(options);
 }
 
 void Menu::PrintOptionsBoard(const string options[])
@@ -138,20 +139,20 @@ void Menu::PrintOptionsBoard(const string options[])
 
 void Menu::PlayMenu()
 {
-	DisplayMenu(PlayOptions);
+	PrintOptionsBoard(PlayOptions);
 	while (true)
 	{
 		// xử lý sự kiện nhấn phím
 		int key = _getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 		{
-			currentOption = (currentOption + 4) % 5;
-			DisplayMenu(PlayOptions);
+			currentOption = (currentOption + 3) % 4;
+			PrintOptionsBoard(PlayOptions);
 		}
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
 		{
-			currentOption = (currentOption + 1) % 5;
-			DisplayMenu(PlayOptions);
+			currentOption = (currentOption + 1) % 4;
+			PrintOptionsBoard(PlayOptions);
 		}
 		else if (key == KEY_ENTER)
 			switch (currentOption)
@@ -218,7 +219,7 @@ void Menu::HighScores()
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	Controller::GoToXY(8, 9);
-	cout << "STT";
+	cout << "No.";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
@@ -314,6 +315,9 @@ void Menu::HighScores()
 	// {
 	// 	Controller::PlaySound(ERROR_SOUND);
 	// }
+	while (true)
+		if (getch() == KEY_ENTER)
+			return;
 }
 
 void Menu::TutorialScreen()

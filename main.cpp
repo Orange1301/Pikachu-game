@@ -9,6 +9,7 @@ using namespace std;
 
 int main()
 {
+	system("color F0");
 	Controller::SetUpConsole();
 	Menu::MainScreen();
 	_getch();
