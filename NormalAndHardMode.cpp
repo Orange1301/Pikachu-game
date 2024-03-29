@@ -7,12 +7,12 @@ void NAHGame::SetupGame() {
 
 void NAHGame::StartGame(int MODE) {
     switch (MODE) {
-        case 2:
+        case NORMAL:
             gameBoard.size = 4;
             gameBoard.left = 0;
             gameBoard.top = 0;            
             break;
-        case 3:
+        case HARD:
             gameBoard.size = 8;
             break;
     }

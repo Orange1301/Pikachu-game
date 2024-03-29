@@ -2,10 +2,10 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
-#include <Controller.h>
+#include "Controller.h"
 
-#define NORMAL 2;
-#define HARD 3;
+#define NORMAL 2
+#define HARD 3
 
 struct GameBoard {
     pair<int, int> currentCell = {0, 0};
