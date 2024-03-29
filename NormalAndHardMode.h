@@ -16,12 +16,15 @@ struct GameBoard {
     int left, top;
 
     void Render();
+    void RemoveCell();
 
 };
 
 struct InfoBoard {
     char playerName[15] = "", mode[8] = "";
-    int scores;
+    int scores = 0;
+    int lives = 3;
+    int hints = 3;
     void Render();
 
 };
@@ -32,4 +35,10 @@ struct NAHGame {
 
     static void SetupGame();
     static void StartGame(int);
+
+    bool CheckIMatching(pair<int, int>, pair<int, int>);
+    bool CheckLMatching(pair<int, int>, pair<int, int>);
+    bool CheckUMatching(pair<int, int>, pair<int, int>);
+    bool CheckZMatching(pair<int, int>, pair<int, int>);
+    bool CheckMatching(pair<int, int>, pair<int, int>);
 };

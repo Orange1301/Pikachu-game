@@ -24,15 +24,41 @@ void NAHGame::StartGame(int MODE) {
     gameBoard.Render();
     infoBoard.Render();
 
-    while (true) {
+    while (infoBoard.lives) {
         // xử lý sự kiện nhấn phím
         int key = getch();
         if (key == KEY_UP || key == KEY_W) {
             gameBoard.currentCell.first = (gameBoard.currentCell.first + gameBoard.size - 1) % gameBoard.size;
-            gameBoard.Render();
+            // update màu trên board
         }
         else if (key == KEY_DOWN || key == KEY_S) {
             gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
+            // update màu trên board
+        }
+        else if (key == KEY_LEFT || key == KEY_A) {
+            gameBoard.currentCell.second = (gameBoard.currentCell.second + gameBoard.size - 1) % gameBoard.size;
+            // update màu trên board
+        }
+        else if (key == KEY_RIGHT || key == KEY_D) {
+            gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % gameBoard.size;
+            // update màu trên board
+        }
+        else if (key == KEY_ENTER) {
+            if (gameBoard.chosenCell1.first == -1)
+                gameBoard.chosenCell1 = gameBoard.currentCell;
+            else if (gameBoard.currentCell == gameBoard.chosenCell1)
+                gameBoard.chosenCell1 = {-1, -1};
+            else {
+                gameBoard.chosenCell2 = gameBoard.currentCell;
+                if (CheckMatching(gameBoard.chosenCell1, gameBoard.chosenCell2)) {
+                    gameBoard.RemoveCell;
+                    // update board
+                    // phát âm thanh
+                }
+                else {
+                    infoBoard.lives--;
+                }
+            }
         }
     }
 }
@@ -137,4 +163,25 @@ void InfoBoard::Render() {
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
     Controller::GoToXY(97, 27);
     cout << "Esc : Exit";
+}
+
+bool NAHGame::CheckIMatching(pair<int, int>, pair<int, int>)
+{
+
+}
+bool NAHGame::CheckLMatching(pair<int, int>, pair<int, int>)
+{
+
+}
+bool NAHGame::CheckUMatching(pair<int, int>, pair<int, int>)
+{
+
+}
+bool NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
+{
+
+}
+bool NAHGame::CheckMatching(pair<int, int>, pair<int, int>)
+{
+
 }

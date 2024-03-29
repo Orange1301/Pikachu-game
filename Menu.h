@@ -34,7 +34,7 @@ struct Menu
 	static void PrintAnimation();					// in ra hiệu ứng mở đầu
 	static void PrintRectangle(int, int, int, int); // vẽ hình chữ nhật
 };
-struct Player
+struct Player		// dùng để đọc thông tin người chơi từ file HighScores.txt
 {
 	string playerName;
 	string mode;

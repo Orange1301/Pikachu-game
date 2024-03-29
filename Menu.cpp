@@ -355,6 +355,8 @@ void Menu::NormalMode()
 }
 void Menu::HardMode()
 {
+	NAHGame::SetupGame();
+	NAHGame::StartGame(HARD);
 }
 void Menu::DropMode()
 {
