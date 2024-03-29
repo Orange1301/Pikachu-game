@@ -14,6 +14,7 @@ struct GameBoard {
 
     int size;
     int left, top;
+    int remainCells;
 
     void Render();
     void RemoveCell();
@@ -29,16 +30,20 @@ struct InfoBoard {
 
 };
 
-struct NAHGame {
+struct NAHGame {            // NAH = Normal And Hard
     static GameBoard gameBoard;
     static InfoBoard infoBoard;
 
     static void SetupGame();
     static void StartGame(int);
 
-    bool CheckIMatching(pair<int, int>, pair<int, int>);
-    bool CheckLMatching(pair<int, int>, pair<int, int>);
-    bool CheckUMatching(pair<int, int>, pair<int, int>);
-    bool CheckZMatching(pair<int, int>, pair<int, int>);
-    bool CheckMatching(pair<int, int>, pair<int, int>);
+    static bool CheckIMatching(pair<int, int>, pair<int, int>);
+    static bool CheckLMatching(pair<int, int>, pair<int, int>);
+    static bool CheckUMatching(pair<int, int>, pair<int, int>);
+    static bool CheckZMatching(pair<int, int>, pair<int, int>);
+    static bool CheckMatching(pair<int, int>, pair<int, int>);
+
+    static void LosingScreen();
+    static void WinningScreen();
+    static void ExitScreen();
 };

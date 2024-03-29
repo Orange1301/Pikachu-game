@@ -19,6 +19,7 @@ void NAHGame::StartGame(int MODE) {
             gameBoard.top = 0;
             break;
     }
+    gameBoard.remainCells = gameBoard.size * gameBoard.size;
 
     system("cls");
     gameBoard.Render();
@@ -43,6 +44,9 @@ void NAHGame::StartGame(int MODE) {
             gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % gameBoard.size;
             // update màu trên board
         }
+        else if (key == KEY_ESC) {
+            ExitScreen();
+        }
         else if (key == KEY_ENTER) {
             if (gameBoard.chosenCell1.first == -1)
                 gameBoard.chosenCell1 = gameBoard.currentCell;
@@ -51,16 +55,26 @@ void NAHGame::StartGame(int MODE) {
             else {
                 gameBoard.chosenCell2 = gameBoard.currentCell;
                 if (CheckMatching(gameBoard.chosenCell1, gameBoard.chosenCell2)) {
-                    gameBoard.RemoveCell;
+                    gameBoard.RemoveCell();
+                    gameBoard.remainCells -= 2;
+                    if (gameBoard.remainCells == 0)
+                        WinningScreen();
                     // update board
                     // phát âm thanh
                 }
                 else {
+                    // tô đỏ hai ô được chọn
+                    // phát âm thanh
+                    gameBoard.chosenCell1 = {-1, -1};
+                    gameBoard.chosenCell2 = {-1, -1};
                     infoBoard.lives--;
+                    
                 }
             }
         }
     }
+
+    LosingScreen();
 }
 
 void GameBoard::Render() {
@@ -182,6 +196,27 @@ bool NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
 
 }
 bool NAHGame::CheckMatching(pair<int, int>, pair<int, int>)
+{
+
+}
+
+void GameBoard::RemoveCell()
+{
+
+}
+
+void NAHGame::LosingScreen()
+{
+    system("cls");
+    cout << "Đồ thất bại!";
+}
+void NAHGame::WinningScreen()
+{
+    system("cls");
+    cout << "Thành công!";
+}
+
+void NAHGame::ExitScreen()
 {
 
 }
