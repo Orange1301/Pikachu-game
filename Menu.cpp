@@ -1,8 +1,8 @@
 #include "Menu.h"
 
 int Menu::currentOption = 0;
-const string Menu::MainOptions[4] = { "Play", "High Scores", "Tutorial", "Exit" };
-const string Menu::PlayOptions[4] = { "Normal Mode", "Hard Mode", "Drop Mode", "Back" };
+const string Menu::MainOptions[4] = {"Play", "High Scores", "Tutorial", "Exit"};
+const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "Back"};
 
 void Menu::MainScreen()
 {
@@ -50,6 +50,7 @@ void Menu::MainScreen()
 void Menu::PrintLogo()
 {
 	system("cls"); // Xóa màn hình hiện tại
+	SetConsoleOutputCP(65001);
 	unsigned char logo[] = R"(  
 
                                                                         
@@ -69,8 +70,22 @@ void Menu::PrintLogo()
 		   `---`            '---'                       `---`    '---'        `--`----'                                                                                                                                                  
 	)";
 	cout << logo;
+	Controller::GoToXY(0, 50);
+	cout << R"(
+		⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+		⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠁
+		⣧⡀⠀⠀⠀⠀⠙⠿⠿⠿⠻⠿⠿⠟⠿⠛⠉⠀⠀⠀⠀⠀
+		⣿⣷⣄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴
+		⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣴⣿⣿
+		⣿⣿⡟⠀⠀⢰⣹⡆⠀⠀⠀⠀⠀⠀⣭⣷⠀⠀⠀⠸⣿⣿
+		⣿⣿⠃⠀⠀⠈⠉⠀⠀⠤⠄⠀⠀⠀⠉⠁⠀⠀⠀⠀⢿⣿
+		⣿⣿⢾⣿⣷⠀⠀⠀⠀⡠⠤⢄⠀⠀⠀⠠⣿⣿⣷⠀⢸⣿
+		⣿⣿⡀⠉⠀⠀⠀⠀⠀⢄⠀⢀⠀⠀⠀⠀⠉⠉⠁⠀⠀⣿
+		⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹
+	)";
+	SetConsoleOutputCP(437);
 	Controller::GoToXY(44, 0);
-	Controller::SetConsoleColor(BRIGHT_WHITE, AQUA);
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
 	Controller::GoToXY(48, 1);
 	cout << "23127161 - 23127236";
@@ -83,14 +98,13 @@ void Menu::PrintOptionsBoard(const string options[])
 	int left = 50;
 	int top = 20;
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	Controller::GoToXY(51, top);
-	//putchar(201);
-	//for (int i = 1; i < 14; i++)
-	//{
-	//	putchar(205);
-	//}
-	//putchar(187);
-	cout << "-------------";
+	Controller::GoToXY(left, top);
+	putchar(201);
+	for (int i = 1; i < 14; i++)
+	{
+		putchar(205);
+	}
+	putchar(187);
 	for (int i = 1; i < 4 * 2; i++)
 	{
 		if (i % 2 != 0)
@@ -98,8 +112,7 @@ void Menu::PrintOptionsBoard(const string options[])
 			Controller::GoToXY(48, 20 + i);
 			cout << "  ";
 			Controller::GoToXY(left, top + i);
-			//putchar(186);
-			cout << "|";
+			putchar(186);
 			if ((i / 2) == currentOption)
 			{
 				Controller::SetConsoleColor(BRIGHT_WHITE, RED);
@@ -107,42 +120,41 @@ void Menu::PrintOptionsBoard(const string options[])
 				cout << string(space, ' ') << options[i / 2] << string(space, ' ');
 				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 			}
-			else {
+			else
+			{
 				int space = (13 - options[i / 2].length()) / 2;
 				cout << string(space, ' ') << options[i / 2] << string(space, ' ');
 			}
 			Controller::GoToXY(left + 14, top + i);
-			//putchar(186);
-			cout << "|";
+			putchar(186);
 			Controller::GoToXY(65, 20 + i);
 			cout << "  ";
 		}
 		else
 		{
-			Controller::GoToXY(51, top + i);
-			//putchar(199);
-			//for (int j = 1; j < 14; j++)
-			//{
-			//	putchar(196);
-			//}
-			//putchar(182);
-			cout << "-------------";
+			Controller::GoToXY(left, top + i);
+			putchar(199);
+			for (int j = 1; j < 14; j++)
+			{
+				putchar(196);
+			}
+			putchar(182);
 		}
 	}
-	Controller::GoToXY(51, top + 4 * 2);
-	//putchar(200);
-	//for (int i = 1; i < 14; i++)
-	//{
-	//	putchar(205);
-	//}
-	//putchar(188);
-	cout << "-------------";
+	Controller::GoToXY(left, top + 4 * 2);
+	putchar(200);
+	for (int i = 1; i < 14; i++)
+	{
+		putchar(205);
+	}
+	putchar(188);
 	int arrowLeft = 48;
 	int arrowTop = 20 + currentOption * 2 + 1;
 	Controller::GoToXY(arrowLeft, arrowTop);
 	cout << "=>";
 	Controller::GoToXY(left + 15, arrowTop);
 	cout << "<=";
+	Controller::ShowCursor(0);
 }
 
 void Menu::PlayMenu()

@@ -13,8 +13,10 @@ int main()
 	// cout << currentCodePage;
 	// SetConsoleOutputCP(65001);
 	system("color F0");
-	Controller::SetUpConsole();
+	// Controller::SetUpConsole();
 	Menu::MainScreen();
 	_getch();
+	// InfoBoard::RenderInfoBoard();
+	// GameBoard::RenderGameBoard();
     return 0;
 }
