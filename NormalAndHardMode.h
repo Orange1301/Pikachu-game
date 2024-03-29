@@ -3,6 +3,7 @@
 struct GameBoard {
     int size;
     int left, top;
+    void renderBoard();
     
 };
 
