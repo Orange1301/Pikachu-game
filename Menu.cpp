@@ -85,7 +85,7 @@ void Menu::PrintLogo()
 	)";
 	SetConsoleOutputCP(437);
 	Controller::GoToXY(44, 0);
-	Controller::SetConsoleColor(BRIGHT_WHITE, AQUA);
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
 	Controller::GoToXY(48, 1);
 	cout << "23127161 - 23127236";
@@ -154,6 +154,7 @@ void Menu::PrintOptionsBoard(const string options[])
 	cout << "=>";
 	Controller::GoToXY(left + 15, arrowTop);
 	cout << "<=";
+	Controller::ShowCursor(0);
 }
 
 void Menu::PlayMenu()
