@@ -20,7 +20,7 @@ void NAHGame::StartGame(int MODE) {
             break;
     }
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
-    gameBoard.pokemonsBoard = new char*[size];
+    gameBoard.pokemonsBoard = new char*[gameBoard.size];
 
     system("cls");
     gameBoard.Render();
