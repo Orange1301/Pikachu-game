@@ -11,12 +11,11 @@ int main()
 {
 	// UINT currentCodePage = GetConsoleOutputCP();
 	// cout << currentCodePage;
-	// SetConsoleOutputCP(65001);
 	system("color F0");
 	Controller::SetUpConsole();
 	Menu::MainScreen();
 	_getch();
 	// InfoBoard::RenderInfoBoard();
 	// GameBoard::RenderGameBoard();
-    return 0;
+	return 0;
 }

@@ -47,19 +47,21 @@ using namespace std;
 
 struct Controller
 {
-	Controller() {};							// constructer
-	~Controller() {};							// destructer
-	static HWND consoleWindow;					// con trỏ xử lí cửa sổ console
-	static HANDLE consoleOutput;				// con trỏ  xử lí output console
-	static void SetUpConsole();					// thiết lập cửa sổ console
-	static void GoToXY(int, int);				// di chuyển con trỏ đến vị trí x, y
-	static void SetAndCenterWindow();			// căn giữa và thiết lập độ phân giải màn hình console
-	static void SetConsoleColor(int, int);		// thiết lập màu chữ và màu nền
-	static void HideScrollBars();				// ẩn thanh cuộn
+	Controller(){};						   // constructer
+	~Controller(){};					   // destructer
+	static HWND consoleWindow;			   // con trỏ xử lí cửa sổ console
+	static HANDLE consoleOutput;		   // con trỏ  xử lí output console
+	static void SetUpConsole();			   // thiết lập cửa sổ console
+	static void GoToXY(int, int);		   // di chuyển con trỏ đến vị trí x, y
+	static void SetAndCenterWindow();	   // căn giữa và thiết lập độ phân giải màn hình console
+	static void SetConsoleColor(int, int); // thiết lập màu chữ và màu nền
+	static void HideScrollBars();		   // ẩn thanh cuộn
 	// static void SetConsoleTitle();				// cài đặt tiêu đề console
-	static void DisableMaximize();				// vô hiệu hóa phóng to màn hình
-	static void SetConsoleTitle();				// cài đặt tiêu đề console
-	static void ShowCursor(bool);				// ẩn hoặc hiện con trỏ
-	static int GetConsoleInput();				// lấy lệnh từ bàn phím
-	static void PlaySound(int);					// phát âm thanh
+	static void DisableMaximize(); // vô hiệu hóa phóng to màn hình
+	static void SetConsoleTitle(); // cài đặt tiêu đề console
+	static void ShowCursor(bool);  // ẩn hoặc hiện con trỏ
+	static int GetConsoleInput();  // lấy lệnh từ bàn phím
+	static void PlaySound(int);	   // phát âm thanh
 };
+
+int GetRandomInt(int begin, int end);         //Hàm lấy số nguyên ngẫu nhiên
