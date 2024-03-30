@@ -21,6 +21,9 @@ void NAHGame::StartGame(int MODE) {
     }
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
     gameBoard.pokemonsBoard = new char*[gameBoard.size];
+    for (int i = gameBoard.size; i > 0; i--)
+        gameBoard.pokemonsBoard[i] = new char[gameBoard.size];
+    // cho đoạn từ switch case đến đây lên hàm SetupGame
 
     system("cls");
     gameBoard.Render();

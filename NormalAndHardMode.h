@@ -2,6 +2,8 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <cstdlib>
+#include <ctime>
 #include "Controller.h"
 
 #define NORMAL 2
