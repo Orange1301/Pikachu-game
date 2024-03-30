@@ -53,10 +53,10 @@ struct NAHGame  // NAH = Normal And Hard
     static void SetupGame(int);
     static void StartGame();
 
-    static bool CheckIMatching(pair<int, int>, pair<int, int>);
-    static bool CheckLMatching(pair<int, int>, pair<int, int>);
-    static bool CheckUMatching(pair<int, int>, pair<int, int>);
-    static bool CheckZMatching(pair<int, int>, pair<int, int>);
+    static vector<pair<int, int>> CheckIMatching(pair<int, int>, pair<int, int>);
+    static vector<pair<int, int>> CheckLMatching(pair<int, int>, pair<int, int>);
+    static vector<pair<int, int>> CheckUMatching(pair<int, int>, pair<int, int>);
+    static vector<pair<int, int>> CheckZMatching(pair<int, int>, pair<int, int>);
     static bool CheckMatching(pair<int, int>, pair<int, int>);
 
     static void LosingScreen();

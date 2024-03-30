@@ -281,25 +281,97 @@ void InfoBoard::Render()
     cout << "Esc : Exit";
 }
 
-bool NAHGame::CheckIMatching(pair<int, int>, pair<int, int>)
+// Các hàm Check I, L, U, Z Matching trả về một vector chứa các tọa độ trên đường nối hai ô,
+// nếu vector này có phần tử tức là có đường nối tương ứng, và ngược lại. Trong vector này 
+// chứa cell2 nhưng không chứa cell1 để hiệu ứng hoàn hảo hơn.
+vector<pair<int, int>> NAHGame::CheckIMatching(pair<int, int> cell1, pair<int, int> cell2)
+{
+    pair<int, int> curr = cell1;
+    vector<pair<int, int>> connectLine;
+    if (cell1.first == cell2.first) {
+        int vDirec = (cell1.second < cell2.second) ? 1 : -1;
+        while (curr.second + vDirec != cell2.second) {
+            curr.second += vDirec;
+            if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
+                connectLine.push_back(curr);
+            else
+                return vector<pair<int, int>>({});
+        }
+        connectLine.push_back(cell2);
+        return connectLine;
+    }
+    if (cell1.second == cell2.second) {
+        int hDirec = (cell1.first < cell2.first) ? 1 : -1;
+        while (curr.first + hDirec != cell2.first) {
+            curr.first += hDirec;
+            if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
+                connectLine.push_back(curr);
+            else
+                return vector<pair<int, int>>({});
+        }
+        connectLine.push_back(cell2);
+        return connectLine;
+    }
+    return vector<pair<int, int>>({});
+}
+vector<pair<int, int>> NAHGame::CheckLMatching(pair<int, int> cell1, pair<int, int> cell2)
+{
+    vector<pair<int, int>> connectLine1;
+    vector<pair<int, int>> connectLine2;
+    int hDirec = (cell2.first > cell1.first) ? 1 : -1;
+    int vDirec = (cell2.second > cell1.second) ? 1 : -1;
+
+    pair<int, int> curr = cell1;
+    while (curr.first != cell2.first) {
+        curr.first += hDirec;
+        if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
+            connectLine1.push_back(curr);
+        else
+            break;
+    }
+    curr = cell2;
+    while (curr.second != cell1.second) {
+        curr.second -= vDirec;
+        if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
+            connectLine2.push_back(curr);
+        else
+            break;
+    }
+    // while (curr.first != cell2.first) {
+    //     curr.first += hDirec;
+    //     if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
+    //         connectLine.push_back(curr);
+    //     else
+    //         break;
+    // }
+    // if (curr.first == cell2.first && gameBoard.pokemonsBoard[curr.second][curr.first] == '\0') {
+    //     while (curr.second != cell2.second) {
+    //         curr.second += vDirec;
+    //         if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
+    //             connectLine.push_back(curr);
+    //         else
+    //             break;
+    //     }
+    //     if (curr.second == cell2.second) {
+    //         connectLine.push_back(cell2);
+    //         return connectLine;
+    //     }
+    // }
+
+}
+vector<pair<int, int>> NAHGame::CheckUMatching(pair<int, int>, pair<int, int>)
 {
 
 }
-bool NAHGame::CheckLMatching(pair<int, int>, pair<int, int>)
+vector<pair<int, int>> NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
 {
 
 }
-bool NAHGame::CheckUMatching(pair<int, int>, pair<int, int>)
+bool NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
-
-}
-bool NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
-{
-
-}
-bool NAHGame::CheckMatching(pair<int, int>, pair<int, int>)
-{
-    return true;
+    if (gameBoard.pokemonsBoard[cell1.first][cell1.second] != gameBoard.pokemonsBoard[cell2.first][cell2.second])
+        return false;
+    
 }
 
 void GameBoard::RemoveCell(pair<int, int> cell)
