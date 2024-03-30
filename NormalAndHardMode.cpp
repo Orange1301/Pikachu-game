@@ -37,7 +37,7 @@ void NAHGame::StartGame(int MODE)
         break;
     }
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
-    gameBoard.pokemonsBoard = new char*[gameBoard.size];
+    gameBoard.pokemonsBoard = new char *[gameBoard.size];
     for (int i = gameBoard.size; i > 0; i--)
         gameBoard.pokemonsBoard[i] = new char[gameBoard.size];
     // cho đoạn từ switch case đến đây lên hàm SetupGame
@@ -83,7 +83,6 @@ void NAHGame::StartGame(int MODE)
             Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 8, gameBoard.top + 3 + gameBoard.currentCell.second * 4);
             cout << "       ";
             Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-            // update màu trên board
         }
         else if (key == KEY_ESC)
         {
@@ -238,28 +237,59 @@ void InfoBoard::Render()
 
 bool NAHGame::CheckIMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 bool NAHGame::CheckLMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 bool NAHGame::CheckUMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 bool NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 bool NAHGame::CheckMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 
 void GameBoard::RemoveCell()
 {
-
+    backGround = new string[size * 10];
+    ifstream fin;
+    if (size == 4)
+    {
+        fin.open("Normal.txt");
+    }
+    if (fin.is_open())
+    {
+        int n = 0;
+        while (n < size * 10 && getline(fin, backGround[n]))
+        {
+            n++;
+        }
+        fin.close();
+    }
+    Controller::GoToXY(left + 2 + chosenCell1.first * 8, top + 1 + chosenCell1.second * 4);
+    for (int i = left + 1 + chosenCell1.first * 8; i < left + 1 + chosenCell1.first * 8 + 4; i++)
+    {
+        for (int j = top + chosenCell1.second * 4; j < top + chosenCell1.second * 4 + 8; j++)
+        {
+            if (backGround[i][j] != static_cast<char>(186))
+            {
+                cout << backGround[i][j];
+            }
+        }
+    }
+    Controller::GoToXY(left + 2 + chosenCell2.first * 8, top + 1 + chosenCell2.second * 4);
+    for (int i = left + 1 + chosenCell2.first * 8; i < left + 1 + chosenCell2.first * 8 + 4; i++)
+    {
+        for (int j = top + chosenCell2.second * 4; j < top + chosenCell2.second * 4 + 8; j++)
+        {
+            if (backGround[i][j] != static_cast<char>(186))
+            {
+                cout << backGround[i][j];
+            }
+        }
+    }
 }
 
 void NAHGame::LosingScreen()
@@ -275,5 +305,4 @@ void NAHGame::WinningScreen()
 
 void NAHGame::ExitScreen()
 {
-
 }

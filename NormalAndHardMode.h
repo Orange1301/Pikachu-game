@@ -5,6 +5,8 @@
 #include <conio.h>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <string>
 #include "Controller.h"
 
 #define NORMAL 2
@@ -21,7 +23,7 @@ struct GameBoard
     pair<int, int> chosenCell2 = {-1, -1};
 
     char **pokemonsBoard;
-
+    string *backGround;
     void Render();
     void RemoveCell();
 };

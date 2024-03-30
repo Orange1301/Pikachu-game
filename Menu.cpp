@@ -217,34 +217,6 @@ void Menu::PrintRectangle(int left, int top, int width, int height)
 	putchar(217);
 }
 
-void Menu::PrintAnimation()
-{
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	// system("cls");
-	int color[] = { LIGHT_AQUA, AQUA, LIGHT_BLUE, BLUE, LIGHT_PURPLE, PURPLE };
-	int colorcount = 0;
-	int loop = 10;
-	while (loop--)
-	{
-		// for (int i = 0; i < n; i += 2)
-		// {
-		// 	Controller::SetConsoleColor(BRIGHT_WHITE, GetRandomInt(0, 15));
-		// 	Controller::GoToXY(symbolpos[i * 2], symbolpos[i * 2 + 1]);
-		// 	putchar(symbol[turn]);
-		// }
-		// for (int i = 1; i < n; i += 2)
-		// {
-		// 	Controller::SetConsoleColor(BRIGHT_WHITE, GetRandomInt(0, 15));
-		// 	Controller::GoToXY(symbolpos[i * 2], symbolpos[i * 2 + 1]);
-		// 	putchar(symbol[!turn]);
-		// }
-		// Controller::GoToXY(0, 0);
-		PrintLogo();
-		colorcount++;
-		Sleep(250);
-	}
-}
-
 void Menu::HighScores()
 {
 	currentOption = 0;
