@@ -3,6 +3,9 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <fstream>
+#include <algorithm> // hàm random_shuffle
+#include <vector> // sử dụng cùng hàm random_suffle để tạo danh sách pokemons ngẫu nhiên
 #include <cstdlib>
 #include <ctime>
 #include "Controller.h"
@@ -12,6 +15,8 @@
 
 struct GameBoard
 {
+    ~GameBoard();
+
     int size;
     int left, top;
     int remainCells;
@@ -22,8 +27,11 @@ struct GameBoard
 
     char **pokemonsBoard;
 
+    char backGround[100][100];
+
     void Render();
-    void RemoveCell();
+    void RenderCell(pair<int, int>, int);
+    void RemoveCell(pair<int, int>);
 };
 
 struct InfoBoard
@@ -42,8 +50,8 @@ struct NAHGame  // NAH = Normal And Hard
     static GameBoard gameBoard;
     static InfoBoard infoBoard;
 
-    static void SetupGame();
-    static void StartGame(int);
+    static void SetupGame(int);
+    static void StartGame();
 
     static bool CheckIMatching(pair<int, int>, pair<int, int>);
     static bool CheckLMatching(pair<int, int>, pair<int, int>);
