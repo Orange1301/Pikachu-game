@@ -349,13 +349,13 @@ void Menu::ExitScreen()
 
 void Menu::NormalMode()
 {
-	NAHGame::SetupGame();
-	NAHGame::StartGame(NORMAL);
+	NAHGame::SetupGame(NORMAL);
+	NAHGame::StartGame();
 }
 void Menu::HardMode()
 {
-	NAHGame::SetupGame();
-	NAHGame::StartGame(HARD);
+	NAHGame::SetupGame(HARD);
+	NAHGame::StartGame();
 }
 void Menu::DropMode()
 {
