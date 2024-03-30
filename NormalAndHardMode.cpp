@@ -68,7 +68,21 @@ void NAHGame::StartGame(int MODE)
         }
         else if (key == KEY_RIGHT || key == KEY_D)
         {
-            gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % gameBoard.size;
+            Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 6, gameBoard.top + 1 + gameBoard.currentCell.second * 3);
+            cout << "       ";
+            Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 6, gameBoard.top + 2 + gameBoard.currentCell.second * 3);
+            cout << "       ";
+            Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 6, gameBoard.top + 3 + gameBoard.currentCell.second * 3);
+            cout << "       ";
+            gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
+            Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 6, gameBoard.top + 1 + gameBoard.currentCell.second * 3);
+            Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+            cout << "       ";
+            Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 6, gameBoard.top + 2 + gameBoard.currentCell.second * 3);
+            cout << "   A   ";
+            Controller::GoToXY(gameBoard.left + 2 + gameBoard.currentCell.first * 6, gameBoard.top + 3 + gameBoard.currentCell.second * 3);
+            cout << "       ";
+            Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
             // update màu trên board
         }
         else if (key == KEY_ESC)
@@ -166,14 +180,6 @@ void GameBoard::Render()
         }
         Sleep(5);
     }
-    Controller::GoToXY(left + 2 + currentCell.first * 6, top + 1 + currentCell.second * 3);
-    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
-    cout << "       ";
-    Controller::GoToXY(left + 2 + currentCell.first * 6, top + 2 + currentCell.second * 3);
-    cout << "   A   ";
-    Controller::GoToXY(left + 2 + currentCell.first * 6, top + 3 + currentCell.second * 3);
-    cout << "       ";
-    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 }
 
 void InfoBoard::Render()
