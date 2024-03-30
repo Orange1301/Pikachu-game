@@ -33,6 +33,7 @@ struct InfoBoard
     int lives = 3;
     int hints = 3;
     void Render();
+    void SaveData();
 };
 
 
