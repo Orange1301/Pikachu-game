@@ -37,7 +37,10 @@ void NAHGame::StartGame(int MODE)
         break;
     }
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
-    gameBoard.pokemonsBoard = new char *[gameBoard.size];
+    gameBoard.pokemonsBoard = new char*[gameBoard.size];
+    for (int i = gameBoard.size; i > 0; i--)
+        gameBoard.pokemonsBoard[i] = new char[gameBoard.size];
+    // cho đoạn từ switch case đến đây lên hàm SetupGame
 
     system("cls");
     gameBoard.Render();
@@ -57,6 +60,7 @@ void NAHGame::StartGame(int MODE)
             gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
             // update màu trên board
         }
+
         else if (key == KEY_LEFT || key == KEY_A)
         {
             gameBoard.currentCell.second = (gameBoard.currentCell.second + gameBoard.size - 1) % gameBoard.size;
@@ -77,6 +81,7 @@ void NAHGame::StartGame(int MODE)
                 gameBoard.chosenCell1 = gameBoard.currentCell;
             else if (gameBoard.currentCell == gameBoard.chosenCell1)
                 gameBoard.chosenCell1 = {-1, -1};
+
             else
             {
                 gameBoard.chosenCell2 = gameBoard.currentCell;
@@ -89,6 +94,7 @@ void NAHGame::StartGame(int MODE)
                     // update board
                     // phát âm thanh
                 }
+
                 else
                 {
                     // tô đỏ hai ô được chọn
@@ -100,6 +106,7 @@ void NAHGame::StartGame(int MODE)
             }
         }
     }
+
     LosingScreen();
 }
 
@@ -217,22 +224,28 @@ void InfoBoard::Render()
 
 bool NAHGame::CheckIMatching(pair<int, int>, pair<int, int>)
 {
+
 }
 bool NAHGame::CheckLMatching(pair<int, int>, pair<int, int>)
 {
+
 }
 bool NAHGame::CheckUMatching(pair<int, int>, pair<int, int>)
 {
+
 }
 bool NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
 {
+
 }
 bool NAHGame::CheckMatching(pair<int, int>, pair<int, int>)
 {
+
 }
 
 void GameBoard::RemoveCell()
 {
+
 }
 
 void NAHGame::LosingScreen()
@@ -248,4 +261,5 @@ void NAHGame::WinningScreen()
 
 void NAHGame::ExitScreen()
 {
+
 }

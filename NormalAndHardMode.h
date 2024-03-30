@@ -3,6 +3,8 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <cstdlib>
+#include <ctime>
 #include "Controller.h"
 
 #define NORMAL 2
@@ -33,8 +35,9 @@ struct InfoBoard
     void Render();
 };
 
+
 struct NAHGame  // NAH = Normal And Hard
-{ 
+{
     static GameBoard gameBoard;
     static InfoBoard infoBoard;
 
