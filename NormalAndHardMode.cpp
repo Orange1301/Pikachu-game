@@ -149,13 +149,13 @@ void NAHGame::StartGame()
                         gameBoard.RenderCell(i, LIGHT_GREEN);
                         Sleep(100);
                     }
-                    Sleep(400);
+                    Sleep(300);
                     for (pair<int, int> i: check)
                         gameBoard.RenderCell(i, BRIGHT_WHITE);
-                    Sleep(500);
+                    Sleep(400);
                     for (pair<int, int> i: check)
                         gameBoard.RenderCell(i, LIGHT_GREEN);
-                    Sleep(500);
+                    Sleep(400);
                     gameBoard.RemoveCell(gameBoard.chosenCell1);
                     gameBoard.RemoveCell(gameBoard.chosenCell2);
                     for (pair<int, int> i: check)
@@ -167,7 +167,11 @@ void NAHGame::StartGame()
                     gameBoard.chosenCell2 = {-1, -1};
                     gameBoard.remainCells -= 2;
                     infoBoard.score += 10;
+                    Controller::GoToXY(97, 23);
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+                    cout << "Current score: " << infoBoard.score;
                     if (gameBoard.remainCells == 0) {
+                        gameBoard.RenderCell(gameBoard.currentCell, WHITE);
                         Sleep(3000);
                         WinningScreen();
                     }
@@ -295,6 +299,9 @@ void GameBoard::RenderCell(pair<int, int> cell, int color)
         cout << "       ";
     }
     else {
+        if (color == BRIGHT_WHITE)
+            color = GRAY;
+        Controller::SetConsoleColor(color, (size == 8)*BLUE + (size == 4)*YELLOW);
         for (int i = 0; i < 3; i++) {
             Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + i + cell.second * 4);
             for (int j = 0; j < 7; j++)
@@ -522,7 +529,7 @@ void GameBoard::RemoveCell(pair<int, int> cell)
 {
     pokemonsBoard[cell.second][cell.first] = '\0';
     bool t = false, b = false, l = false, r = false;
-    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+    Controller::SetConsoleColor(GRAY, (size == 8)*BLUE + (size == 4)*YELLOW);
 
     if (cell.second > 0 && pokemonsBoard[cell.second - 1][cell.first] == '\0') {
         for (int i = 0; i < 7; i++) {
