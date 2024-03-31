@@ -4,6 +4,8 @@
 GameBoard NAHGame::gameBoard;
 InfoBoard NAHGame::infoBoard;
 
+using namespace std;
+
 void NAHGame::SetupGame(int MODE)
 {
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
@@ -54,6 +56,7 @@ void NAHGame::SetupGame(int MODE)
         for (int j = 0; j < gameBoard.size; j++)
             gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
     }
+    gameBoard.backGround = new string[gameBoard.size * 10];
 }
 
 void NAHGame::StartGame()
@@ -61,7 +64,6 @@ void NAHGame::StartGame()
     system("cls");
     gameBoard.Render();
     infoBoard.Render();
-
     while (infoBoard.lives)
     {
         if (gameBoard.chosenCell1.first != -1)
@@ -150,7 +152,6 @@ void NAHGame::StartGame()
             }
         }
     }
-
     LosingScreen();
 }
 
@@ -160,10 +161,13 @@ GameBoard::~GameBoard()
         delete[] pokemonsBoard[i];
     delete[] pokemonsBoard;
     pokemonsBoard = NULL;
+    delete[] backGround;
+    backGround = NULL;
 }
 
 void GameBoard::Render()
 {
+    ReadImage();
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Controller::GoToXY(left + 1, top);
@@ -408,8 +412,17 @@ bool NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 
 void GameBoard::RemoveCell(pair<int, int> cell)
 {
-    pokemonsBoard[cell.second][cell.first] = ' ';
-    RenderCell(cell, BRIGHT_WHITE);
+    Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + cell.second * 4);
+    for (int i = left + 2 + cell.first * 8; i < left + 2 + cell.first * 8 + 4; i++)
+    {
+        for (int j = top + 1 + cell.second * 4; i < top + 1 + cell.second * 4 + 8; j++)
+        {
+            if (backGround[i][j] != static_cast<char>(186))
+            {
+                cout << backGround[i][j];
+            }
+        }
+    }
 }
 
 void NAHGame::LosingScreen()
@@ -425,4 +438,31 @@ void NAHGame::WinningScreen()
 
 void NAHGame::ExitScreen()
 {
+}
+
+void GameBoard::ReadImage()
+{
+    ifstream fin;
+    if (size == 4)
+    {
+        fin.open("Normal.txt");
+    }
+    // else
+    // {
+    //     fin.open("Hard.txt");
+    // }
+    if (fin.is_open())
+    {
+        int n = 0;
+        while (n < size * 4 + 1 && getline(fin, backGround[n]))
+        {
+            n++;
+        }
+        fin.close();
+    }
+    else
+    {
+        cerr << "could not open file!";
+        return;
+    }
 }

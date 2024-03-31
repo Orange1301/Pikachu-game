@@ -5,7 +5,7 @@
 #include <conio.h>
 #include <fstream>
 #include <algorithm> // hàm random_shuffle
-#include <vector> // sử dụng cùng hàm random_suffle để tạo danh sách pokemons ngẫu nhiên
+#include <vector>    // sử dụng cùng hàm random_suffle để tạo danh sách pokemons ngẫu nhiên
 #include <cstdlib>
 #include <ctime>
 #include "Controller.h"
@@ -27,11 +27,12 @@ struct GameBoard
 
     char **pokemonsBoard;
 
-    char backGround[100][100];
+    string *backGround;
 
     void Render();
     void RenderCell(pair<int, int>, int);
     void RemoveCell(pair<int, int>);
+    void ReadImage();
 };
 
 struct InfoBoard
@@ -44,8 +45,7 @@ struct InfoBoard
     void SaveData();
 };
 
-
-struct NAHGame  // NAH = Normal And Hard
+struct NAHGame // NAH = Normal And Hard
 {
     static GameBoard gameBoard;
     static InfoBoard infoBoard;
