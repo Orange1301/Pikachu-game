@@ -22,33 +22,37 @@ void NAHGame::SetupGame(int MODE)
 
     switch (MODE)
     {
-        case NORMAL:
-            gameBoard.size = 4;
-            gameBoard.left = 22;
-            gameBoard.top = 6;
-            break;
-        case HARD:
-            gameBoard.size = 8;
-            gameBoard.left = 0;
-            gameBoard.top = 0;
+    case NORMAL:
+        gameBoard.size = 4;
+        gameBoard.left = 22;
+        gameBoard.top = 6;
+        strcpy(infoBoard.mode, "NORMAL");
+        break;
+    case HARD:
+        gameBoard.size = 8;
+        gameBoard.left = 0;
+        gameBoard.top = 0;
+        strcpy(infoBoard.mode, "HARD");
         break;
     }
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
 
     srand(time(0));
     vector<char> pokemonsList;
-    for (int i = gameBoard.remainCells / 2; i > 0 ; i--) {
+    for (int i = gameBoard.remainCells / 2; i > 0; i--)
+    {
         char pokemon = rand() % 26 + 'A';
         pokemonsList.push_back(pokemon);
         pokemonsList.push_back(pokemon);
     }
-    random_shuffle(pokemonsList.begin(), pokemonsList.end());
+    // random_shuffle(pokemonsList.begin(), pokemonsList.end());
 
-    gameBoard.pokemonsBoard = new char*[gameBoard.size];
-    for (int i = 0; i < gameBoard.size; i++) {
+    gameBoard.pokemonsBoard = new char *[gameBoard.size];
+    for (int i = 0; i < gameBoard.size; i++)
+    {
         gameBoard.pokemonsBoard[i] = new char[gameBoard.size];
         for (int j = 0; j < gameBoard.size; j++)
-            gameBoard.pokemonsBoard[i][j] = pokemonsList[i*gameBoard.size + j];
+            gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
     }
 }
 
@@ -101,7 +105,7 @@ void NAHGame::StartGame()
                 gameBoard.chosenCell1 = gameBoard.currentCell;
                 gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
             }
-                
+
             else if (gameBoard.currentCell == gameBoard.chosenCell1)
             {
                 gameBoard.RenderCell(gameBoard.chosenCell1, WHITE);
@@ -139,6 +143,10 @@ void NAHGame::StartGame()
                     gameBoard.chosenCell1 = {-1, -1};
                     gameBoard.chosenCell2 = {-1, -1};
                     infoBoard.lives--;
+                    Sleep(200);
+                    Controller::GoToXY(infoBoard.lives * 3 + 81, 20);
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+                    cout << string(infoBoard.lives, ' ');
                 }
             }
         }
@@ -147,7 +155,8 @@ void NAHGame::StartGame()
     LosingScreen();
 }
 
-GameBoard::~GameBoard() {
+GameBoard::~GameBoard()
+{
     for (int i = 0; i < size; i++)
         delete[] pokemonsBoard[i];
     delete[] pokemonsBoard;
@@ -248,9 +257,24 @@ void InfoBoard::Render()
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
     Controller::GoToXY(81, 5);
-    cout << "PLayer's name: ";
+    if (strlen(playerName) != 0)
+        cout << "Player's name: " << playerName;
+    else
+    {
+        strcpy(playerName, "unknown");
+        cout << "Player's name: " << playerName;
+    }
+
     Controller::GoToXY(81, 7);
     cout << "Mode: ";
+    if (strcmp(mode, "NORMAL") == 0)
+    {
+        cout << "Normal";
+    }
+    else
+    {
+        cout << "Hard";
+    }
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(76, 11, 31, 2);
@@ -264,6 +288,10 @@ void InfoBoard::Render()
     cout << "Current score:";
     // Controller::GoToXY(88, 17);
     // cout << score;
+    Controller::GoToXY(81, 18);
+    cout << "Hint: ";
+    Controller::GoToXY(81, 20);
+    cout << "*  *  *";  //tạm thời tui chưa gắn cái biểu tượng trái tim vô đc nên để đỡ cnay nha
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(75, 23, 33, 2);
@@ -282,15 +310,17 @@ void InfoBoard::Render()
 }
 
 // Các hàm Check I, L, U, Z Matching trả về một vector chứa các tọa độ trên đường nối hai ô,
-// nếu vector này có phần tử tức là có đường nối tương ứng, và ngược lại. Trong vector này 
+// nếu vector này có phần tử tức là có đường nối tương ứng, và ngược lại. Trong vector này
 // chứa cell2 nhưng không chứa cell1 để hiệu ứng hoàn hảo hơn.
 vector<pair<int, int>> NAHGame::CheckIMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
     pair<int, int> curr = cell1;
     vector<pair<int, int>> connectLine;
-    if (cell1.first == cell2.first) {
+    if (cell1.first == cell2.first)
+    {
         int vDirec = (cell1.second < cell2.second) ? 1 : -1;
-        while (curr.second + vDirec != cell2.second) {
+        while (curr.second + vDirec != cell2.second)
+        {
             curr.second += vDirec;
             if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
                 connectLine.push_back(curr);
@@ -300,9 +330,11 @@ vector<pair<int, int>> NAHGame::CheckIMatching(pair<int, int> cell1, pair<int, i
         connectLine.push_back(cell2);
         return connectLine;
     }
-    if (cell1.second == cell2.second) {
+    if (cell1.second == cell2.second)
+    {
         int hDirec = (cell1.first < cell2.first) ? 1 : -1;
-        while (curr.first + hDirec != cell2.first) {
+        while (curr.first + hDirec != cell2.first)
+        {
             curr.first += hDirec;
             if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
                 connectLine.push_back(curr);
@@ -322,7 +354,8 @@ vector<pair<int, int>> NAHGame::CheckLMatching(pair<int, int> cell1, pair<int, i
     int vDirec = (cell2.second > cell1.second) ? 1 : -1;
 
     pair<int, int> curr = cell1;
-    while (curr.first != cell2.first) {
+    while (curr.first != cell2.first)
+    {
         curr.first += hDirec;
         if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
             connectLine1.push_back(curr);
@@ -330,7 +363,8 @@ vector<pair<int, int>> NAHGame::CheckLMatching(pair<int, int> cell1, pair<int, i
             break;
     }
     curr = cell2;
-    while (curr.second != cell1.second) {
+    while (curr.second != cell1.second)
+    {
         curr.second -= vDirec;
         if (gameBoard.pokemonsBoard[curr.second][curr.first] == '\0')
             connectLine2.push_back(curr);
@@ -357,26 +391,21 @@ vector<pair<int, int>> NAHGame::CheckLMatching(pair<int, int> cell1, pair<int, i
     //         return connectLine;
     //     }
     // }
-
 }
 vector<pair<int, int>> NAHGame::CheckUMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 vector<pair<int, int>> NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
 {
-
 }
 bool NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
     if (gameBoard.pokemonsBoard[cell1.first][cell1.second] != gameBoard.pokemonsBoard[cell2.first][cell2.second])
         return false;
-    
 }
 
 void GameBoard::RemoveCell(pair<int, int> cell)
 {
-    
 }
 
 void NAHGame::LosingScreen()
@@ -392,5 +421,4 @@ void NAHGame::WinningScreen()
 
 void NAHGame::ExitScreen()
 {
-
 }
