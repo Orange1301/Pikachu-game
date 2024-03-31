@@ -27,12 +27,12 @@ struct GameBoard
 
     char **pokemonsBoard;
 
-    string *backGround;
+    char **backGround;
 
     void Render();
     void RenderCell(pair<int, int>, int);
     void RemoveCell(pair<int, int>);
-    void ReadImage();
+    // void ReadImage();
 };
 
 struct InfoBoard

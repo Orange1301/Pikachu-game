@@ -8,6 +8,7 @@ using namespace std;
 
 void NAHGame::SetupGame(int MODE)
 {
+    // Hỏi thăm tên người chơi
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
     system("cls");
     Controller::GoToXY(0, 0);
@@ -22,6 +23,7 @@ void NAHGame::SetupGame(int MODE)
     cin.getline(infoBoard.playerName, 15);
     Controller::ShowCursor(false);
 
+    // Cài đặt kích thước và vị trí của bảng
     switch (MODE)
     {
     case NORMAL:
@@ -39,6 +41,7 @@ void NAHGame::SetupGame(int MODE)
     }
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
 
+    // Sinh ngẫu nhiên các cặp "Pokemon" lên bảng
     srand(time(0));
     vector<char> pokemonsList;
     for (int i = gameBoard.remainCells / 2; i > 0; i--)
@@ -56,7 +59,26 @@ void NAHGame::SetupGame(int MODE)
         for (int j = 0; j < gameBoard.size; j++)
             gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
     }
-    gameBoard.backGround = new string[gameBoard.size * 10];
+    // Đọc file background
+    ifstream f;
+    switch (MODE)
+    {
+    case NORMAL:
+        f.open("Normal.txt");
+        char tmp;
+        gameBoard.backGround = new char*[17];
+        for (int i = 0; i < 17; i++) {
+            gameBoard.backGround[i] = new char[33];
+            for (int j = 0; j < 33; j++)
+                f.get(gameBoard.backGround[i][j]);
+            f.get(tmp);         // lấy dấu xuống dòng vào tmp
+        }
+        break;
+    
+    case HARD:
+        break;
+    }
+    f.close();
 }
 
 void NAHGame::StartGame()
@@ -126,6 +148,8 @@ void NAHGame::StartGame()
                     gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
                     gameBoard.RemoveCell(gameBoard.chosenCell1);
                     gameBoard.RemoveCell(gameBoard.chosenCell2);
+                    gameBoard.RenderCell(gameBoard.chosenCell1, BRIGHT_WHITE);
+                    gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
                     gameBoard.chosenCell1 = {-1, -1};
                     gameBoard.chosenCell2 = {-1, -1};
                     gameBoard.remainCells -= 2;
@@ -163,11 +187,13 @@ GameBoard::~GameBoard()
     pokemonsBoard = NULL;
     delete[] backGround;
     backGround = NULL;
+
+
 }
 
 void GameBoard::Render()
 {
-    ReadImage();
+    // ReadImage();
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Controller::GoToXY(left + 1, top);
@@ -238,13 +264,23 @@ void GameBoard::Render()
 
 void GameBoard::RenderCell(pair<int, int> cell, int color)
 {
+    char pokemon = pokemonsBoard[cell.second][cell.first];
     Controller::SetConsoleColor(color, BLACK);
-    Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + cell.second * 4);
-    cout << "       ";
-    Controller::GoToXY(left + 2 + cell.first * 8, top + 2 + cell.second * 4);
-    cout << "   " << pokemonsBoard[cell.second][cell.first] << "   ";
-    Controller::GoToXY(left + 2 + cell.first * 8, top + 3 + cell.second * 4);
-    cout << "       ";
+    if (pokemon != '\0') {
+        Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + cell.second * 4);
+        cout << "       ";
+        Controller::GoToXY(left + 2 + cell.first * 8, top + 2 + cell.second * 4);
+        cout << "   " << pokemon << "   ";
+        Controller::GoToXY(left + 2 + cell.first * 8, top + 3 + cell.second * 4);
+        cout << "       ";
+    }
+    else {
+        for (int i = 0; i < 3; i++) {
+            Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + i + cell.second * 4);
+            for (int j = 0; j < 7; j++)
+                cout << backGround[1 + cell.second * 4 + i][1 + cell.first * 8 + j];
+        }
+    }
 }
 
 void InfoBoard::Render()
@@ -416,16 +452,54 @@ bool NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 
 void GameBoard::RemoveCell(pair<int, int> cell)
 {
-    Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + cell.second * 4);
-    for (int i = left + 2 + cell.first * 8; i < left + 2 + cell.first * 8 + 4; i++)
-    {
-        for (int j = top + 1 + cell.second * 4; i < top + 1 + cell.second * 4 + 8; j++)
-        {
-            if (backGround[i][j] != static_cast<char>(186))
-            {
-                cout << backGround[i][j];
-            }
+    pokemonsBoard[cell.second][cell.first] = '\0';
+    bool t = false, b = false, l = false, r = false;
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+
+    if (cell.second > 0 && pokemonsBoard[cell.second - 1][cell.first] == '\0') {
+        for (int i = 0; i < 7; i++) {
+            Controller::GoToXY(left + 2 + i + cell.first * 8, top + cell.second * 4);
+            cout << backGround[cell.second * 4][1 + cell.first * 8 + i];
         }
+        t = true;
+    }
+    if (cell.second < size - 1 && pokemonsBoard[cell.second + 1][cell.first] == '\0') {
+        for (int i = 0; i < 7; i++) {
+            Controller::GoToXY(left + 2 + i + cell.first * 8, top + cell.second * 4 + 4);
+            cout << backGround[4 + cell.second * 4][1 + cell.first * 8 + i];
+        }
+        b = true;
+    }
+    if (cell.first > 0 && pokemonsBoard[cell.second][cell.first - 1] == '\0') {
+        for (int i = 0; i < 3; i++) {
+            Controller::GoToXY(left + 1 + cell.first * 8, top + 1 + i + cell.second * 4);
+            cout << backGround[1 + cell.second * 4 + i][cell.first * 8];
+        }
+        l = true;
+    }
+    if (cell.first < size - 1 && pokemonsBoard[cell.second][cell.first + 1] == '\0') {
+        for (int i = 0; i < 3; i++) {
+            Controller::GoToXY(left + 9 + cell.first * 8, top + 1 + i + cell.second * 4);
+            cout << backGround[1 + cell.second * 4 + i][cell.first * 8 + 8];
+        }
+        r = true;
+    }
+
+    if (t && l && pokemonsBoard[cell.second - 1][cell.first - 1] == '\0') {
+        Controller::GoToXY(left + 1 + cell.first * 8, top + cell.second * 4);
+        cout << backGround[cell.second * 4][cell.first * 8];
+    }
+    if (t && r && pokemonsBoard[cell.second - 1][cell.first + 1] == '\0') {
+        Controller::GoToXY(left + 9 + cell.first * 8, top + cell.second * 4);
+        cout << backGround[cell.second * 4][cell.first * 8 + 8];
+    }
+    if (b && l && pokemonsBoard[cell.second + 1][cell.first - 1] == '\0') {
+        Controller::GoToXY(left + 1 + cell.first * 8, top + 4 + cell.second * 4);
+        cout << backGround[cell.second * 4 + 4][cell.first * 8];
+    }
+    if (b && r && pokemonsBoard[cell.second + 1][cell.first + 1] == '\0') {
+        Controller::GoToXY(left + 9 + cell.first * 8, top + 4 + cell.second * 4);
+        cout << backGround[cell.second * 4 + 4][cell.first * 8 + 8];
     }
 }
 
@@ -473,29 +547,29 @@ void NAHGame::ExitScreen()
 {
 }
 
-void GameBoard::ReadImage()
-{
-    ifstream fin;
-    if (size == 4)
-    {
-        fin.open("Normal.txt");
-    }
-    // else
-    // {
-    //     fin.open("Hard.txt");
-    // }
-    if (fin.is_open())
-    {
-        int n = 0;
-        while (n < size * 4 + 1 && getline(fin, backGround[n]))
-        {
-            n++;
-        }
-        fin.close();
-    }
-    else
-    {
-        cerr << "could not open file!";
-        return;
-    }
-}
+// void GameBoard::ReadImage()
+// {
+//     ifstream fin;
+//     if (size == 4)
+//     {
+//         fin.open("Normal.txt");
+//     }
+//     // else
+//     // {
+//     //     fin.open("Hard.txt");
+//     // }
+//     if (fin.is_open())
+//     {
+//         int n = 0;
+//         while (n < size * 4 + 1 && getline(fin, backGround[n]))
+//         {
+//             n++;
+//         }
+//         fin.close();
+//     }
+//     else
+//     {
+//         cerr << "could not open file!";
+//         return;
+//     }
+// }
