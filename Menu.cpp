@@ -4,8 +4,11 @@ int Menu::currentOption = 0;
 const string Menu::MainOptions[4] = {"Play", "High Scores", "Tutorial", "Exit"};
 const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "Back"};
 
+using namespace std;
+
 void Menu::MainScreen()
 {
+	PrintAnimation();
 	PrintLogo();
 	PrintOptionsBoard(MainOptions);
 	while (true)
@@ -47,13 +50,166 @@ void Menu::MainScreen()
 	}
 }
 
+void Menu::PrintAnimation()
+{
+	const string logo[7] = {
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+	  	  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|            
+
+
+
+
+
+
+
+
+
+
+
+
+
+			  		PRESS ANY KEY FROM KEYBOARD TO CONTINUE   
+		)",
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+
+
+
+
+
+
+
+
+
+
+
+			  		PRESS ANY KEY FROM KEYBOARD TO CONTINUE
+		)",
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+		  .   :  |: |:   |  '|   '   ,  :  :       \   .   |  ;. /|   | : _' |  .--. |  | :  
+		  |   |   \ :|   :  |'   |  /   :  |   /\   \  .   ; /--` :   : |.'  |,'_ /| :  . |  
+
+
+
+
+
+
+
+
+
+					PRESS ANY KEY FROM KEYBOARD TO CONTINUE
+		)",
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+		  .   :  |: |:   |  '|   '   ,  :  :       \   .   |  ;. /|   | : _' |  .--. |  | :  
+		  |   |   \ :|   :  |'   |  /   :  |   /\   \  .   ; /--` :   : |.'  |,'_ /| :  . |  
+		  |   : .   /'   '  ;|   ;  ;   |  :  ' ;.   : ;   | ;    |   ' '  ; :|  ' | |  . .  
+		  ;   | |`-' |   |  |:   '   \  |  |  ;/  \   \|   : |    '   |  .'. ||  | ' |  | |  
+
+
+
+
+
+
+
+					PRESS ANY KEY FROM KEYBOARD TO CONTINUE
+		)",
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+		  .   :  |: |:   |  '|   '   ,  :  :       \   .   |  ;. /|   | : _' |  .--. |  | :  
+		  |   |   \ :|   :  |'   |  /   :  |   /\   \  .   ; /--` :   : |.'  |,'_ /| :  . |  
+		  |   : .   /'   '  ;|   ;  ;   |  :  ' ;.   : ;   | ;    |   ' '  ; :|  ' | |  . .  
+		  ;   | |`-' |   |  |:   '   \  |  |  ;/  \   \|   : |    '   |  .'. ||  | ' |  | |  
+		  |   | ;    '   :  ;|   |    ' '  :  | \  \ ,'.   | '___ |   | :  | ':  | | :  ' ;  
+		  :   ' |    |   |  ''   : |.  \|  |  '  '--'  '   ; : .'|'   : |  : ;|  ; ' |  | '  
+
+
+
+
+
+					PRESS ANY KEY FROM KEYBOARD TO CONTINUE
+		)",
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+		  .   :  |: |:   |  '|   '   ,  :  :       \   .   |  ;. /|   | : _' |  .--. |  | :  
+		  |   |   \ :|   :  |'   |  /   :  |   /\   \  .   ; /--` :   : |.'  |,'_ /| :  . |  
+		  |   : .   /'   '  ;|   ;  ;   |  :  ' ;.   : ;   | ;    |   ' '  ; :|  ' | |  . .  
+		  ;   | |`-' |   |  |:   '   \  |  |  ;/  \   \|   : |    '   |  .'. ||  | ' |  | |  
+		  |   | ;    '   :  ;|   |    ' '  :  | \  \ ,'.   | '___ |   | :  | ':  | | :  ' ;  
+		  :   ' |    |   |  ''   : |.  \|  |  '  '--'  '   ; : .'|'   : |  : ;|  ; ' |  | '  
+		  :   : :    '   :  ||   | '_\.'|  :  :        '   | '/  :|   | '  ,/ :  | : ;  ; |  
+		  |   | :    ;   |.' '   : |    |  | ,'        |   :    / ;   : ;--'  '  :  `--'   \ 
+
+
+
+			  		PRESS ANY KEY FROM KEYBOARD TO CONTINUE
+		)",
+		R"(
+		  ,-.----.                  ,--.                                  ,--,               
+		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
+		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
+		  |   |  .\ :|   :  ::   : '/ /  /  ;    '.    |   :     :,---.'|  : '       ,'_ /|  
+		  .   :  |: |:   |  '|   '   ,  :  :       \   .   |  ;. /|   | : _' |  .--. |  | :  
+		  |   |   \ :|   :  |'   |  /   :  |   /\   \  .   ; /--` :   : |.'  |,'_ /| :  . |  
+		  |   : .   /'   '  ;|   ;  ;   |  :  ' ;.   : ;   | ;    |   ' '  ; :|  ' | |  . .  
+		  ;   | |`-' |   |  |:   '   \  |  |  ;/  \   \|   : |    '   |  .'. ||  | ' |  | |  
+		  |   | ;    '   :  ;|   |    ' '  :  | \  \ ,'.   | '___ |   | :  | ':  | | :  ' ;  
+		  :   ' |    |   |  ''   : |.  \|  |  '  '--'  '   ; : .'|'   : |  : ;|  ; ' |  | '  
+		  :   : :    '   :  ||   | '_\.'|  :  :        '   | '/  :|   | '  ,/ :  | : ;  ; |  
+		  |   | :    ;   |.' '   : |    |  | ,'        |   :    / ;   : ;--'  '  :  `--'   \ 
+		  `---'.|    '---'   ;   |,'    `--''           \   \ .'  |   ,/      :  ,      .-./ 
+		  `---`            '---'                       `---`    '---'        `--`----'       
+
+					PRESS ANY KEY FROM KEYBOARD TO CONTINUE
+		)"};
+	int color[] = {YELLOW, GREEN, AQUA, LIGHT_BLUE, BLUE, LIGHT_PURPLE, PURPLE};
+	while (1)
+	{
+		bool flag = 1;
+		for (int i = 0; i < 7; i++)
+		{
+			Controller::GoToXY(0, 0);
+			Controller::SetConsoleColor(BRIGHT_WHITE, color[i]);
+			cout << logo[i];
+			Sleep(200);
+			if (_kbhit())
+			{
+				int key = _getch();
+				flag = 0;
+				break;
+			}
+		}
+		system("cls");
+		if (flag == 0)
+		{
+			break;
+		}
+	}
+}
+
 void Menu::PrintLogo()
 {
 	system("cls"); // Xóa màn hình hiện tại
-	SetConsoleOutputCP(65001);
-	cout << R"(  
-
-                                                                        
+	Controller::GoToXY(0, 1);
+	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
+	cout << R"(                                                                 
 		  ,-.----.                  ,--.                                  ,--,               
 		  \    /  \     ,---,   ,--/  /|   ,---,         ,----..        ,--.'|               
 		  |   :    \ ,`--.' |,---,': / '  '  .' \       /   /   \    ,--,  | :         ,--,  
@@ -69,7 +225,8 @@ void Menu::PrintLogo()
 		  `---'.|    '---'   ;   |,'    `--''           \   \ .'  |   ,/      :  ,      .-./ 
 		   `---`            '---'                       `---`    '---'        `--`----'                                                                                                                                                  
 	)";
-	Controller::GoToXY(0, 18);
+	Controller::GoToXY(0, 19);
+	SetConsoleOutputCP(65001);
 	cout << R"(
 		⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 		⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠁
@@ -81,15 +238,30 @@ void Menu::PrintLogo()
 		⣿⣿⢾⣿⣷⠀⠀⠀⠀⡠⠤⢄⠀⠀⠀⠠⣿⣿⣷⠀⢸⣿
 		⣿⣿⡀⠉⠀⠀⠀⠀⠀⢄⠀⢀⠀⠀⠀⠀⠉⠉⠁⠀⠀⣿
 		⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹
+
 	)";
 	SetConsoleOutputCP(437);
-	Controller::GoToXY(44, 0);
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	// Controller::GoToXY(70, 18);
+	// SetConsoleOutputCP(65001);
+	// cout << R"(
+	// 	⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⡠⠖⢉⣌⢆⠀⠀⠀⠀⠀
+	// 	⠀⠀⠀⠀⠀⠀⠀⣠⠚⠉⠀⠈⠉⠲⣿⣿⡜⡀⠀⠀⠀⠀
+	// 	⡔⢉⣙⣓⣒⡲⠮⡇⠀⠀⠀⠀⠀⠀⠘⡿⡇⡇⠀⠀⠀⠀
+	// 	⡇⠘⣿⣿⣿⠏⠀⠀⠠⣀⡀⠀⠀⠀⠀⡇⠈⠳⡄⠀⠀⠀
+	// 	⢹⠀⢻⣿⠇⠀⠀⣀⣀⠀⡍⠃⠀⠀⣠⣷⡟⢳⡜⡄⠀⠀
+	// 	⠈⣆⠀⠋⢀⢔⣵⣿⠋⠹⣿⠒⠒⠚⠁⣿⣿⣾⣷⢸⠤⡄
+	// 	⠀⡇⠀⠀⢸⢸⣿⣿⣶⣾⡏⡇⠀⠀⢀⡘⣝⠿⡻⢸⡰⠁
+	// 	⠀⢳⠀⠀⠈⢆⠻⢿⡿⠟⡱⠁⠰⠛⢿⡇⠀⠉⠀⡸⠁⠀
+	// 	⠀⠈⢆⠀⠀⠀⠉⠒⠒⣉⡀⠀⠀⢇⠀⡇⠀⠀⢠⠃⠀⠀
+	// 	⠀⠀⠈⠣⡀⠀⠀⠀⠀⠀⢉⡱⠀⠀⠉⠀⢀⡴⠁⠀⠀⠀
+	// 	⠀⠀⠀⠀⠈⠓⠦⣀⣉⡉⠁⢀⣀⣠⠤⠒⠥⣄⠀⠀⠀⠀
+	// )";
+	// SetConsoleOutputCP(437);
+	Controller::GoToXY(44, 16);
+	Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
 	cout << "Nguyen Ngoc Canh - Le Hong Ngoc";
-	Controller::GoToXY(48, 1);
+	Controller::GoToXY(48, 17);
 	cout << "23127161 - 23127236";
-	Controller::GoToXY(38, 8);
-	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
 }
 
 void Menu::PrintOptionsBoard(const string options[])
@@ -224,70 +396,70 @@ void Menu::HighScores()
 	Player p[100];
 	Controller::SetConsoleColor(BRIGHT_WHITE, PURPLE);
 	cout << R"(
-			 _   _ ___ ____ _   _   ____   ____ ___  ____  _____ ____  
-			| | | |_ _/ ___| | | | / ___| / ___/ _ \|  _ \| ____/ ___| 
-			| |_| || | |  _| |_| | \___ \| |  | | | | |_) |  _| \___ \ 
-			|  _  || | |_| |  _  |  ___) | |__| |_| |  _ <| |___ ___) |
-			|_| |_|___\____|_| |_| |____/ \____\___/|_| \_\_____|____/ 
+				 _   _ ___ ____ _   _   ____   ____ ___  ____  _____ ____  
+				| | | |_ _/ ___| | | | / ___| / ___/ _ \|  _ \| ____/ ___| 
+				| |_| || | |  _| |_| | \___ \| |  | | | | |_) |  _| \___ \ 
+				|  _  || | |_| |  _  |  ___) | |__| |_| |  _ <| |___ ___) |
+				|_| |_|___\____|_| |_| |____/ \____\___/|_| \_\_____|____/ 
 
 	)";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(5, 8, 56, 17);
+	PrintRectangle(30, 8, 56, 17);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(8, 9);
+	Controller::GoToXY(33, 9);
 	cout << "No.";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
-		Controller::GoToXY(13, 8 + i);
+		Controller::GoToXY(38, 8 + i);
 		putchar(179);
 	}
-	for (int i = 6; i < 13; i++)
+	for (int i = 31; i < 38; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(18, 9);
+	Controller::GoToXY(43, 9);
 	cout << "Name";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
-		Controller::GoToXY(30, 8 + i);
+		Controller::GoToXY(55, 8 + i);
 		putchar(179);
 	}
-	for (int i = 14; i < 30; i++)
+	for (int i = 39; i < 55; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(36, 9);
+	Controller::GoToXY(61, 9);
 	cout << "Mode";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
-		Controller::GoToXY(45, 8 + i);
+		Controller::GoToXY(70, 8 + i);
 		putchar(179);
 	}
-	for (int i = 31; i < 45; i++)
+	for (int i = 56; i < 70; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(52, 9);
+	Controller::GoToXY(77, 9);
 	cout << "Score";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
-		Controller::GoToXY(62, 8 + i);
+		Controller::GoToXY(87, 8 + i);
 		putchar(179);
 	}
-	for (int i = 46; i < 62; i++)
+	for (int i = 71; i < 87; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
@@ -311,24 +483,24 @@ void Menu::HighScores()
 				swap(p[i], p[j]);
 	for (int i = 1; i < lines; i++)
 	{
-		Controller::GoToXY(9, y);
+		Controller::GoToXY(34, y);
 		cout << i;
-		Controller::GoToXY(16, y);
+		Controller::GoToXY(41, y);
 		cout << p[i - 1].playerName;
-		Controller::GoToXY(33, y);
+		Controller::GoToXY(58, y);
 		cout << p[i - 1].mode;
-		Controller::GoToXY(50, y);
+		Controller::GoToXY(75, y);
 		cout << p[i - 1].score;
 		y += 2;
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(45, 27, 8, 2);
+	PrintRectangle(55, 27, 8, 2);
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-	Controller::GoToXY(43, 28);
+	Controller::GoToXY(53, 28);
 	putchar(175);
-	Controller::GoToXY(48, 28);
+	Controller::GoToXY(58, 28);
 	cout << "Back";
-	Controller::GoToXY(56, 28);
+	Controller::GoToXY(66, 28);
 	putchar(174);
 	// while (Controller::GetConsoleInput() != 6)
 	// {

@@ -14,7 +14,7 @@ void NAHGame::SetupGame(int MODE)
     Menu::PrintLogo();
     Controller::ShowCursor(true);
     Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-    Controller::GoToXY(30, 17);
+    Controller::GoToXY(35, 17);
     cout << "Please enter your name shortly, under 10 characters!";
     Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
     Controller::GoToXY(50, 19);
@@ -293,7 +293,11 @@ void InfoBoard::Render()
     // Controller::GoToXY(88, 17);
     // cout << score;
     Controller::GoToXY(81, 18);
-    cout << "Hint: ";
+    cout << "Hint:  ";
+    Controller::GoToXY(87, 18);
+    SetConsoleOutputCP(65001);
+    cout << "💡  💡  💡";
+    SetConsoleOutputCP(437);
     Controller::GoToXY(81, 20);
     SetConsoleOutputCP(65001);
     cout << "❤️  ❤️  ❤️";
@@ -428,13 +432,42 @@ void GameBoard::RemoveCell(pair<int, int> cell)
 
 void NAHGame::LosingScreen()
 {
-    system("cls");
-    cout << "Đồ thất bại!";
 }
 void NAHGame::WinningScreen()
 {
     system("cls");
-    cout << "Thành công!";
+    Menu::PrintLogo();
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+    Menu::PrintRectangle(38, 7, 42, 16);
+    for (int i = 0; i < 15; i++)
+    {
+        Controller::GoToXY(39, 8 + i);
+        cout << string(42, ' ');
+    }
+    Menu::PrintRectangle(40, 8, 38, 5);
+    Menu::PrintRectangle(40, 14, 38, 8);
+    Controller::SetConsoleColor(BRIGHT_WHITE, RED);
+    Controller::GoToXY(51, 9);
+    cout << "GAME ANNOUCEMENT";
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+    Controller::GoToXY(48, 10);
+    cout << "You have won the game." << endl;
+    Controller::GoToXY(51, 11);
+    cout << "CONGRATULATIONS!";
+    Controller::GoToXY(52, 12);
+    cout << "Your score: ";
+    // cout << infoBoard.scores;
+    Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+    Controller::GoToXY(43, 16);
+    cout << "Do you want to play another round?" << endl;
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+    Menu::PrintRectangle(45, 18, 8, 2);
+    Menu::PrintRectangle(65, 18, 8, 2);
+    Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+    Controller::GoToXY(48, 19);
+    cout << "Yes";
+    Controller::GoToXY(69, 19);
+    cout << "No";
 }
 
 void NAHGame::ExitScreen()
