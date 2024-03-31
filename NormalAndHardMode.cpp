@@ -61,11 +61,11 @@ void NAHGame::SetupGame(int MODE)
     }
     // Đọc file background
     ifstream f;
+    char tmp;
     switch (MODE)
     {
     case NORMAL:
         f.open("Normal.txt");
-        char tmp;
         gameBoard.backGround = new char*[17];
         for (int i = 0; i < 17; i++) {
             gameBoard.backGround[i] = new char[33];
@@ -76,6 +76,14 @@ void NAHGame::SetupGame(int MODE)
         break;
     
     case HARD:
+        f.open("Hard.txt");
+        gameBoard.backGround = new char*[33];
+        for (int i = 0; i < 33; i++) {
+            gameBoard.backGround[i] = new char[65];
+            for (int j = 0; j < 65; j++)
+                f.get(gameBoard.backGround[i][j]);
+            f.get(tmp);         // lấy dấu xuống dòng vào tmp
+        }
         break;
     }
     f.close();
@@ -122,7 +130,7 @@ void NAHGame::StartGame()
             ExitScreen();
         }
 
-        else if (key == KEY_ENTER)
+        else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
         {
             if (gameBoard.chosenCell1.first == -1)
             {
