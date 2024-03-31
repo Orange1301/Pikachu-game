@@ -124,10 +124,10 @@ void NAHGame::StartGame()
                     Sleep(500);
                     gameBoard.RenderCell(gameBoard.chosenCell1, BRIGHT_WHITE);
                     gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
-                    gameBoard.chosenCell1 = {-1, -1};
-                    gameBoard.chosenCell2 = {-1, -1};
                     gameBoard.RemoveCell(gameBoard.chosenCell1);
                     gameBoard.RemoveCell(gameBoard.chosenCell2);
+                    gameBoard.chosenCell1 = {-1, -1};
+                    gameBoard.chosenCell2 = {-1, -1};
                     gameBoard.remainCells -= 2;
                     if (gameBoard.remainCells == 0)
                         WinningScreen();
@@ -145,7 +145,6 @@ void NAHGame::StartGame()
                     gameBoard.chosenCell1 = {-1, -1};
                     gameBoard.chosenCell2 = {-1, -1};
                     infoBoard.lives--;
-                    Sleep(200);
                     Controller::GoToXY(infoBoard.lives * 4 + 81, 20);
                     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
                     cout << "  ";
@@ -410,7 +409,7 @@ vector<pair<int, int>> NAHGame::CheckZMatching(pair<int, int>, pair<int, int>)
 }
 bool NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
-    if (gameBoard.pokemonsBoard[cell1.first][cell1.second] != gameBoard.pokemonsBoard[cell2.first][cell2.second])
+    if (gameBoard.pokemonsBoard[cell1.second][cell1.first] != gameBoard.pokemonsBoard[cell2.second][cell2.first])
         return false;
     return true;
 }
