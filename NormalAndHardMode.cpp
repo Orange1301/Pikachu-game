@@ -20,25 +20,46 @@ void NAHGame::SetupGame(int MODE)
     Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
     Controller::GoToXY(50, 19);
     cout << "Enter your name:  ";
-    cin.getline(infoBoard.playerName, 15);
+    getline(cin, infoBoard.playerName);
     Controller::ShowCursor(false);
 
-    // Cài đặt kích thước và vị trí của bảng
+    // Cài đặt kích thước, vị trí của bảng và đọc file background tùy theo MODE
+    ifstream f;
+    char tmp;
     switch (MODE)
     {
     case NORMAL:
         gameBoard.size = 4;
         gameBoard.left = 22;
         gameBoard.top = 6;
-        strcpy(infoBoard.mode, "NORMAL");
+        infoBoard.mode = "NORMAL";
+
+        f.open("Normal.txt");
+        gameBoard.backGround = new char*[17];
+        for (int i = 0; i < 17; i++) {
+            gameBoard.backGround[i] = new char[33];
+            for (int j = 0; j < 33; j++)
+                f.get(gameBoard.backGround[i][j]);
+            f.get(tmp);         // lấy dấu xuống dòng vào tmp
+        }
         break;
     case HARD:
         gameBoard.size = 8;
         gameBoard.left = 0;
         gameBoard.top = 0;
-        strcpy(infoBoard.mode, "HARD");
+        infoBoard.mode = "HARD";
+
+        f.open("Hard.txt");
+        gameBoard.backGround = new char*[33];
+        for (int i = 0; i < 33; i++) {
+            gameBoard.backGround[i] = new char[65];
+            for (int j = 0; j < 65; j++)
+                f.get(gameBoard.backGround[i][j]);
+            f.get(tmp);         // lấy dấu xuống dòng vào tmp
+        }
         break;
     }
+    f.close();
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
 
     // Sinh ngẫu nhiên các cặp "Pokemon" lên bảng
@@ -59,34 +80,6 @@ void NAHGame::SetupGame(int MODE)
         for (int j = 0; j < gameBoard.size; j++)
             gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
     }
-    // Đọc file background
-    ifstream f;
-    char tmp;
-    switch (MODE)
-    {
-    case NORMAL:
-        f.open("Normal.txt");
-        gameBoard.backGround = new char*[17];
-        for (int i = 0; i < 17; i++) {
-            gameBoard.backGround[i] = new char[33];
-            for (int j = 0; j < 33; j++)
-                f.get(gameBoard.backGround[i][j]);
-            f.get(tmp);         // lấy dấu xuống dòng vào tmp
-        }
-        break;
-    
-    case HARD:
-        f.open("Hard.txt");
-        gameBoard.backGround = new char*[33];
-        for (int i = 0; i < 33; i++) {
-            gameBoard.backGround[i] = new char[65];
-            for (int j = 0; j < 65; j++)
-                f.get(gameBoard.backGround[i][j]);
-            f.get(tmp);         // lấy dấu xuống dòng vào tmp
-        }
-        break;
-    }
-    f.close();
 }
 
 void NAHGame::StartGame()
@@ -304,24 +297,12 @@ void InfoBoard::Render()
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
     Controller::GoToXY(81, 5);
-    if (strlen(playerName) != 0)
-        cout << "Player's name: " << playerName;
-    else
-    {
-        strcpy(playerName, "unknown");
-        cout << "Player's name: " << playerName;
-    }
+    if (playerName == "")
+        playerName = "unknown";
+    cout << "Player's name: " << playerName;
 
     Controller::GoToXY(81, 7);
-    cout << "Mode: ";
-    if (strcmp(mode, "NORMAL") == 0)
-    {
-        cout << "Normal";
-    }
-    else
-    {
-        cout << "Hard";
-    }
+    cout << "Mode: " << mode;
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(76, 11, 31, 2);

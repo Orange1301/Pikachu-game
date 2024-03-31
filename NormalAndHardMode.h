@@ -8,6 +8,7 @@
 #include <vector>    // sử dụng cùng hàm random_suffle để tạo danh sách pokemons ngẫu nhiên
 #include <cstdlib>
 #include <ctime>
+#include <string>
 #include "Controller.h"
 
 #define NORMAL 2
@@ -37,7 +38,7 @@ struct GameBoard
 
 struct InfoBoard
 {
-    char playerName[15] = "", mode[8] = "";
+    string playerName, mode;
     int scores = 0;
     int lives = 3;
     int hints = 3;

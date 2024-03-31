@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 #include <conio.h>
 #include <windows.h>
 #include "Controller.h"
