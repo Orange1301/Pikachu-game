@@ -27,19 +27,17 @@ struct GameBoard
     pair<int, int> chosenCell2 = {-1, -1};
 
     char **pokemonsBoard;
-
-    char **backGround;
+    char **background;
 
     void Render();
     void RenderCell(pair<int, int>, int);
     void RemoveCell(pair<int, int>);
-    // void ReadImage();
 };
 
 struct InfoBoard
 {
     string playerName, mode;
-    int scores = 0;
+    int score = 0;
     int lives = 3;
     int hints = 3;
     void Render();
@@ -54,11 +52,9 @@ struct NAHGame // NAH = Normal And Hard
     static void SetupGame(int);
     static void StartGame();
 
-    static vector<pair<int, int>> CheckIMatching(pair<int, int>, pair<int, int>);
-    static vector<pair<int, int>> CheckLMatching(pair<int, int>, pair<int, int>);
-    static vector<pair<int, int>> CheckUMatching(pair<int, int>, pair<int, int>);
-    static vector<pair<int, int>> CheckZMatching(pair<int, int>, pair<int, int>);
-    static bool CheckMatching(pair<int, int>, pair<int, int>);
+    static bool ExistsLine(pair<int, int>, pair<int, int>);
+    static vector<pair<int, int>> Path(vector<pair<int, int>>);
+    static vector<pair<int, int>> CheckMatching(pair<int, int>, pair<int, int>);
 
     static void LosingScreen();
     static void WinningScreen();
