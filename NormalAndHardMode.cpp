@@ -45,7 +45,7 @@ void NAHGame::SetupGame(int MODE)
         pokemonsList.push_back(pokemon);
         pokemonsList.push_back(pokemon);
     }
-    // random_shuffle(pokemonsList.begin(), pokemonsList.end());
+    random_shuffle(pokemonsList.begin(), pokemonsList.end());
 
     gameBoard.pokemonsBoard = new char *[gameBoard.size];
     for (int i = 0; i < gameBoard.size; i++)
@@ -146,7 +146,7 @@ void NAHGame::StartGame()
                     Sleep(200);
                     Controller::GoToXY(infoBoard.lives * 3 + 81, 20);
                     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-                    cout << string(infoBoard.lives, ' ');
+                    cout << ' ';
                 }
             }
         }
@@ -291,7 +291,9 @@ void InfoBoard::Render()
     Controller::GoToXY(81, 18);
     cout << "Hint: ";
     Controller::GoToXY(81, 20);
-    cout << "*  *  *";  //tạm thời tui chưa gắn cái biểu tượng trái tim vô đc nên để đỡ cnay nha
+    SetConsoleOutputCP(65001);
+    cout << "❤️  ❤️  ❤️";
+    SetConsoleOutputCP(437);
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(75, 23, 33, 2);
@@ -402,6 +404,7 @@ bool NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
     if (gameBoard.pokemonsBoard[cell1.first][cell1.second] != gameBoard.pokemonsBoard[cell2.first][cell2.second])
         return false;
+    return true;
 }
 
 void GameBoard::RemoveCell(pair<int, int> cell)
