@@ -532,7 +532,3 @@ void Menu::HardMode()
 void Menu::DropMode()
 {
 }
-
-void Menu::ExitScreen()
-{
-}

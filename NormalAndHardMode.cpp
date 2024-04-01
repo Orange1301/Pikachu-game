@@ -215,7 +215,7 @@ void GameBoard::Render()
     // ReadImage();
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-    Controller::GoToXY(left + 1, top);
+    Controller::GoToXY(left, top);
     putchar(201);
     for (int i = 1; i < size * 8; i++)
     {
@@ -226,23 +226,23 @@ void GameBoard::Render()
     for (int i = 1; i < size * 4; i++)
     {
         Sleep(10);
-        Controller::GoToXY(size * 8 + left + 1, i + top);
+        Controller::GoToXY(size * 8 + left, i + top);
         putchar(186);
     }
-    Controller::GoToXY(size * 8 + left + 1, size * 4 + top);
+    Controller::GoToXY(size * 8 + left, size * 4 + top);
     putchar(188);
     for (int i = 1; i < size * 8; i++)
     {
-        Controller::GoToXY(size * 8 + left - i + 1, size * 4 + top);
+        Controller::GoToXY(size * 8 + left - i, size * 4 + top);
         Sleep(5);
         putchar(205);
     }
-    Controller::GoToXY(left + 1, size * 4 + top);
+    Controller::GoToXY(left, size * 4 + top);
     putchar(200);
     for (int i = 1; i < size * 4; i++)
     {
         Sleep(10);
-        Controller::GoToXY(left + 1, size * 4 + top - i);
+        Controller::GoToXY(left, size * 4 + top - i);
         putchar(186);
     }
     for (int i = 1; i < size * 4; i++)
@@ -251,7 +251,7 @@ void GameBoard::Render()
         {
             if (i % 4 != 0)
             {
-                Controller::GoToXY(j + left + 1, i + top);
+                Controller::GoToXY(j + left, i + top);
                 putchar(179);
             }
         }
@@ -261,7 +261,7 @@ void GameBoard::Render()
     {
         for (int j = 4; j < size * 4; j += 4)
         {
-            Controller::GoToXY(i + left + 1, j + top);
+            Controller::GoToXY(i + left, j + top);
             if (i % 8 != 0)
                 putchar(196);
         }
@@ -272,12 +272,12 @@ void GameBoard::Render()
         for (int j = 0; j < size; j++)
             RenderCell(pair<int, int>({i, j}), BRIGHT_WHITE);
 
-    Controller::GoToXY(left + 2, top + 1);
+    Controller::GoToXY(left + 1, top + 1);
     Controller::SetConsoleColor(WHITE, BLACK);
     cout << "       ";
-    Controller::GoToXY(left + 2, top + 2);
+    Controller::GoToXY(left + 1, top + 2);
     cout << "   " << pokemonsBoard[currentCell.second][currentCell.first] << "   ";
-    Controller::GoToXY(left + 2, top + 3);
+    Controller::GoToXY(left + 1, top + 3);
     cout << "       ";
 }
 
@@ -290,11 +290,11 @@ void GameBoard::RenderCell(pair<int, int> cell, int color)
         pokemon = pokemonsBoard[cell.second][cell.first];
     Controller::SetConsoleColor(color, BLACK);
     if (pokemon != '\0') {
-        Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + cell.second * 4);
+        Controller::GoToXY(left + 1 + cell.first * 8, top + 1 + cell.second * 4);
         cout << "       ";
-        Controller::GoToXY(left + 2 + cell.first * 8, top + 2 + cell.second * 4);
+        Controller::GoToXY(left + 1 + cell.first * 8, top + 2 + cell.second * 4);
         cout << "   " << pokemon << "   ";
-        Controller::GoToXY(left + 2 + cell.first * 8, top + 3 + cell.second * 4);
+        Controller::GoToXY(left + 1 + cell.first * 8, top + 3 + cell.second * 4);
         cout << "       ";
     }
     else {
@@ -302,7 +302,7 @@ void GameBoard::RenderCell(pair<int, int> cell, int color)
             color = GRAY;
         Controller::SetConsoleColor(color, (size == 8)*BLUE + (size == 4)*YELLOW);
         for (int i = 0; i < 3; i++) {
-            Controller::GoToXY(left + 2 + cell.first * 8, top + 1 + i + cell.second * 4);
+            Controller::GoToXY(left + 1 + cell.first * 8, top + 1 + i + cell.second * 4);
             for (int j = 0; j < 7; j++)
                 cout << background[1 + cell.second * 4 + i][1 + cell.first * 8 + j];
         }
