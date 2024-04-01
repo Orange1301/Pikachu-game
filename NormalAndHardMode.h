@@ -23,9 +23,9 @@ struct GameBoard
     int left, top;
     int remainCells;
 
-    pair<int, int> currentCell = {0, 0};
-    pair<int, int> chosenCell1 = {-1, -1};
-    pair<int, int> chosenCell2 = {-1, -1};
+    pair<int, int> currentCell;
+    pair<int, int> chosenCell1;
+    pair<int, int> chosenCell2;
 
     vector<pair<int, int>> unblockedCells;
 
@@ -40,10 +40,10 @@ struct GameBoard
 struct InfoBoard
 {
     string playerName, mode;
-    int score = 0;
-    int lives = 3;
-    int hints = 3;
-    int remainingTime = 600;
+    int score;
+    int lives;
+    int hints;
+    int remainingTime;
     void Render();
     void SaveData();
 };
@@ -60,6 +60,6 @@ struct NAHGame // NAH = Normal And Hard
     static vector<pair<int, int>> Path(vector<pair<int, int>>);
     static vector<pair<int, int>> CheckMatching(pair<int, int>, pair<int, int>);
 
-    static void LosingScreen();
+    static void LosingScreen(string);
     static void WinningScreen();
 };

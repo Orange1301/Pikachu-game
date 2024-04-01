@@ -24,6 +24,15 @@ void NAHGame::SetupGame(int MODE)
     infoBoard.playerName = tempName;
     Controller::ShowCursor(false);
 
+    // Các biến liên quan đến ván game
+    infoBoard.score = 0;
+    infoBoard.lives = 3;
+    infoBoard.hints = 3;
+    infoBoard.remainingTime = 600;
+    gameBoard.currentCell = {0, 0};
+    gameBoard.chosenCell1 = {-1, -1};
+    gameBoard.chosenCell2 = {-1, -1};
+
     // Cài đặt kích thước, vị trí của bảng và đọc file background tùy theo MODE
     ifstream f;
     char temp;
@@ -98,7 +107,7 @@ void NAHGame::StartGame()
     gameBoard.Render();
     infoBoard.Render();
     int centiSec = 0;
-    while (infoBoard.lives)
+    while (infoBoard.lives && infoBoard.remainingTime)
     {
         if (gameBoard.chosenCell1.first != -1)
             gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
@@ -192,6 +201,7 @@ void NAHGame::StartGame()
                             gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                             Sleep(3000);
                             WinningScreen();
+                            return;
                         }
                         // phát âm thanh
                     }
@@ -206,15 +216,17 @@ void NAHGame::StartGame()
                         gameBoard.chosenCell1 = {-1, -1};
                         gameBoard.chosenCell2 = {-1, -1};
                         infoBoard.lives--;
+                        infoBoard.remainingTime -= 60;
                         Controller::GoToXY(infoBoard.lives * 4 + 103, 27);
                         Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-                        cout << "  ";
+                        cout << "   ";
                     }
                 }
             }
         }
     }
-    LosingScreen();
+    LosingScreen("hello");
+    return;
 }
 
 GameBoard::~GameBoard()
@@ -383,8 +395,9 @@ void InfoBoard::Render()
     cout << "Esc : Exit";
 }
 
-//
-bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2) {
+// 3 hàm dùng để kiểm tra hai ô được chọn có phải là một cặp nối được hay không, nếu có thì trả về đường nối đó
+bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
+{
     pair<int, int> curr = cell1;
     if (cell1.first == cell2.first) {
         int vDirec = (cell1.second < cell2.second) ? 1 : -1;
@@ -408,7 +421,8 @@ bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2) {
     }
     return false;
 }
-vector<pair<int, int>> NAHGame::Path(vector<pair<int, int>> v) {
+vector<pair<int, int>> NAHGame::Path(vector<pair<int, int>> v)
+{
     int s = v.size();
     pair<int, int> curr = v[0];
     vector<pair<int, int>> path = {curr};
@@ -536,8 +550,8 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
             }
             else
                 break;
-            temp1.first -= hDirec;
-            temp2.first -= hDirec;
+            temp1.first += hDirec;
+            temp2.first += hDirec;
         }
     }
     return vector<pair<int, int>>({});
@@ -596,42 +610,98 @@ void GameBoard::RemoveCell(pair<int, int> cell)
     }
 }
 
-void NAHGame::LosingScreen()
+void NAHGame::LosingScreen(string reason)
 {
+    system("cls");
+    system("color F0");
+    Menu::PrintLogo();
 }
 void NAHGame::WinningScreen()
 {
     system("cls");
+    system("color F0");
     Menu::PrintLogo();
-    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-    Menu::PrintRectangle(38, 7, 42, 16);
+    Menu::PrintRectangle(56, 20, 42, 16);
     for (int i = 0; i < 15; i++)
     {
-        Controller::GoToXY(39, 8 + i);
+        Controller::GoToXY(57, 21 + i);
         cout << string(42, ' ');
     }
-    Menu::PrintRectangle(40, 8, 38, 5);
-    Menu::PrintRectangle(40, 14, 38, 8);
+    Menu::PrintRectangle(58, 21, 38, 5);
+    Menu::PrintRectangle(58, 27, 38, 8);
     Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-    Controller::GoToXY(51, 9);
+    Controller::GoToXY(69, 22);
     cout << "GAME ANNOUCEMENT";
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-    Controller::GoToXY(48, 10);
+    Controller::GoToXY(66, 23);
     cout << "You have won the game." << endl;
-    Controller::GoToXY(51, 11);
+    Controller::GoToXY(69, 24);
     cout << "CONGRATULATIONS!";
-    Controller::GoToXY(52, 12);
-    cout << "Your score: ";
-    cout << infoBoard.score;
+    Controller::GoToXY(69, 25);
+    cout << "Your score: " << infoBoard.score;
     Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-    Controller::GoToXY(43, 16);
+    Controller::GoToXY(61, 29);
     cout << "Do you want to play another round?" << endl;
+    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+    Menu::PrintRectangle(63, 31, 8, 2);
+    Controller::GoToXY(64, 32);
+    cout << "  Yes   ";
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-    Menu::PrintRectangle(45, 18, 8, 2);
-    Menu::PrintRectangle(65, 18, 8, 2);
-    Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-    Controller::GoToXY(48, 19);
-    cout << "Yes";
-    Controller::GoToXY(69, 19);
-    cout << "No";
+    Menu::PrintRectangle(83, 31, 8, 2);
+    Controller::GoToXY(84, 32);
+    cout << "   No   ";
+
+    int yes = 1;
+    while (true) {
+        int key = getch();
+        switch (key)
+        {
+            case KEY_LEFT:
+            case KEY_RIGHT:
+            case KEY_UP:
+            case KEY_DOWN:
+            case KEY_W:
+            case KEY_S:
+            case KEY_A:
+            case KEY_D:
+                if (yes) {
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    Menu::PrintRectangle(63, 31, 8, 2);
+                    Controller::GoToXY(64, 32);
+                    cout << "  Yes   ";
+                    Controller::SetConsoleColor(LIGHT_RED, BLACK);
+                    Menu::PrintRectangle(83, 31, 8, 2);
+                    Controller::GoToXY(84, 32);
+                    cout << "   No   ";
+                }
+                else {
+                    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+                    Menu::PrintRectangle(63, 31, 8, 2);
+                    Controller::GoToXY(64, 32);
+                    cout << "  Yes   ";
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    Menu::PrintRectangle(83, 31, 8, 2);
+                    Controller::GoToXY(84, 32);
+                    cout << "   No   ";
+                }
+                yes = !yes;
+                break;
+            case KEY_ENTER:
+                if (yes)
+                {
+                    for (int i = 0; i < 15; i++)
+                    {
+                        Controller::GoToXY(57, 21 + i);
+                        cout << string(42, ' ');
+                    }
+                    return;
+                }
+                else
+                {
+                    FreeConsole();
+                    exit(0);
+                }
+                break;
+        }
+    }
 }
