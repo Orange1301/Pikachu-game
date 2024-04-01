@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include "Menu.h"
 #include "Controller.h"
 
 #define NORMAL 2
@@ -58,5 +59,4 @@ struct NAHGame // NAH = Normal And Hard
 
     static void LosingScreen();
     static void WinningScreen();
-    static void ExitScreen();
 };

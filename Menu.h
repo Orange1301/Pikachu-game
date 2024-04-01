@@ -5,6 +5,7 @@
 #include <random>
 #include <fstream>
 #include "NormalAndHardMode.h"
+#include "DropMode.h"
 #include "Controller.h"
 
 #define NORMAL 2
@@ -33,6 +34,8 @@ struct Menu
 	static void PrintOptionsBoard(const string[]);	// in ra bảng các lựa chọn
 	static void PrintAnimation();					// in ra hiệu ứng mở đầu
 	static void PrintRectangle(int, int, int, int); // vẽ hình chữ nhật
+
+    static void ExitScreen();
 };
 struct Player		// dùng để đọc thông tin người chơi từ file HighScores.txt
 {

@@ -1,5 +1,4 @@
 #include "NormalAndHardMode.h"
-#include "Menu.h"
 
 GameBoard NAHGame::gameBoard;
 InfoBoard NAHGame::infoBoard;
@@ -122,7 +121,7 @@ void NAHGame::StartGame()
         }
         else if (key == KEY_ESC)
         {
-            ExitScreen();
+            Menu::ExitScreen();
         }
 
         else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
@@ -171,7 +170,7 @@ void NAHGame::StartGame()
                     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
                     cout << "Current score: " << infoBoard.score;
                     if (gameBoard.remainCells == 0) {
-                        gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+                        gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                         Sleep(3000);
                         WinningScreen();
                     }
@@ -616,8 +615,4 @@ void NAHGame::WinningScreen()
     cout << "Yes";
     Controller::GoToXY(69, 19);
     cout << "No";
-}
-
-void NAHGame::ExitScreen()
-{
 }
