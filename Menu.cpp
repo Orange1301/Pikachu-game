@@ -206,6 +206,7 @@ void Menu::PrintAnimation()
 
 void Menu::PrintLogo()
 {
+	system("cls");
 	Controller::GoToXY(0, 0);
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
 	cout << R"(                                                                 
@@ -323,6 +324,7 @@ void Menu::PrintOptionsBoard(const string options[])
 	putchar(188);
 	int arrowLeft = 68;
 	int arrowTop = 25 + currentOption * 2 + 1;
+	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
 	Controller::GoToXY(arrowLeft, arrowTop);
 	cout << "=>";
 	Controller::GoToXY(left + 15, arrowTop);
@@ -515,10 +517,131 @@ void Menu::HighScores()
 
 void Menu::TutorialScreen()
 {
+	Controller::ShowCursor(0);
+	system("cls");
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	int left = 5, top = 2, width = 90, height = 28;
+	PrintRectangle(5, 2, 90, 28);
+	Controller::GoToXY(left + 1, 6);
+	for (int i = 0; i < width; i++)
+	{
+		putchar(196);
+	}
+	Controller::GoToXY(left + 1, 22);
+	for (int i = 0; i < width; i++)
+	{
+		putchar(196);
+	}
+	Controller::GoToXY(left + 1, 26);
+	for (int i = 0; i < width; i++)
+	{
+		putchar(196);
+	}
+	for (int i = 1; i < height; i++)
+	{
+		Controller::GoToXY(20, top + i);
+		putchar(179);
+	}
+	Controller::GoToXY(20, 6);
+	putchar(197);
+	Controller::GoToXY(20, 22);
+	putchar(197);
+	Controller::GoToXY(20, 26);
+	putchar(197);
+
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	Controller::GoToXY(left + 3, top + 2);
+	cout << "Moves:";
+	Controller::GoToXY(left + 20, top + 1);
+	putchar(249);
+	cout << "Up:    W, up arrow";
+	Controller::GoToXY(left + 52, top + 1);
+	putchar(249);
+	cout << "Down:  S, down arrow";
+	Controller::GoToXY(left + 20, top + 3);
+	putchar(249);
+	cout << "Left:  A, left arrow";
+	Controller::GoToXY(left + 52, top + 3);
+	putchar(249);
+	cout << "Right: D, right arrow";
+
+	Controller::GoToXY(left + 3, top + 12);
+	cout << "Rules:";
+	Controller::GoToXY(left + 17, top + 5);
+	putchar(249);
+	cout << " The Matching Game (commonly known as the Pikachu Puzzle Game)";
+	Controller::GoToXY(left + 17, top + 6);
+	cout << " includes a board of multiple cells, each of which presents a figure.";
+	Controller::GoToXY(left + 17, top + 8);
+	putchar(249);
+	cout << " The player finds and matches a pair of cells that contain the same";
+	Controller::GoToXY(left + 17, top + 9);
+	cout << " figure and connect each other in some particular pattern.";
+	Controller::GoToXY(left + 17, top + 11);
+	putchar(249);
+	cout << " A legal match will make the two cells disappear. The game ends when";
+	Controller::GoToXY(left + 17, top + 12);
+	cout << " all matching pairs are found.";
+	Controller::GoToXY(left + 17, top + 14);
+	putchar(249);
+	cout << "The game starts with a 10-minute countdown timer. If the game is not";
+	Controller::GoToXY(left + 17, top + 15);
+	cout << "completed when the 10-minute time limit is reached, the player loses.";
+	Controller::GoToXY(left + 17, top + 17);
+	putchar(249);
+	cout << "Each player has 3 hints and 3 lives. Every time a wrong pair is selected";
+	Controller::GoToXY(left + 17, top + 18);
+	cout << "the player loses 1 life until all 3 lives are lost, resulting in a loss.";
+
+	Controller::GoToXY(left + 3, top + 22);
+	cout << "Scoring:";
+	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+	Controller::GoToXY(left + 24, top + 21);
+	cout << "The score rises by the amount of game seconds left";
+	// Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+	Controller::GoToXY(left + 35, top + 23);
+	cout << "after each correct pair is chosen.";
+
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	Controller::GoToXY(left + 3, top + 26);
+	cout << "Developers:";
+	Controller::GoToXY(left + 31, top + 25);
+	cout << "Dev 1: Nguyen Ngoc Canh - 23127161";
+	Controller::GoToXY(left + 31, top + 27);
+	cout << "Dev 2: Le Hong Ngoc - 23127236";
+
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	PrintRectangle(45, 32, 8, 2);
+	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
+	Controller::GoToXY(43, 33);
+	putchar(175);
+	Controller::GoToXY(48, 33);
+	cout << "Back";
+	Controller::GoToXY(56, 33);
+	putchar(174);
 }
 
 void Menu::ExitScreen()
 {
+	system("cls");
+	PrintLogo();
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	Menu::PrintRectangle(59, 26, 35, 8);
+	for (int i = 0; i < 7; i++)
+	{
+		Controller::GoToXY(60, 27 + i);
+		cout << string(35, ' ');
+	}
+	Menu::PrintRectangle(62, 31, 7, 2);
+	Menu::PrintRectangle(85, 31, 6, 2);
+	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+	Controller::GoToXY(67, 29);
+	cout << "Do you want to exit?";
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	Controller::GoToXY(65, 32);
+	cout << "Yes";
+	Controller::GoToXY(88, 32);
+	cout << "No";
 }
 
 void Menu::NormalMode()
