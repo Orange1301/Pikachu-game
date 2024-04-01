@@ -7,19 +7,19 @@ using namespace std;
 
 void NAHGame::SetupGame(int MODE)
 {
-    // Hỏi thăm tên người chơi
+    // Hỏi thăm thông tin người chơi
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
-    system("cls");
     Controller::GoToXY(0, 0);
     Menu::PrintLogo();
     Controller::ShowCursor(true);
     Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-    Controller::GoToXY(35, 17);
+    Controller::GoToXY(50, 17);
     cout << "Please enter your name shortly, under 10 characters!";
     Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
-    Controller::GoToXY(50, 19);
-    cout << "Enter your name:  ";
+    Controller::GoToXY(65, 19);
+    cout << "Enter your name:       ";
     char tempName[11];
+    Controller::GoToXY(82, 19);
     cin.getline(tempName, 10);
     infoBoard.playerName = tempName;
     Controller::ShowCursor(false);
@@ -27,38 +27,37 @@ void NAHGame::SetupGame(int MODE)
     // Cài đặt kích thước, vị trí của bảng và đọc file background tùy theo MODE
     ifstream f;
     char temp;
-    switch (MODE)
-    {
-    case NORMAL:
-        gameBoard.size = 4;
-        gameBoard.left = 22;
-        gameBoard.top = 6;
-        infoBoard.mode = "NORMAL";
+    switch (MODE) {
+        case NORMAL:
+            gameBoard.size = 4;
+            gameBoard.left = 22;
+            gameBoard.top = 6;
+            infoBoard.mode = "NORMAL";
 
-        f.open("Normal.txt");
-        gameBoard.background = new char*[17];
-        for (int i = 0; i < 17; i++) {
-            gameBoard.background[i] = new char[33];
-            for (int j = 0; j < 33; j++)
-                f.get(gameBoard.background[i][j]);
-            f.get(temp);         // lấy dấu xuống dòng vào temp
-        }
-        break;
-    case HARD:
-        gameBoard.size = 8;
-        gameBoard.left = 8;
-        gameBoard.top = 4;
-        infoBoard.mode = "HARD";
+            f.open("Normal.txt");
+            gameBoard.background = new char*[17];
+            for (int i = 0; i < 17; i++) {
+                gameBoard.background[i] = new char[33];
+                for (int j = 0; j < 33; j++)
+                    f.get(gameBoard.background[i][j]);
+                f.get(temp);         // lấy dấu xuống dòng vào temp
+            }
+            break;
+        case HARD:
+            gameBoard.size = 8;
+            gameBoard.left = 8;
+            gameBoard.top = 4;
+            infoBoard.mode = "HARD";
 
-        f.open("Hard.txt");
-        gameBoard.background = new char*[33];
-        for (int i = 0; i < 33; i++) {
-            gameBoard.background[i] = new char[65];
-            for (int j = 0; j < 65; j++)
-                f.get(gameBoard.background[i][j]);
-            f.get(temp);         // lấy dấu xuống dòng vào temp
-        }
-        break;
+            f.open("Hard.txt");
+            gameBoard.background = new char*[33];
+            for (int i = 0; i < 33; i++) {
+                gameBoard.background[i] = new char[65];
+                for (int j = 0; j < 65; j++)
+                    f.get(gameBoard.background[i][j]);
+                f.get(temp);         // lấy dấu xuống dòng vào temp
+            }
+            break;
     }
     f.close();
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
@@ -81,6 +80,16 @@ void NAHGame::SetupGame(int MODE)
         for (int j = 0; j < gameBoard.size; j++)
             gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
     }
+
+    // Tạo vector chứa các ô thông thoáng (không bị chặn 4 phía)
+    for (int i = 0; i < gameBoard.size; i++) {
+        gameBoard.unblockedCells.push_back(pair<int, int>({i, 0}));
+        gameBoard.unblockedCells.push_back(pair<int, int>({i, gameBoard.size - 1}));
+    }
+    for (int i = 1; i < gameBoard.size - 1; i++) {
+        gameBoard.unblockedCells.push_back(pair<int, int>({0, i}));
+        gameBoard.unblockedCells.push_back(pair<int, int>({gameBoard.size - 1, i}));
+    }
 }
 
 void NAHGame::StartGame()
@@ -88,108 +97,119 @@ void NAHGame::StartGame()
     system("cls");
     gameBoard.Render();
     infoBoard.Render();
+    int centiSec = 0;
     while (infoBoard.lives)
     {
         if (gameBoard.chosenCell1.first != -1)
             gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
-        // xử lý sự kiện nhấn phím
-        int key = _getch();
-        if (key == KEY_UP || key == KEY_W)
-        {
-            gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
-            gameBoard.currentCell.second = (gameBoard.currentCell.second + gameBoard.size - 1) % gameBoard.size;
-            gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+        Sleep(10);
+        if (++centiSec == 60) {
+            infoBoard.remainingTime--;
+            Controller::GoToXY(113, 21);
+            Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+            cout << '0' << infoBoard.remainingTime / 60 << ":" << string(infoBoard.remainingTime % 60 < 10, '0') << infoBoard.remainingTime % 60;
+            centiSec = 0;
         }
-        else if (key == KEY_DOWN || key == KEY_S)
-        {
-            gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
-            gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % gameBoard.size;
-            gameBoard.RenderCell(gameBoard.currentCell, WHITE);
-        }
-
-        else if (key == KEY_LEFT || key == KEY_A)
-        {
-            gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
-            gameBoard.currentCell.first = (gameBoard.currentCell.first + gameBoard.size - 1) % gameBoard.size;
-            gameBoard.RenderCell(gameBoard.currentCell, WHITE);
-        }
-        else if (key == KEY_RIGHT || key == KEY_D)
-        {
-            gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
-            gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
-            gameBoard.RenderCell(gameBoard.currentCell, WHITE);
-        }
-        else if (key == KEY_ESC)
-        {
-            Menu::ExitScreen();
-        }
-
-        else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
-        {
-            if (gameBoard.chosenCell1.first == -1)
+        // Xử lý sự kiện nhấn phím
+        if (kbhit()) {
+            int key = _getch();
+            if (key == KEY_UP || key == KEY_W)
             {
-                gameBoard.chosenCell1 = gameBoard.currentCell;
-                gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
+                gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
+                gameBoard.currentCell.second = (gameBoard.currentCell.second + gameBoard.size - 1) % gameBoard.size;
+                gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+            }
+            else if (key == KEY_DOWN || key == KEY_S)
+            {
+                gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
+                gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % gameBoard.size;
+                gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
 
-            else if (gameBoard.currentCell == gameBoard.chosenCell1)
+            else if (key == KEY_LEFT || key == KEY_A)
             {
-                gameBoard.RenderCell(gameBoard.chosenCell1, WHITE);
-                gameBoard.chosenCell1 = {-1, -1};
+                gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
+                gameBoard.currentCell.first = (gameBoard.currentCell.first + gameBoard.size - 1) % gameBoard.size;
+                gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+            }
+            else if (key == KEY_RIGHT || key == KEY_D)
+            {
+                gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
+                gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
+                gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+            }
+            else if (key == KEY_ESC)
+            {
+                Menu::ExitScreen();
             }
 
-            else
+            else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
             {
-                gameBoard.chosenCell2 = gameBoard.currentCell;
-                vector<pair<int, int>> check = CheckMatching(gameBoard.chosenCell1, gameBoard.chosenCell2);
-                if (check != vector<pair<int, int>>({}))
+                if (gameBoard.chosenCell1.first == -1)
                 {
-                    for (pair<int, int> i: check) {
-                        gameBoard.RenderCell(i, LIGHT_GREEN);
-                        Sleep(100);
-                    }
-                    Sleep(300);
-                    for (pair<int, int> i: check)
-                        gameBoard.RenderCell(i, BRIGHT_WHITE);
-                    Sleep(400);
-                    for (pair<int, int> i: check)
-                        gameBoard.RenderCell(i, LIGHT_GREEN);
-                    Sleep(400);
-                    gameBoard.RemoveCell(gameBoard.chosenCell1);
-                    gameBoard.RemoveCell(gameBoard.chosenCell2);
-                    for (pair<int, int> i: check)
-                        gameBoard.RenderCell(i, BRIGHT_WHITE);
-
-                    gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
-                 
-                    gameBoard.chosenCell1 = {-1, -1};
-                    gameBoard.chosenCell2 = {-1, -1};
-                    gameBoard.remainCells -= 2;
-                    infoBoard.score += 10;
-                    Controller::GoToXY(97, 23);
-                    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-                    cout << "Current score: " << infoBoard.score;
-                    if (gameBoard.remainCells == 0) {
-                        gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
-                        Sleep(3000);
-                        WinningScreen();
-                    }
-                    // phát âm thanh
+                    gameBoard.chosenCell1 = gameBoard.currentCell;
+                    gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
                 }
+
+                else if (gameBoard.currentCell == gameBoard.chosenCell1)
+                {
+                    gameBoard.RenderCell(gameBoard.chosenCell1, WHITE);
+                    gameBoard.chosenCell1 = {-1, -1};
+                }
+
                 else
                 {
-                    // phát âm thanh
-                    gameBoard.RenderCell(gameBoard.chosenCell1, LIGHT_RED);
-                    gameBoard.RenderCell(gameBoard.chosenCell2, LIGHT_RED);
-                    Sleep(500);
-                    gameBoard.RenderCell(gameBoard.chosenCell1, BRIGHT_WHITE);
-                    gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
-                    gameBoard.chosenCell1 = {-1, -1};
-                    gameBoard.chosenCell2 = {-1, -1};
-                    infoBoard.lives--;
-                    Controller::GoToXY(infoBoard.lives * 4 + 103, 27);
-                    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-                    cout << "  ";
+                    gameBoard.chosenCell2 = gameBoard.currentCell;
+                    vector<pair<int, int>> check = CheckMatching(gameBoard.chosenCell1, gameBoard.chosenCell2);
+                    if (check != vector<pair<int, int>>({}))
+                    {
+                        for (pair<int, int> i: check) {
+                            gameBoard.RenderCell(i, LIGHT_GREEN);
+                            Sleep(100);
+                        }
+                        Sleep(300);
+                        for (pair<int, int> i: check)
+                            gameBoard.RenderCell(i, BRIGHT_WHITE);
+                        Sleep(400);
+                        for (pair<int, int> i: check)
+                            gameBoard.RenderCell(i, LIGHT_GREEN);
+                        Sleep(400);
+                        gameBoard.RemoveCell(gameBoard.chosenCell1);
+                        gameBoard.RemoveCell(gameBoard.chosenCell2);
+                        for (pair<int, int> i: check)
+                            gameBoard.RenderCell(i, BRIGHT_WHITE);
+
+                        gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
+                    
+                        gameBoard.chosenCell1 = {-1, -1};
+                        gameBoard.chosenCell2 = {-1, -1};
+                        gameBoard.remainCells -= 2;
+                        infoBoard.score += infoBoard.remainingTime;
+                        Controller::GoToXY(97, 23);
+                        Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+                        cout << "Current score: " << infoBoard.score;
+                        if (gameBoard.remainCells == 0) {
+                            gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
+                            Sleep(3000);
+                            WinningScreen();
+                        }
+                        // phát âm thanh
+                    }
+                    else
+                    {
+                        // phát âm thanh
+                        gameBoard.RenderCell(gameBoard.chosenCell1, LIGHT_RED);
+                        gameBoard.RenderCell(gameBoard.chosenCell2, LIGHT_RED);
+                        Sleep(500);
+                        gameBoard.RenderCell(gameBoard.chosenCell1, BRIGHT_WHITE);
+                        gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
+                        gameBoard.chosenCell1 = {-1, -1};
+                        gameBoard.chosenCell2 = {-1, -1};
+                        infoBoard.lives--;
+                        Controller::GoToXY(infoBoard.lives * 4 + 103, 27);
+                        Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+                        cout << "  ";
+                    }
                 }
             }
         }
@@ -212,16 +232,17 @@ GameBoard::~GameBoard()
 
 void GameBoard::Render()
 {
-    // ReadImage();
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Controller::GoToXY(left, top);
+    // In cạnh trên của bảng
     putchar(201);
     for (int i = 1; i < size * 8; i++)
     {
         Sleep(5);
         putchar(205);
     }
+    // In cạnh phải của bảng
     putchar(187);
     for (int i = 1; i < size * 4; i++)
     {
@@ -229,6 +250,7 @@ void GameBoard::Render()
         Controller::GoToXY(size * 8 + left, i + top);
         putchar(186);
     }
+    // In cạnh dưới của bảng
     Controller::GoToXY(size * 8 + left, size * 4 + top);
     putchar(188);
     for (int i = 1; i < size * 8; i++)
@@ -237,6 +259,7 @@ void GameBoard::Render()
         Sleep(5);
         putchar(205);
     }
+    // In cạnh trái của bảng
     Controller::GoToXY(left, size * 4 + top);
     putchar(200);
     for (int i = 1; i < size * 4; i++)
@@ -245,6 +268,7 @@ void GameBoard::Render()
         Controller::GoToXY(left, size * 4 + top - i);
         putchar(186);
     }
+    // In các đường kẻ dọc
     for (int i = 1; i < size * 4; i++)
     {
         for (int j = 8; j < size * 8; j += 8)
@@ -257,6 +281,7 @@ void GameBoard::Render()
         }
         Sleep(10);
     }
+    // In các đường kẻ ngang
     for (int i = 1; i < size * 8; i++)
     {
         for (int j = 4; j < size * 4; j += 4)
@@ -267,18 +292,12 @@ void GameBoard::Render()
         }
         Sleep(5);
     }
-
+    // In ra các "Pokemon"
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
             RenderCell(pair<int, int>({i, j}), BRIGHT_WHITE);
-
-    Controller::GoToXY(left + 1, top + 1);
-    Controller::SetConsoleColor(WHITE, BLACK);
-    cout << "       ";
-    Controller::GoToXY(left + 1, top + 2);
-    cout << "   " << pokemonsBoard[currentCell.second][currentCell.first] << "   ";
-    Controller::GoToXY(left + 1, top + 3);
-    cout << "       ";
+    // In màu đậm cho currentCell
+    RenderCell(pair<int, int>({0, 0}), WHITE);
 }
 
 void GameBoard::RenderCell(pair<int, int> cell, int color)
@@ -336,7 +355,7 @@ void InfoBoard::Render()
     cout << "GAME INFORMATION";
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
     Controller::GoToXY(97, 21);
-    cout << "Moves:";
+    cout << "Remaining time: " << remainingTime / 60 << ":" << string(remainingTime % 60 < 10, '0') << remainingTime % 60;
     Controller::GoToXY(97, 23);
     cout << "Current score: " << score;
     Controller::GoToXY(97, 25);
@@ -463,7 +482,7 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         temp2 = {cell2.first, cell1.second - vDirec};
         while (temp1.second > -2 && temp1.second < gameBoard.size + 1) {
             if ((temp1.second == -1 || temp1.second == gameBoard.size
-                || gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')
+                || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0'))
                 && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2)) {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
@@ -477,7 +496,7 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         temp2 = {cell2.first, cell2.second + vDirec};
         while (temp1.second > -2 && temp1.second < gameBoard.size + 1) {
             if ((temp1.second == -1 || temp1.second == gameBoard.size
-                || gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')
+                || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0'))
                 && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2)) {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
@@ -496,7 +515,7 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         temp2 = {cell1.first - hDirec, cell2.second};
         while (temp1.first > -2 && temp1.first < gameBoard.size + 1) {
             if ((temp1.first == -1 || temp1.first == gameBoard.size
-                || gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')
+                || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0'))
                 && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2)) {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
@@ -510,7 +529,7 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         temp2 = {cell2.first + hDirec, cell2.second};
         while (temp1.first > -2 && temp1.first < gameBoard.size + 1) {
             if ((temp1.first == -1 || temp1.first == gameBoard.size
-                || gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')
+                || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0'))
                 && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2)) {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
@@ -532,47 +551,47 @@ void GameBoard::RemoveCell(pair<int, int> cell)
 
     if (cell.second > 0 && pokemonsBoard[cell.second - 1][cell.first] == '\0') {
         for (int i = 0; i < 7; i++) {
-            Controller::GoToXY(left + 2 + i + cell.first * 8, top + cell.second * 4);
+            Controller::GoToXY(left + 1 + i + cell.first * 8, top + cell.second * 4);
             cout << background[cell.second * 4][1 + cell.first * 8 + i];
         }
         t = true;
     }
     if (cell.second < size - 1 && pokemonsBoard[cell.second + 1][cell.first] == '\0') {
         for (int i = 0; i < 7; i++) {
-            Controller::GoToXY(left + 2 + i + cell.first * 8, top + cell.second * 4 + 4);
+            Controller::GoToXY(left + 1 + i + cell.first * 8, top + cell.second * 4 + 4);
             cout << background[4 + cell.second * 4][1 + cell.first * 8 + i];
         }
         b = true;
     }
     if (cell.first > 0 && pokemonsBoard[cell.second][cell.first - 1] == '\0') {
         for (int i = 0; i < 3; i++) {
-            Controller::GoToXY(left + 1 + cell.first * 8, top + 1 + i + cell.second * 4);
+            Controller::GoToXY(left + cell.first * 8, top + 1 + i + cell.second * 4);
             cout << background[1 + cell.second * 4 + i][cell.first * 8];
         }
         l = true;
     }
     if (cell.first < size - 1 && pokemonsBoard[cell.second][cell.first + 1] == '\0') {
         for (int i = 0; i < 3; i++) {
-            Controller::GoToXY(left + 9 + cell.first * 8, top + 1 + i + cell.second * 4);
+            Controller::GoToXY(left + 8 + cell.first * 8, top + 1 + i + cell.second * 4);
             cout << background[1 + cell.second * 4 + i][cell.first * 8 + 8];
         }
         r = true;
     }
 
     if (t && l && pokemonsBoard[cell.second - 1][cell.first - 1] == '\0') {
-        Controller::GoToXY(left + 1 + cell.first * 8, top + cell.second * 4);
+        Controller::GoToXY(left + cell.first * 8, top + cell.second * 4);
         cout << background[cell.second * 4][cell.first * 8];
     }
     if (t && r && pokemonsBoard[cell.second - 1][cell.first + 1] == '\0') {
-        Controller::GoToXY(left + 9 + cell.first * 8, top + cell.second * 4);
+        Controller::GoToXY(left + 8 + cell.first * 8, top + cell.second * 4);
         cout << background[cell.second * 4][cell.first * 8 + 8];
     }
     if (b && l && pokemonsBoard[cell.second + 1][cell.first - 1] == '\0') {
-        Controller::GoToXY(left + 1 + cell.first * 8, top + 4 + cell.second * 4);
+        Controller::GoToXY(left + cell.first * 8, top + 4 + cell.second * 4);
         cout << background[cell.second * 4 + 4][cell.first * 8];
     }
     if (b && r && pokemonsBoard[cell.second + 1][cell.first + 1] == '\0') {
-        Controller::GoToXY(left + 9 + cell.first * 8, top + 4 + cell.second * 4);
+        Controller::GoToXY(left + 8 + cell.first * 8, top + 4 + cell.second * 4);
         cout << background[cell.second * 4 + 4][cell.first * 8 + 8];
     }
 }

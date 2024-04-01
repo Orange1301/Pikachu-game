@@ -27,6 +27,8 @@ struct GameBoard
     pair<int, int> chosenCell1 = {-1, -1};
     pair<int, int> chosenCell2 = {-1, -1};
 
+    vector<pair<int, int>> unblockedCells;
+
     char **pokemonsBoard;
     char **background;
 
@@ -41,6 +43,7 @@ struct InfoBoard
     int score = 0;
     int lives = 3;
     int hints = 3;
+    int remainingTime = 600;
     void Render();
     void SaveData();
 };
