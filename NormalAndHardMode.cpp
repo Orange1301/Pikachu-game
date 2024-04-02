@@ -28,7 +28,7 @@ void NAHGame::SetupGame(int MODE)
     infoBoard.score = 0;
     infoBoard.lives = 3;
     infoBoard.hints = 3;
-    infoBoard.remainingTime = 600;
+    infoBoard.remainingTime = 10;
     gameBoard.currentCell = {0, 0};
     gameBoard.chosenCell1 = {-1, -1};
     gameBoard.chosenCell2 = {-1, -1};
@@ -225,7 +225,10 @@ void NAHGame::StartGame()
             }
         }
     }
-    LosingScreen("hello");
+    if (infoBoard.lives == 0)
+        LosingScreen("Out of life!");
+    else
+        LosingScreen("Out of time!");
     return;
 }
 
@@ -615,6 +618,89 @@ void NAHGame::LosingScreen(string reason)
     system("cls");
     system("color F0");
     Menu::PrintLogo();
+    Menu::PrintRectangle(56, 20, 42, 16);
+    for (int i = 0; i < 15; i++)
+    {
+        Controller::GoToXY(57, 21 + i);
+        cout << string(42, ' ');
+    }
+    Menu::PrintRectangle(58, 21, 38, 5);
+    Menu::PrintRectangle(58, 27, 38, 8);
+    Controller::SetConsoleColor(BRIGHT_WHITE, RED);
+    Controller::GoToXY(69, 22);
+    cout << "GAME ANNOUCEMENT";
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+    Controller::GoToXY(71, 23);
+    cout << reason;
+    Controller::GoToXY(65, 24);
+    cout << "You have lost the game.";
+    Controller::GoToXY(69, 25);
+    cout << "Your score: " << infoBoard.score;
+    Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+    Controller::GoToXY(61, 29);
+    cout << "Do you want to play another round?" << endl;
+    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+    Menu::PrintRectangle(63, 31, 8, 2);
+    Controller::GoToXY(64, 32);
+    cout << "  Yes   ";
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+    Menu::PrintRectangle(83, 31, 8, 2);
+    Controller::GoToXY(84, 32);
+    cout << "   No   ";
+
+    int yes = 1;
+    while (true) {
+        int key = getch();
+        switch (key)
+        {
+            case KEY_LEFT:
+            case KEY_RIGHT:
+            case KEY_UP:
+            case KEY_DOWN:
+            case KEY_W:
+            case KEY_S:
+            case KEY_A:
+            case KEY_D:
+                if (yes) {
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    Menu::PrintRectangle(63, 31, 8, 2);
+                    Controller::GoToXY(64, 32);
+                    cout << "  Yes   ";
+                    Controller::SetConsoleColor(LIGHT_RED, BLACK);
+                    Menu::PrintRectangle(83, 31, 8, 2);
+                    Controller::GoToXY(84, 32);
+                    cout << "   No   ";
+                }
+                else {
+                    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+                    Menu::PrintRectangle(63, 31, 8, 2);
+                    Controller::GoToXY(64, 32);
+                    cout << "  Yes   ";
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    Menu::PrintRectangle(83, 31, 8, 2);
+                    Controller::GoToXY(84, 32);
+                    cout << "   No   ";
+                }
+                yes = !yes;
+                break;
+            case KEY_ENTER:
+                if (yes)
+                {
+                    for (int i = 0; i < 15; i++)
+                    {
+                        Controller::GoToXY(57, 21 + i);
+                        cout << string(42, ' ');
+                    }
+                    return;
+                }
+                else
+                {
+                    FreeConsole();
+                    exit(0);
+                }
+                break;
+        }
+    }
 }
 void NAHGame::WinningScreen()
 {
@@ -641,7 +727,7 @@ void NAHGame::WinningScreen()
     cout << "Your score: " << infoBoard.score;
     Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
     Controller::GoToXY(61, 29);
-    cout << "Do you want to play another round?" << endl;
+    cout << "Do you want to play another round?";
     Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
     Menu::PrintRectangle(63, 31, 8, 2);
     Controller::GoToXY(64, 32);
