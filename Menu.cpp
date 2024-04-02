@@ -422,7 +422,6 @@ void Menu::PrintRectangle(int left, int top, int width, int height)
 
 void Menu::HighScores()
 {
-	currentOption = 0;
 	system("cls");
 	Player playerInfo[100];
 	Controller::SetConsoleColor(BRIGHT_WHITE, PURPLE);

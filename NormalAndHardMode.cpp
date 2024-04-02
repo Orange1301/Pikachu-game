@@ -165,7 +165,16 @@ void NAHGame::StartGame()
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
                 if (gameBoard.chosenCell1.first != -1)
                     gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
-                infoBoard.remainingTime -= 30;
+
+                if (infoBoard.hints > 0)
+                {
+                    infoBoard.hints--;
+                    Controller::GoToXY(infoBoard.lives * 4 + 103, 26);
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+                    cout << "   ";
+                }
+                else
+                    infoBoard.remainingTime -= 30;
             }
 
             else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
@@ -267,8 +276,8 @@ void NAHGame::StartGame()
                         gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
                         gameBoard.chosenCell1 = {-1, -1};
                         gameBoard.chosenCell2 = {-1, -1};
-                        infoBoard.lives--;
                         infoBoard.remainingTime -= 60;
+                        infoBoard.lives--;
                         Controller::GoToXY(infoBoard.lives * 4 + 103, 27);
                         Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
                         cout << "   ";
