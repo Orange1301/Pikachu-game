@@ -148,7 +148,7 @@ void NAHGame::StartGame()
             {
                 Menu::ExitScreen();
             }
-            else if (key == KEY_H) {
+            else if (key == KEY_H && infoBoard.remainingTime > 30) {
                 gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
                 gameBoard.RenderCell(gameBoard.hint.second, LIGHT_PURPLE);
                 Sleep(500);
@@ -157,6 +157,7 @@ void NAHGame::StartGame()
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
                 if (gameBoard.chosenCell1.first != -1)
                     gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
+                infoBoard.remainingTime -= 30;
             }
 
             else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])

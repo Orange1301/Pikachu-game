@@ -208,7 +208,7 @@ void Menu::PrintAnimation()
 
 void Menu::PrintLogo()
 {
-	system("cls");
+	// system("cls");
 	Controller::GoToXY(0, 0);
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
 	cout << R"(                                                                 
