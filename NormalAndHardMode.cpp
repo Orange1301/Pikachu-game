@@ -21,6 +21,7 @@ void NAHGame::SetupGame(int MODE)
     char tempName[11];
     Controller::GoToXY(82, 19);
     cin.getline(tempName, 10);
+    PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
     infoBoard.playerName = tempName;
     Controller::ShowCursor(false);
 
@@ -191,6 +192,7 @@ void NAHGame::StartGame()
                             gameBoard.RenderCell(i, LIGHT_GREEN);
                             Sleep(100);
                         }
+                        PlaySound(TEXT("Correct.wav"), NULL, SND_FILENAME | SND_ASYNC);
                         Sleep(300);
                         for (pair<int, int> i : check)
                             gameBoard.RenderCell(i, BRIGHT_WHITE);
@@ -220,7 +222,7 @@ void NAHGame::StartGame()
                             return;
                         }
 
-                        if (pair<pair<int, int>, pair<int, int>>({gameBoard.chosenCell1, gameBoard.chosenCell2}) == gameBoard.hint || pair<pair<int, int>, pair<int, int>>({gameBoard.chosenCell2, gameBoard.chosenCell1}) == gameBoard.hint)
+                        if (gameBoard.chosenCell1 == gameBoard.hint.first || gameBoard.chosenCell1 == gameBoard.hint.second || gameBoard.chosenCell2 == gameBoard.hint.first || gameBoard.chosenCell2 == gameBoard.hint.second)
                         {
                             gameBoard.hint = FindPair();
                             if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
@@ -243,7 +245,7 @@ void NAHGame::StartGame()
                                         {
                                             gameBoard.pokemonsBoard[i][j] = gameBoard.pokemonsList[k];
                                             gameBoard.RenderCell(pair<int, int>({j, i}), LIGHT_YELLOW);
-                                            Sleep(200);
+                                            Sleep(100);
                                             gameBoard.RenderCell(pair<int, int>({j, i}), BRIGHT_WHITE);
                                             k++;
                                         }
@@ -253,7 +255,6 @@ void NAHGame::StartGame()
 
                         gameBoard.chosenCell1 = {-1, -1};
                         gameBoard.chosenCell2 = {-1, -1};
-                        PlaySound(TEXT("Correct.wav"), NULL, SND_FILENAME | SND_ASYNC);
                     }
                     else
                     {
