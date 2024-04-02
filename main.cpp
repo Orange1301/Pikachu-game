@@ -19,6 +19,7 @@ int main()
 	keybd_event(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
 	Sleep(500);
 	system("color F0");
+	srand(time(0));
 	Controller::SetUpConsole();
 	Menu::MainScreen();
 	_getch();

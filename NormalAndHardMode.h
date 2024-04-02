@@ -28,6 +28,7 @@ struct GameBoard
     pair<int, int> chosenCell2;
     pair<pair<int, int>, pair<int, int>> hint;
 
+    vector<char> pokemonsList;
     char **pokemonsBoard;
     char **background;
 

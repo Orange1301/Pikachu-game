@@ -63,44 +63,38 @@ void NAHGame::SetupGame(int MODE)
     gameBoard.remainCells = gameBoard.size * gameBoard.size;
 
     // Sinh ngẫu nhiên các cặp "Pokemon" lên bảng
-    srand(time(0));
-    vector<char> pokemonsList;
     for (int i = gameBoard.remainCells / 2; i > 0; i--)
     {
         char pokemon = rand() % 26 + 'A';
-        pokemonsList.push_back(pokemon);
-        pokemonsList.push_back(pokemon);
+        gameBoard.pokemonsList.push_back(pokemon);
+        gameBoard.pokemonsList.push_back(pokemon);
     }
-    random_shuffle(pokemonsList.begin(), pokemonsList.end());
+    random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
 
     gameBoard.pokemonsBoard = new char *[gameBoard.size];
     for (int i = 0; i < gameBoard.size; i++)
     {
         gameBoard.pokemonsBoard[i] = new char[gameBoard.size];
         for (int j = 0; j < gameBoard.size; j++)
-            gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
+            gameBoard.pokemonsBoard[i][j] = gameBoard.pokemonsList[i * gameBoard.size + j];
     }
 
     // Các biến liên quan đến ván game
     infoBoard.score = 0;
     infoBoard.lives = 3;
     infoBoard.hints = 3;
-    infoBoard.remainingTime = 10;
+    infoBoard.remainingTime = 600;
     gameBoard.currentCell = {0, 0};
     gameBoard.chosenCell1 = {-1, -1};
     gameBoard.chosenCell2 = {-1, -1};
-    hint = FindPair();
-    while (hint == pair<pair<int, int>, pair<int, int>>({}))
+    gameBoard.hint = FindPair();
+    while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
     {
-        pokemonsList.clear();
-        for (int i = gameBoard.remainCells / 2; i > 0; i--)
-        {
-            char pokemon = rand() % 26 + 'A';
-            pokemonsList.push_back(pokemon);
-            pokemonsList.push_back(pokemon);
-        }
-        random_shuffle(pokemonsList.begin(), pokemonsList.end());
-        hint = FindPair();
+        random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
+        for (int i = 0; i < gameBoard.size; i++)
+            for (int j = 0; j < gameBoard.size; j++)
+                gameBoard.pokemonsBoard[i][j] = gameBoard.pokemonsList[i * gameBoard.size + j];
+        gameBoard.hint = FindPair();
     }
 }
 
@@ -155,8 +149,14 @@ void NAHGame::StartGame()
                 Menu::ExitScreen();
             }
             else if (key == KEY_H) {
-                gameBoard.RenderCell(gameBoard.hintCell1, PURPLE);
-                gameBoard.RenderCell(gameBoard.hintCell2, PURPLE);
+                gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
+                gameBoard.RenderCell(gameBoard.hint.second, LIGHT_PURPLE);
+                Sleep(500);
+                gameBoard.RenderCell(gameBoard.hint.first, BRIGHT_WHITE);
+                gameBoard.RenderCell(gameBoard.hint.second, BRIGHT_WHITE);
+                gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+                if (gameBoard.chosenCell1.first != -1)
+                    gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
             }
 
             else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
@@ -197,8 +197,6 @@ void NAHGame::StartGame()
 
                         gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
                     
-                        gameBoard.chosenCell1 = {-1, -1};
-                        gameBoard.chosenCell2 = {-1, -1};
                         gameBoard.remainCells -= 2;
                         infoBoard.score += infoBoard.remainingTime;
                         Controller::GoToXY(97, 23);
@@ -210,6 +208,40 @@ void NAHGame::StartGame()
                             WinningScreen();
                             return;
                         }
+                        
+                        if (pair<pair<int, int>, pair<int, int>>({gameBoard.chosenCell1, gameBoard.chosenCell2}) == gameBoard.hint
+                         || pair<pair<int, int>, pair<int, int>>({gameBoard.chosenCell2, gameBoard.chosenCell1}) == gameBoard.hint) {
+                            gameBoard.hint = FindPair();
+                            if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+                            {
+                                gameBoard.pokemonsList.clear();
+                                for (int i = gameBoard.remainCells / 2; i > 0; i--)
+                                {
+                                    char pokemon = rand() % 26 + 'A';
+                                    gameBoard.pokemonsList.push_back(pokemon);
+                                    gameBoard.pokemonsList.push_back(pokemon);
+                                }
+                            }
+                            while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+                            {
+                                random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
+                                int k = 0;
+                                for (int i = 0; i < gameBoard.size; i++)
+                                    for (int j = 0; j < gameBoard.size; j++)
+                                        if (gameBoard.pokemonsBoard[i][j] != '\0')
+                                        {
+                                            gameBoard.pokemonsBoard[i][j] = gameBoard.pokemonsList[k];
+                                            gameBoard.RenderCell(pair<int, int>({j, i}), LIGHT_YELLOW);
+                                            Sleep(200);
+                                            gameBoard.RenderCell(pair<int, int>({j, i}), BRIGHT_WHITE);
+                                            k++;
+                                        }
+                                gameBoard.hint = FindPair();
+                            }
+                        }
+
+                        gameBoard.chosenCell1 = {-1, -1};
+                        gameBoard.chosenCell2 = {-1, -1}; 
                         // phát âm thanh
                     }
                     else
@@ -566,7 +598,7 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
     }
     return vector<pair<int, int>>({});
 }
-void NAHGame::FindPair()
+pair<pair<int, int>, pair<int, int>> NAHGame::FindPair()
 {
     for (int i = 0; i < gameBoard.size * gameBoard.size - 1; i++)
         if (gameBoard.pokemonsBoard[i / gameBoard.size][i % gameBoard.size] != '\0')
@@ -575,8 +607,8 @@ void NAHGame::FindPair()
                 {
                     pair<int, int> hint1 = {i % gameBoard.size, i / gameBoard.size};
                     pair<int, int> hint2 = {j % gameBoard.size, j / gameBoard.size};
-                    if (CheckMatching(h1, h2)) != vector<pair<int, int>>({}))
-                        return pair<hint1, hint2>;
+                    if (CheckMatching(hint1, hint2) != vector<pair<int, int>>({}))
+                        return pair<pair<int, int>, pair<int, int>>({hint1, hint2});
                 }
     return pair<pair<int, int>, pair<int, int>>({});
 }
