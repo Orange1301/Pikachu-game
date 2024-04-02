@@ -1,11 +1,3 @@
-hn,normal,10
-ngua,hard,20
-qn,normal,8
-canh,hard,18
-ruby,hard,17
-abc,normal,9
-sdc,normal,5
-cvd,normal,10hnnn,NORMAL,4755
-hnnn,NORMAL,600
-abcdefghi,HARD,3334
-unknown,NORMAL,4385
+unknown,NORMAL,1171
+hn,NORMAL,4724
+ngoc,HARD,2342
