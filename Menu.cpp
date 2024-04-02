@@ -41,6 +41,9 @@ void Menu::MainScreen()
 				break;
 			case 2:
 				TutorialScreen();
+				system("cls");
+				PrintLogo();
+				PrintOptionsBoard(MainOptions);
 				break;
 			case 3:
 				ExitScreen();
@@ -408,70 +411,68 @@ void Menu::HighScores()
 	Player p[100];
 	Controller::SetConsoleColor(BRIGHT_WHITE, PURPLE);
 	cout << R"(
-				 _   _ ___ ____ _   _   ____   ____ ___  ____  _____ ____  
-				| | | |_ _/ ___| | | | / ___| / ___/ _ \|  _ \| ____/ ___| 
-				| |_| || | |  _| |_| | \___ \| |  | | | | |_) |  _| \___ \ 
-				|  _  || | |_| |  _  |  ___) | |__| |_| |  _ <| |___ ___) |
-				|_| |_|___\____|_| |_| |____/ \____\___/|_| \_\_____|____/ 
+						_   _ ___ ____ _   _   ____   ____ ___  ____  _____ ____  
+					   | | | |_ _/ ___| | | | / ___| / ___/ _ \|  _ \| ____/ ___| 
+					   | |_| || | |  _| |_| | \___ \| |  | | | | |_) |  _| \___ \ 
+					   |  _  || | |_| |  _  |  ___) | |__| |_| |  _ <| |___ ___) |
+					   |_| |_|___\____|_| |_| |____/ \____\___/|_| \_\_____|____/ 
 
 	)";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(30, 8, 56, 17);
+	PrintRectangle(47, 8, 56, 17);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(33, 9);
+	Controller::GoToXY(50, 9);
 	cout << "No.";
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	for (int i = 1; i < 17; i++)
-	{
-		Controller::GoToXY(38, 8 + i);
-		putchar(179);
-	}
-	for (int i = 31; i < 38; i++)
-	{
-		Controller::GoToXY(i, 10);
-		putchar(196);
-	}
-	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(43, 9);
-	cout << "Name";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
 		Controller::GoToXY(55, 8 + i);
 		putchar(179);
 	}
-	for (int i = 39; i < 55; i++)
+	for (int i = 48; i < 55; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(61, 9);
-	cout << "Mode";
+	Controller::GoToXY(60, 9);
+	cout << "Name";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
-		Controller::GoToXY(70, 8 + i);
+		Controller::GoToXY(72, 8 + i);
 		putchar(179);
 	}
-	for (int i = 56; i < 70; i++)
+	for (int i = 56; i < 72; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(77, 9);
-	cout << "Score";
+	Controller::GoToXY(78, 9);
+	cout << "Mode";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	for (int i = 1; i < 17; i++)
 	{
 		Controller::GoToXY(87, 8 + i);
 		putchar(179);
 	}
-	for (int i = 71; i < 87; i++)
+	for (int i = 73; i < 87; i++)
+	{
+		Controller::GoToXY(i, 10);
+		putchar(196);
+	}
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+	Controller::GoToXY(94, 9);
+	cout << "Score";
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	for (int i = 1; i < 17; i++)
+	{
+		Controller::GoToXY(104, 8 + i);
+		putchar(179);
+	}
+	for (int i = 88; i < 104; i++)
 	{
 		Controller::GoToXY(i, 10);
 		putchar(196);
@@ -495,28 +496,29 @@ void Menu::HighScores()
 				swap(p[i], p[j]);
 	for (int i = 1; i < lines; i++)
 	{
-		Controller::GoToXY(34, y);
+		Controller::GoToXY(51, y);
 		cout << i;
-		Controller::GoToXY(41, y);
-		cout << p[i - 1].playerName;
 		Controller::GoToXY(58, y);
-		cout << p[i - 1].mode;
+		cout << p[i - 1].playerName;
 		Controller::GoToXY(75, y);
+		cout << p[i - 1].mode;
+		Controller::GoToXY(92, y);
 		cout << p[i - 1].score;
 		y += 2;
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(55, 27, 8, 2);
+	PrintRectangle(72, 27, 8, 2);
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-	Controller::GoToXY(53, 28);
+	Controller::GoToXY(70, 28);
 	putchar(175);
-	Controller::GoToXY(58, 28);
+	Controller::GoToXY(75, 28);
 	cout << "Back";
-	Controller::GoToXY(66, 28);
+	Controller::GoToXY(83, 28);
 	putchar(174);
 
 	int key;
-	while (true) {
+	while (true)
+	{
 		key = getch();
 		if (key == KEY_ENTER || key == KEY_ESC)
 			return;
@@ -528,8 +530,8 @@ void Menu::TutorialScreen()
 	Controller::ShowCursor(0);
 	system("cls");
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	int left = 5, top = 2, width = 90, height = 28;
-	PrintRectangle(5, 2, 90, 28);
+	int left = 30, top = 2, width = 90, height = 28;
+	PrintRectangle(left, top, width, height);
 	Controller::GoToXY(left + 1, 6);
 	for (int i = 0; i < width; i++)
 	{
@@ -547,14 +549,14 @@ void Menu::TutorialScreen()
 	}
 	for (int i = 1; i < height; i++)
 	{
-		Controller::GoToXY(20, top + i);
+		Controller::GoToXY(45, top + i);
 		putchar(179);
 	}
-	Controller::GoToXY(20, 6);
+	Controller::GoToXY(45, 6);
 	putchar(197);
-	Controller::GoToXY(20, 22);
+	Controller::GoToXY(45, 22);
 	putchar(197);
-	Controller::GoToXY(20, 26);
+	Controller::GoToXY(45, 26);
 	putchar(197);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
@@ -619,14 +621,22 @@ void Menu::TutorialScreen()
 	cout << "Dev 2: Le Hong Ngoc - 23127236";
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(45, 32, 8, 2);
+	PrintRectangle(71, 32, 8, 2);
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-	Controller::GoToXY(43, 33);
+	Controller::GoToXY(69, 33);
 	putchar(175);
-	Controller::GoToXY(48, 33);
+	Controller::GoToXY(74, 33);
 	cout << "Back";
-	Controller::GoToXY(56, 33);
+	Controller::GoToXY(82, 33);
 	putchar(174);
+
+	int key;
+	while (true)
+	{
+		key = getch();
+		if (key == KEY_ENTER || key == KEY_ESC)
+			return;
+	}
 }
 
 void Menu::ExitScreen()
@@ -652,66 +662,69 @@ void Menu::ExitScreen()
 	Menu::PrintRectangle(63, 31, 8, 2);
 	Controller::GoToXY(64, 32);
 	cout << "  Yes   ";
-	Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+	Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
 	Menu::PrintRectangle(83, 31, 8, 2);
 	Controller::GoToXY(84, 32);
 	cout << "   No   ";
 
 	int yes = 0;
-    while (true) {
-        int key = getch();
-        switch (key)
-        {
-            case KEY_LEFT:
-            case KEY_RIGHT:
-            case KEY_UP:
-            case KEY_DOWN:
-            case KEY_W:
-            case KEY_S:
-            case KEY_A:
-            case KEY_D:
-                if (yes) {
-                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-                    Menu::PrintRectangle(63, 31, 8, 2);
-                    Controller::GoToXY(64, 32);
-                    cout << "  Yes   ";
-                    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
-                    Menu::PrintRectangle(83, 31, 8, 2);
-                    Controller::GoToXY(84, 32);
-                    cout << "   No   ";
-                }
-                else {
-                    Controller::SetConsoleColor(LIGHT_RED, BLACK);
-                    Menu::PrintRectangle(63, 31, 8, 2);
-                    Controller::GoToXY(64, 32);
-                    cout << "  Yes   ";
-                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-                    Menu::PrintRectangle(83, 31, 8, 2);
-                    Controller::GoToXY(84, 32);
-                    cout << "   No   ";
-                }
-                yes = !yes;
-                break;
-            case KEY_ENTER:
-                if (yes)
+	while (true)
+	{
+		int key = getch();
+		switch (key)
+		{
+		case KEY_LEFT:
+		case KEY_RIGHT:
+		case KEY_UP:
+		case KEY_DOWN:
+		case KEY_W:
+		case KEY_S:
+		case KEY_A:
+		case KEY_D:
+			if (yes)
+			{
+				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+				Menu::PrintRectangle(63, 31, 8, 2);
+				Controller::GoToXY(64, 32);
+				cout << "  Yes   ";
+				Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
+				Menu::PrintRectangle(83, 31, 8, 2);
+				Controller::GoToXY(84, 32);
+				cout << "   No   ";
+			}
+			else
+			{
+				Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_RED);
+				Menu::PrintRectangle(63, 31, 8, 2);
+				Controller::GoToXY(64, 32);
+				cout << "  Yes   ";
+				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+				Menu::PrintRectangle(83, 31, 8, 2);
+				Controller::GoToXY(84, 32);
+				cout << "   No   ";
+			}
+			yes = !yes;
+			break;
+		case KEY_ENTER:
+			if (yes)
+			{
+				GoodbyeScreen();
+				FreeConsole();
+				exit(0);
+			}
+			else
+			{
+				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+				for (int i = 0; i < 9; i++)
 				{
-					GoodbyeScreen();
-                    FreeConsole();
-                    exit(0);
-                }
-                else
-				{
-					Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-                    for (int i = 0; i < 9; i++)
-					{
-						Controller::GoToXY(59, 26 + i);
-						cout << string(38, ' ');
-					}
-                    return;
-                }
-                break;
-        }
-    }
+					Controller::GoToXY(59, 26 + i);
+					cout << string(38, ' ');
+				}
+				return;
+			}
+			break;
+		}
+	}
 }
 
 void Menu::GoodbyeScreen()
