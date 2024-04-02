@@ -17,41 +17,49 @@ void Menu::MainScreen()
 		int key = _getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 		{
+			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 3) % 4;
 			PrintOptionsBoard(MainOptions);
 		}
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
 		{
+			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 1) % 4;
 			PrintOptionsBoard(MainOptions);
 		}
 		else if (key == KEY_ENTER)
+		{
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			switch (currentOption)
 			{
-			case 0:
-				PlayMenu();
-				currentOption = 0;
-				PrintOptionsBoard(MainOptions);
-				break;
-			case 1:
-				HighScores();
-				system("cls");
-				PrintLogo();
-				PrintOptionsBoard(MainOptions);
-				break;
-			case 2:
-				TutorialScreen();
-				system("cls");
-				PrintLogo();
-				PrintOptionsBoard(MainOptions);
-				break;
-			case 3:
-				ExitScreen();
-				PrintOptionsBoard(MainOptions);
-				break;
+				case 0:
+					PlayMenu();
+					currentOption = 0;
+					PrintOptionsBoard(MainOptions);
+					break;
+				case 1:
+					HighScores();
+					system("cls");
+					PrintLogo();
+					PrintOptionsBoard(MainOptions);
+					break;
+				case 2:
+					TutorialScreen();
+					system("cls");
+					PrintLogo();
+					PrintOptionsBoard(MainOptions);
+					break;
+				case 3:
+					ExitScreen();
+					PrintOptionsBoard(MainOptions);
+					break;
 			}
+		}
 		else if (key == KEY_ESC)
+		{
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			ExitScreen();
+		}
 	}
 }
 
@@ -345,38 +353,46 @@ void Menu::PlayMenu()
 		int key = _getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 		{
+			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 3) % 4;
 			PrintOptionsBoard(PlayOptions);
 		}
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
 		{
+			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 1) % 4;
 			PrintOptionsBoard(PlayOptions);
 		}
 		else if (key == KEY_ENTER)
+		{
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			switch (currentOption)
-			{
-			case 0:
-				NormalMode();
-				cout << "Hello";
-				PrintLogo();
-				PrintOptionsBoard(PlayOptions);
-				break;
-			case 1:
-				HardMode();
-				PrintLogo();
-				PrintOptionsBoard(PlayOptions);
-				break;
-			case 2:
-				DropMode();
-				PrintLogo();
-				PrintOptionsBoard(PlayOptions);
-				break;
-			case 3:
-				return;
-			}
+				{
+				case 0:
+					NormalMode();
+					cout << "Hello";
+					PrintLogo();
+					PrintOptionsBoard(PlayOptions);
+					break;
+				case 1:
+					HardMode();
+					PrintLogo();
+					PrintOptionsBoard(PlayOptions);
+					break;
+				case 2:
+					DropMode();
+					PrintLogo();
+					PrintOptionsBoard(PlayOptions);
+					break;
+				case 3:
+					return;
+				}
+		}
 		else if (key == KEY_ESC)
+		{
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			return;
+		}
 	}
 }
 
@@ -521,7 +537,10 @@ void Menu::HighScores()
 	{
 		key = getch();
 		if (key == KEY_ENTER || key == KEY_ESC)
+		{
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			return;
+		}
 	}
 }
 
@@ -615,10 +634,12 @@ void Menu::TutorialScreen()
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
 	Controller::GoToXY(left + 3, top + 26);
 	cout << "Developers:";
+	SetConsoleOutputCP(65001);
 	Controller::GoToXY(left + 31, top + 25);
-	cout << "Dev 1: Nguyen Ngoc Canh - 23127161";
+	cout << "Dev 1: Nguyễn Ngọc Cảnh - 23127161";
 	Controller::GoToXY(left + 31, top + 27);
-	cout << "Dev 2: Le Hong Ngoc - 23127236";
+	cout << "Dev 2: Lê Hồng Ngọc - 23127236";
+	SetConsoleOutputCP(437);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	PrintRectangle(71, 32, 8, 2);
@@ -635,7 +656,10 @@ void Menu::TutorialScreen()
 	{
 		key = getch();
 		if (key == KEY_ENTER || key == KEY_ESC)
+		{
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			return;
+		}
 	}
 }
 
@@ -681,6 +705,7 @@ void Menu::ExitScreen()
 		case KEY_S:
 		case KEY_A:
 		case KEY_D:
+			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			if (yes)
 			{
 				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -706,6 +731,7 @@ void Menu::ExitScreen()
 			yes = !yes;
 			break;
 		case KEY_ENTER:
+			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			if (yes)
 			{
 				GoodbyeScreen();
