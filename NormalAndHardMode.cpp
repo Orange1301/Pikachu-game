@@ -152,6 +152,7 @@ void NAHGame::StartGame()
             }
             else if (key == KEY_ESC)
             {
+                infoBoard.SaveData();
                 ExitGame();
             }
             else if (key == KEY_H && infoBoard.remainingTime > 30)

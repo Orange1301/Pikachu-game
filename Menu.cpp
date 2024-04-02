@@ -32,27 +32,27 @@ void Menu::MainScreen()
 			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			switch (currentOption)
 			{
-				case 0:
-					PlayMenu();
-					currentOption = 0;
-					PrintOptionsBoard(MainOptions);
-					break;
-				case 1:
-					HighScores();
-					system("cls");
-					PrintLogo();
-					PrintOptionsBoard(MainOptions);
-					break;
-				case 2:
-					TutorialScreen();
-					system("cls");
-					PrintLogo();
-					PrintOptionsBoard(MainOptions);
-					break;
-				case 3:
-					ExitScreen();
-					PrintOptionsBoard(MainOptions);
-					break;
+			case 0:
+				PlayMenu();
+				currentOption = 0;
+				PrintOptionsBoard(MainOptions);
+				break;
+			case 1:
+				HighScores();
+				system("cls");
+				PrintLogo();
+				PrintOptionsBoard(MainOptions);
+				break;
+			case 2:
+				TutorialScreen();
+				system("cls");
+				PrintLogo();
+				PrintOptionsBoard(MainOptions);
+				break;
+			case 3:
+				ExitScreen();
+				PrintOptionsBoard(MainOptions);
+				break;
 			}
 		}
 		else if (key == KEY_ESC)
@@ -367,26 +367,26 @@ void Menu::PlayMenu()
 		{
 			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			switch (currentOption)
-				{
-				case 0:
-					NormalMode();
-					cout << "Hello";
-					PrintLogo();
-					PrintOptionsBoard(PlayOptions);
-					break;
-				case 1:
-					HardMode();
-					PrintLogo();
-					PrintOptionsBoard(PlayOptions);
-					break;
-				case 2:
-					DropMode();
-					PrintLogo();
-					PrintOptionsBoard(PlayOptions);
-					break;
-				case 3:
-					return;
-				}
+			{
+			case 0:
+				NormalMode();
+				cout << "Hello";
+				PrintLogo();
+				PrintOptionsBoard(PlayOptions);
+				break;
+			case 1:
+				HardMode();
+				PrintLogo();
+				PrintOptionsBoard(PlayOptions);
+				break;
+			case 2:
+				DropMode();
+				PrintLogo();
+				PrintOptionsBoard(PlayOptions);
+				break;
+			case 3:
+				return;
+			}
 		}
 		else if (key == KEY_ESC)
 		{
@@ -424,7 +424,7 @@ void Menu::HighScores()
 {
 	currentOption = 0;
 	system("cls");
-	Player p[100];
+	Player playerInfo[100];
 	Controller::SetConsoleColor(BRIGHT_WHITE, PURPLE);
 	cout << R"(
 					        _   _ ___ ____ _   _   ____   ____ ___  ____  _____ ____  
@@ -494,33 +494,60 @@ void Menu::HighScores()
 		putchar(196);
 	}
 	int y = 11;
-	int lines = 8;
 	int n = 0;
 	ifstream fin("HighScores.txt");
-	while (!fin.eof())
+	while (getline(fin, playerInfo[n].playerName, ',') && getline(fin, playerInfo[n].mode, ','))
 	{
-		fin.getline(p[n].playerName, 10, ',');
-		fin.getline(p[n].mode, 7, ',');
-		fin >> p[n].score;
+		fin >> playerInfo[n].score;
 		fin.ignore();
 		n++;
 	}
 	fin.close();
 	for (int i = 0; i < n; i++)
 		for (int j = i + 1; j < n; j++)
-			if (p[j].score > p[i].score)
-				swap(p[i], p[j]);
-	for (int i = 1; i < lines; i++)
+			if (playerInfo[j].score > playerInfo[i].score)
+				swap(playerInfo[i], playerInfo[j]);
+	if (n < 7)
 	{
-		Controller::GoToXY(51, y);
-		cout << i;
-		Controller::GoToXY(58, y);
-		cout << p[i - 1].playerName;
-		Controller::GoToXY(75, y);
-		cout << p[i - 1].mode;
-		Controller::GoToXY(92, y);
-		cout << p[i - 1].score;
-		y += 2;
+		for (int i = 1; i <= n; i++)
+		{
+			Controller::GoToXY(51, y);
+			cout << i;
+			Controller::GoToXY(58, y);
+			cout << playerInfo[i - 1].playerName;
+			Controller::GoToXY(75, y);
+			cout << playerInfo[i - 1].mode;
+			Controller::GoToXY(92, y);
+			cout << playerInfo[i - 1].score;
+			y += 2;
+		}
+		for (int i = n + 1; i < 8; i++)
+		{
+			Controller::GoToXY(51, y);
+			cout << i;
+			Controller::GoToXY(58, y);
+			cout << "---";
+			Controller::GoToXY(75, y);
+			cout << "---";
+			Controller::GoToXY(92, y);
+			cout << "---";
+			y += 2;
+		}
+	}
+	else
+	{
+		for (int i = 1; i < 8; i++)
+		{
+			Controller::GoToXY(51, y);
+			cout << i;
+			Controller::GoToXY(58, y);
+			cout << playerInfo[i - 1].playerName;
+			Controller::GoToXY(75, y);
+			cout << playerInfo[i - 1].mode;
+			Controller::GoToXY(92, y);
+			cout << playerInfo[i - 1].score;
+			y += 2;
+		}
 	}
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	PrintRectangle(72, 27, 8, 2);
