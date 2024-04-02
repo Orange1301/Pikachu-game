@@ -38,7 +38,7 @@ struct Menu
 };
 struct Player		// dùng để đọc thông tin người chơi từ file HighScores.txt
 {
-	string playerName;
-	string mode;
+	char playerName[10];
+	char mode[7];
 	int score;
 };
