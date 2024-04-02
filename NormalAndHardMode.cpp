@@ -151,9 +151,10 @@ void NAHGame::StartGame()
             }
             else if (key == KEY_ESC)
             {
-                Menu::ExitScreen();
+                ExitGame();
             }
-            else if (key == KEY_H && infoBoard.remainingTime > 30) {
+            else if (key == KEY_H && infoBoard.remainingTime > 30)
+            {
                 gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
                 gameBoard.RenderCell(gameBoard.hint.second, LIGHT_PURPLE);
                 Sleep(500);
@@ -436,15 +437,100 @@ void InfoBoard::Render()
     SetConsoleOutputCP(437);
 
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-    Menu::PrintRectangle(91, 30, 14, 2);
-    Menu::PrintRectangle(110, 30, 14, 2);
+    Menu::PrintRectangle(91, 30, 33, 2);
+    Menu::PrintRectangle(91, 33, 33, 2);
 
     Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-    Controller::GoToXY(95, 31);
+    Controller::GoToXY(104, 31);
     cout << "H : Hint";
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
-    Controller::GoToXY(113, 31);
-    cout << "Esc : Exit";
+    Controller::GoToXY(103, 34);
+    cout << "Esc: Exit";
+}
+
+void NAHGame::ExitGame()
+{
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+    for (int i = 0; i < 3; i++)
+    {
+        Controller::GoToXY(91, 33 + i);
+        cout << string(35, ' ');
+    }
+    Menu::PrintRectangle(91, 33, 33, 2);
+    Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+    Controller::GoToXY(98, 34);
+    cout << "Do you want to exit?";
+    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+    Menu::PrintRectangle(93, 36, 8, 2);
+    Controller::GoToXY(96, 37);
+    cout << "Yes";
+    Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
+    Menu::PrintRectangle(114, 36, 8, 2);
+    Controller::GoToXY(118, 37);
+    cout << "No";
+
+    int yes = 0;
+    while (true)
+    {
+        int key = getch();
+        switch (key)
+        {
+        case KEY_LEFT:
+        case KEY_RIGHT:
+        case KEY_UP:
+        case KEY_DOWN:
+        case KEY_W:
+        case KEY_S:
+        case KEY_A:
+        case KEY_D:
+            if (yes)
+            {
+                Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                Menu::PrintRectangle(93, 36, 8, 2);
+                Controller::GoToXY(96, 37);
+                cout << "Yes";
+                Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
+                Menu::PrintRectangle(114, 36, 8, 2);
+                Controller::GoToXY(118, 37);
+                cout << "No";
+            }
+            else
+            {
+                Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_RED);
+                Menu::PrintRectangle(93, 36, 8, 2);
+                Controller::GoToXY(96, 37);
+                cout << "Yes";
+                Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                Menu::PrintRectangle(114, 36, 8, 2);
+                Controller::GoToXY(118, 37);
+                cout << "No";
+            }
+            yes = !yes;
+            break;
+        case KEY_ENTER:
+            if (yes)
+            {
+                Menu::GoodbyeScreen();
+                FreeConsole();
+                exit(0);
+            }
+            else
+            {
+                Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                for (int i = 0; i < 7; i++)
+                {
+                    Controller::GoToXY(91, 33 + i);
+                    cout << string(35, ' ');
+                }
+                Menu::PrintRectangle(91, 33, 33, 2);
+                Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+                Controller::GoToXY(103, 34);
+                cout << "Esc: Exit";
+                return;
+            }
+            break;
+        }
+    }
 }
 
 // 3 hàm dùng để kiểm tra hai ô được chọn có phải là một cặp nối được hay không, nếu có thì trả về đường nối đó
