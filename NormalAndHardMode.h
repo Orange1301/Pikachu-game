@@ -63,4 +63,5 @@ struct NAHGame // NAH = Normal And Hard
 
     static void LosingScreen(string);
     static void WinningScreen();
+    static void ExitGame();
 };

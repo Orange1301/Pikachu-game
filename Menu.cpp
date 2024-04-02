@@ -80,7 +80,7 @@ void Menu::PrintAnimation()
                                 :   : :
                                 |   | :
                                 `---'.|
-                                          `---`
+                                  `---`
 
                                              PRESS ANY KEY FROM KEYBOARD TO CONTINUE   
 		)",
@@ -549,14 +549,9 @@ void Menu::TutorialScreen()
 	Controller::ShowCursor(0);
 	system("cls");
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	int left = 30, top = 2, width = 90, height = 28;
+	int left = 27, top = 2, width = 96, height = 32;
 	PrintRectangle(left, top, width, height);
 	Controller::GoToXY(left + 1, 6);
-	for (int i = 0; i < width; i++)
-	{
-		putchar(196);
-	}
-	Controller::GoToXY(left + 1, 22);
 	for (int i = 0; i < width; i++)
 	{
 		putchar(196);
@@ -566,16 +561,21 @@ void Menu::TutorialScreen()
 	{
 		putchar(196);
 	}
+	Controller::GoToXY(left + 1, 30);
+	for (int i = 0; i < width; i++)
+	{
+		putchar(196);
+	}
 	for (int i = 1; i < height; i++)
 	{
-		Controller::GoToXY(45, top + i);
+		Controller::GoToXY(42, top + i);
 		putchar(179);
 	}
-	Controller::GoToXY(45, 6);
+	Controller::GoToXY(42, 6);
 	putchar(197);
-	Controller::GoToXY(45, 22);
+	Controller::GoToXY(42, 26);
 	putchar(197);
-	Controller::GoToXY(45, 26);
+	Controller::GoToXY(42, 30);
 	putchar(197);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
@@ -584,17 +584,17 @@ void Menu::TutorialScreen()
 	Controller::GoToXY(left + 20, top + 1);
 	putchar(249);
 	cout << "Up:    W, up arrow";
-	Controller::GoToXY(left + 52, top + 1);
+	Controller::GoToXY(left + 58, top + 1);
 	putchar(249);
 	cout << "Down:  S, down arrow";
 	Controller::GoToXY(left + 20, top + 3);
 	putchar(249);
 	cout << "Left:  A, left arrow";
-	Controller::GoToXY(left + 52, top + 3);
+	Controller::GoToXY(left + 58, top + 3);
 	putchar(249);
 	cout << "Right: D, right arrow";
 
-	Controller::GoToXY(left + 3, top + 12);
+	Controller::GoToXY(left + 3, top + 13);
 	cout << "Rules:";
 	Controller::GoToXY(left + 17, top + 5);
 	putchar(249);
@@ -618,21 +618,29 @@ void Menu::TutorialScreen()
 	cout << "completed when the 10-minute time limit is reached, the player loses.";
 	Controller::GoToXY(left + 17, top + 17);
 	putchar(249);
-	cout << "Each player has 3 hints and 3 lives. Every time a wrong pair is selected";
-	Controller::GoToXY(left + 17, top + 18);
-	cout << "the player loses 1 life until all 3 lives are lost, resulting in a loss.";
+	cout << "Each player has 3 hints and 3 lives.";
+	Controller::GoToXY(left + 17, top + 19);
+	putchar(249);
+	cout << "When using up all 3 hints provided, each subsequent hint";
+	Controller::GoToXY(left + 17, top + 20);
+	cout << "will deduct 30 seconds from the playing time.";
+	Controller::GoToXY(left + 17, top + 22);
+	putchar(249);
+	cout << "Each time they select the wrong pair will lose 1 life and 60 seconds will";
+	Controller::GoToXY(left + 17, top + 23);
+	cout << "be deducted from the playing time. When all 3 lives are lost the game will end.";
 
-	Controller::GoToXY(left + 3, top + 22);
+	Controller::GoToXY(left + 3, top + 26);
 	cout << "Scoring:";
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-	Controller::GoToXY(left + 24, top + 21);
+	Controller::GoToXY(left + 28, top + 25);
 	cout << "The score rises by the amount of game seconds left";
 	// Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-	Controller::GoToXY(left + 35, top + 23);
+	Controller::GoToXY(left + 35, top + 27);
 	cout << "after each correct pair is chosen.";
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-	Controller::GoToXY(left + 3, top + 26);
+	Controller::GoToXY(left + 3, top + 30);
 	cout << "Developers:";
 	SetConsoleOutputCP(65001);
 	Controller::GoToXY(left + 31, top + 25);
@@ -642,13 +650,13 @@ void Menu::TutorialScreen()
 	SetConsoleOutputCP(437);
 
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	PrintRectangle(71, 32, 8, 2);
+	PrintRectangle(71, 37, 8, 2);
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
-	Controller::GoToXY(69, 33);
+	Controller::GoToXY(69, 38);
 	putchar(175);
-	Controller::GoToXY(74, 33);
+	Controller::GoToXY(74, 38);
 	cout << "Back";
-	Controller::GoToXY(82, 33);
+	Controller::GoToXY(82, 38);
 	putchar(174);
 
 	int key;
