@@ -44,6 +44,7 @@ void Menu::MainScreen()
 				break;
 			case 3:
 				ExitScreen();
+				PrintOptionsBoard(MainOptions);
 				break;
 			}
 		else if (key == KEY_ESC)
@@ -630,25 +631,137 @@ void Menu::TutorialScreen()
 
 void Menu::ExitScreen()
 {
-	system("cls");
-	PrintLogo();
+	// Xóa option board
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	Menu::PrintRectangle(59, 26, 35, 8);
+	for (int i = 0; i < 9; i++)
+	{
+		Controller::GoToXY(70, 25 + i);
+		cout << string(15, ' ');
+	}
+	// Vẽ bảng exit
+	Menu::PrintRectangle(59, 26, 36, 8);
 	for (int i = 0; i < 7; i++)
 	{
 		Controller::GoToXY(60, 27 + i);
-		cout << string(35, ' ');
+		cout << string(36, ' ');
 	}
-	Menu::PrintRectangle(62, 31, 7, 2);
-	Menu::PrintRectangle(85, 31, 6, 2);
 	Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
-	Controller::GoToXY(67, 29);
+	Controller::GoToXY(68, 29);
 	cout << "Do you want to exit?";
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
-	Controller::GoToXY(65, 32);
-	cout << "Yes";
-	Controller::GoToXY(88, 32);
-	cout << "No";
+	Menu::PrintRectangle(63, 31, 8, 2);
+	Controller::GoToXY(64, 32);
+	cout << "  Yes   ";
+	Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+	Menu::PrintRectangle(83, 31, 8, 2);
+	Controller::GoToXY(84, 32);
+	cout << "   No   ";
+
+	int yes = 0;
+    while (true) {
+        int key = getch();
+        switch (key)
+        {
+            case KEY_LEFT:
+            case KEY_RIGHT:
+            case KEY_UP:
+            case KEY_DOWN:
+            case KEY_W:
+            case KEY_S:
+            case KEY_A:
+            case KEY_D:
+                if (yes) {
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    Menu::PrintRectangle(63, 31, 8, 2);
+                    Controller::GoToXY(64, 32);
+                    cout << "  Yes   ";
+                    Controller::SetConsoleColor(LIGHT_GREEN, BLACK);
+                    Menu::PrintRectangle(83, 31, 8, 2);
+                    Controller::GoToXY(84, 32);
+                    cout << "   No   ";
+                }
+                else {
+                    Controller::SetConsoleColor(LIGHT_RED, BLACK);
+                    Menu::PrintRectangle(63, 31, 8, 2);
+                    Controller::GoToXY(64, 32);
+                    cout << "  Yes   ";
+                    Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    Menu::PrintRectangle(83, 31, 8, 2);
+                    Controller::GoToXY(84, 32);
+                    cout << "   No   ";
+                }
+                yes = !yes;
+                break;
+            case KEY_ENTER:
+                if (yes)
+				{
+					GoodbyeScreen();
+                    FreeConsole();
+                    exit(0);
+                }
+                else
+				{
+					Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                    for (int i = 0; i < 9; i++)
+					{
+						Controller::GoToXY(59, 26 + i);
+						cout << string(38, ' ');
+					}
+                    return;
+                }
+                break;
+        }
+    }
+}
+
+void Menu::GoodbyeScreen()
+{
+	system("color F0");
+	system("cls");
+	Controller::GoToXY(0, 5);
+	SetConsoleOutputCP(65001);
+	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	cout << R"(
+      ____                 _ _                                                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+     / ___| ___   ___   __| | |__  _   _  ___                                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    | |  _ / _ \ / _ \ / _` | '_ \| | | |/ _ \                                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⡿⠿⠿⢿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    | |_| | (_) | (_) | (_| | |_) | |_| |  __/                                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠋⠁⠀⠀⠀⠀⡸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+     \____|\___/ \___/ \__,_|_.__/ \__, |\___|                                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡔⠁⠀⠀⠀⠀⠀⠀⡰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                   |___/                                              ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠞⠀⠀⠀⠀⠀⠀⠀⡴⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠎⠀⠀⠀⠀⠀⠀⡠⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⠀⠀⠀⠀⠀⡠⢪⠎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠁⠀⠀⠀⡠⢊⠔⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠔⠂⠀⠉⠀⠀⠀⠈⠉⠀⠒⠠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+     ____                                  _       _                                  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠒⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    / ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __                       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    \___ \ / _ \/ _ \ | | | |/ _ \| | | | | |/ _` | __/ _ \ '__|                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⢀⣤⡤⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⠤⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+     ___) |  __/  __/ | |_| | (_) | |_| | | | (_| | ||  __/ |                         ⠀⠀⢠⠠⠶⠖⠦⢄⠀⠀⠀⢀⠏⠀⠀⣿⣿⣧⣤⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠉⠢⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    |____/ \___|\___|  \__, |\___/ \__,_| |_|\__,_|\__\___|_|                         ⠀⢸⠉⠀⠀⠀⠀⠀⠱⣄⣠⠮⠠⢤⠀⠘⠻⠿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠑⢦⡀⠀⠀⠀⠀⠀⠀
+                       |___/                                                          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⠀⠀⠀⢱⠀⠀⠀⠀⡀⠀⠀⠀⠘⠂⠀⠀⠀⠀⢰⣏⠉⣿⡄⠀⠀⣌⢣⠀⠀⠀⠀⠀⠙⢦⡀⠀⠀⠀⠀
+                                                                                      ⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⢣⠀⠀⢸⠀⠀⠀⠀⣱⣦⣤⣤⣆⠀⠀⠀⠀⠀⠸⣿⣿⣿⠇⠀⠰⠉⢧⣣⠀⠀⠀⠀⠀⠀⠱⡄⠀⠀⠀
+                                                                                      ⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠴⠃⠀⠀⠀⠀⣟⠛⠛⠻⢿⣿⣶⠒⠁⠀⠀⠈⠉⠁⠀⠀⡇⠀⠀⠙⢇⠀⠀⠀⠀⠀⠀⠈⢆⠀⠀
+                                                                                      ⠀⠀⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠀⠀⠀⠀⠀⡏⠉⠁⠒⢄⣹⠃⠀⠀⠀⡴⠊⠉⠉⠑⣤⠀⠀⠀⠀⠀⠑⢦⣤⣀⣀⣀⣀⣈⣆⠀
+                                                                                      ⠀⠀⢸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡆⠀⠀⠀⠀⡇⠀⠀⠀⡴⠁⠀⠀⠀⢸⡄⠀⠀⠠⠀⢸⠉⠉⠉⠉⠉⠉⠉⠙⠻⣿⣿⣿⣿⣿⡆
+                                                                                      ⠀⠀⠀⢇⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠘⠦⠤⠊⠀⠀⠀⠀⠀⠘⣅⠀⠀⠀⣴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⡿⢷
+                                                                                      ⠀⠀⠀⠘⣎⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣈⠭⠔⠋⠒⢯⡦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠌⠀⠀
+                                                                                      ⠀⠀⠀⠀⠘⡄⠣⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢂⠉⠒⠂⠠⢄⠤⠀⠐⠂⠉⠉⠀⠀⠀⠀⠀⠀⠈⠛⢷⣄⠀⠀⠀⠀⠀⠀⢀⠎⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠘⣄⠑⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⠒⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⡦⡀⠀⠀⢠⠃⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠀⣏⣀⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢎⢑⣤⠃⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⢠⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢏⠁⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⡌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠈⠂⠄⡀⠀⠀⠀⠀⠀⠀⢀⡏⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⢠⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠒⠂⠤⢬⠥⠶⠦⠤⠤⠠⠊⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⡘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣆⡠⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠸⣕⠂⠤⠤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⢀⡠⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⢈⡢⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠉⢀⠜⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⢀⣴⡚⠍⠐⠄⠀⠀⠀⢉⣁⠖⠀⠀⠀⠀⠀⠒⠒⠒⠢⠤⠤⣤⠤⠀⠀⠀⠰⠶⢅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⢿⣝⣂⠡⠤⠜⠒⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⠤⣀⠀⠀⢀⠔⠛⣢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                                                                                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠐⠃⣤⣈⣺⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+	)";
+	Sleep(3000);
 }
 
 void Menu::NormalMode()

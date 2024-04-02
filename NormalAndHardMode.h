@@ -26,8 +26,7 @@ struct GameBoard
     pair<int, int> currentCell;
     pair<int, int> chosenCell1;
     pair<int, int> chosenCell2;
-
-    vector<pair<int, int>> unblockedCells;
+    pair<pair<int, int>, pair<int, int>> hint;
 
     char **pokemonsBoard;
     char **background;
@@ -59,6 +58,7 @@ struct NAHGame // NAH = Normal And Hard
     static bool ExistsLine(pair<int, int>, pair<int, int>);
     static vector<pair<int, int>> Path(vector<pair<int, int>>);
     static vector<pair<int, int>> CheckMatching(pair<int, int>, pair<int, int>);
+    static pair<pair<int, int>, pair<int, int>> FindPair();
 
     static void LosingScreen(string);
     static void WinningScreen();

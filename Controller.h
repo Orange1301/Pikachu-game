@@ -34,6 +34,7 @@
 #define KEY_D 100
 #define KEY_ENTER 13
 #define KEY_ESC 27
+#define KEY_H 104
 
 // SOUNDTRACK
 #define MOVE_SOUND 0

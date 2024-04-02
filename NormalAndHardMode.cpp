@@ -24,15 +24,6 @@ void NAHGame::SetupGame(int MODE)
     infoBoard.playerName = tempName;
     Controller::ShowCursor(false);
 
-    // Các biến liên quan đến ván game
-    infoBoard.score = 0;
-    infoBoard.lives = 3;
-    infoBoard.hints = 3;
-    infoBoard.remainingTime = 10;
-    gameBoard.currentCell = {0, 0};
-    gameBoard.chosenCell1 = {-1, -1};
-    gameBoard.chosenCell2 = {-1, -1};
-
     // Cài đặt kích thước, vị trí của bảng và đọc file background tùy theo MODE
     ifstream f;
     char temp;
@@ -90,14 +81,26 @@ void NAHGame::SetupGame(int MODE)
             gameBoard.pokemonsBoard[i][j] = pokemonsList[i * gameBoard.size + j];
     }
 
-    // Tạo vector chứa các ô thông thoáng (không bị chặn 4 phía)
-    for (int i = 0; i < gameBoard.size; i++) {
-        gameBoard.unblockedCells.push_back(pair<int, int>({i, 0}));
-        gameBoard.unblockedCells.push_back(pair<int, int>({i, gameBoard.size - 1}));
-    }
-    for (int i = 1; i < gameBoard.size - 1; i++) {
-        gameBoard.unblockedCells.push_back(pair<int, int>({0, i}));
-        gameBoard.unblockedCells.push_back(pair<int, int>({gameBoard.size - 1, i}));
+    // Các biến liên quan đến ván game
+    infoBoard.score = 0;
+    infoBoard.lives = 3;
+    infoBoard.hints = 3;
+    infoBoard.remainingTime = 10;
+    gameBoard.currentCell = {0, 0};
+    gameBoard.chosenCell1 = {-1, -1};
+    gameBoard.chosenCell2 = {-1, -1};
+    hint = FindPair();
+    while (hint == pair<pair<int, int>, pair<int, int>>({}))
+    {
+        pokemonsList.clear();
+        for (int i = gameBoard.remainCells / 2; i > 0; i--)
+        {
+            char pokemon = rand() % 26 + 'A';
+            pokemonsList.push_back(pokemon);
+            pokemonsList.push_back(pokemon);
+        }
+        random_shuffle(pokemonsList.begin(), pokemonsList.end());
+        hint = FindPair();
     }
 }
 
@@ -107,7 +110,7 @@ void NAHGame::StartGame()
     gameBoard.Render();
     infoBoard.Render();
     int centiSec = 0;
-    while (infoBoard.lives && infoBoard.remainingTime)
+    while (infoBoard.lives && infoBoard.remainingTime > 0)
     {
         if (gameBoard.chosenCell1.first != -1)
             gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
@@ -150,6 +153,10 @@ void NAHGame::StartGame()
             else if (key == KEY_ESC)
             {
                 Menu::ExitScreen();
+            }
+            else if (key == KEY_H) {
+                gameBoard.RenderCell(gameBoard.hintCell1, PURPLE);
+                gameBoard.RenderCell(gameBoard.hintCell2, PURPLE);
             }
 
             else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
@@ -559,6 +566,20 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
     }
     return vector<pair<int, int>>({});
 }
+void NAHGame::FindPair()
+{
+    for (int i = 0; i < gameBoard.size * gameBoard.size - 1; i++)
+        if (gameBoard.pokemonsBoard[i / gameBoard.size][i % gameBoard.size] != '\0')
+            for (int j = i + 1; j < gameBoard.size * gameBoard.size; j++)
+                if (gameBoard.pokemonsBoard[j / gameBoard.size][j % gameBoard.size] != '\0')
+                {
+                    pair<int, int> hint1 = {i % gameBoard.size, i / gameBoard.size};
+                    pair<int, int> hint2 = {j % gameBoard.size, j / gameBoard.size};
+                    if (CheckMatching(h1, h2)) != vector<pair<int, int>>({}))
+                        return pair<hint1, hint2>;
+                }
+    return pair<pair<int, int>, pair<int, int>>({});
+}
 
 void GameBoard::RemoveCell(pair<int, int> cell)
 {
@@ -632,7 +653,7 @@ void NAHGame::LosingScreen(string reason)
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
     Controller::GoToXY(71, 23);
     cout << reason;
-    Controller::GoToXY(65, 24);
+    Controller::GoToXY(66, 24);
     cout << "You have lost the game.";
     Controller::GoToXY(69, 25);
     cout << "Your score: " << infoBoard.score;
@@ -695,6 +716,7 @@ void NAHGame::LosingScreen(string reason)
                 }
                 else
                 {
+                    Menu::GoodbyeScreen();
                     FreeConsole();
                     exit(0);
                 }
@@ -719,10 +741,10 @@ void NAHGame::WinningScreen()
     Controller::GoToXY(69, 22);
     cout << "GAME ANNOUCEMENT";
     Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-    Controller::GoToXY(66, 23);
-    cout << "You have won the game." << endl;
-    Controller::GoToXY(69, 24);
+    Controller::GoToXY(69, 23);
     cout << "CONGRATULATIONS!";
+    Controller::GoToXY(66, 24);
+    cout << "You have won the game.";
     Controller::GoToXY(69, 25);
     cout << "Your score: " << infoBoard.score;
     Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
@@ -784,6 +806,7 @@ void NAHGame::WinningScreen()
                 }
                 else
                 {
+                    Menu::GoodbyeScreen();
                     FreeConsole();
                     exit(0);
                 }

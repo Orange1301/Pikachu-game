@@ -26,6 +26,7 @@ struct Menu
 	static void HighScores();	  // màn hình load file high scores
 	static void TutorialScreen(); // màn hình hướng dẫn cách chơi
 	static void ExitScreen();	  // màn hình thoát trò chơi
+	static void GoodbyeScreen();  // màn hình tạm biệt
 
 	static void NormalMode(); // chế độ thường
 	static void HardMode();	  // chế độ khó
