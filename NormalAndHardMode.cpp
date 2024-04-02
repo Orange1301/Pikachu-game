@@ -212,6 +212,7 @@ void NAHGame::StartGame()
                         cout << "Current score: " << infoBoard.score;
                         if (gameBoard.remainCells == 0)
                         {
+                            infoBoard.SaveData();
                             gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                             PlaySound(TEXT("Win.wav"), NULL, SND_FILENAME | SND_ASYNC);
                             Sleep(3000);
@@ -274,6 +275,7 @@ void NAHGame::StartGame()
             }
         }
     }
+    infoBoard.SaveData();
     PlaySound(TEXT("Loss.wav"), NULL, SND_FILENAME | SND_ASYNC);
     Sleep(3000);
     if (infoBoard.lives == 0)
@@ -697,6 +699,13 @@ void GameBoard::RemoveCell(pair<int, int> cell)
         Controller::GoToXY(left + 8 + cell.first * 8, top + 4 + cell.second * 4);
         cout << background[cell.second * 4 + 4][cell.first * 8 + 8];
     }
+}
+
+void InfoBoard::SaveData()
+{
+    fstream f("HighScores.txt", ios::app);
+    f << playerName << ',' << mode << ',' << score << '\n';
+    f.close();
 }
 
 void NAHGame::LosingScreen(string reason)

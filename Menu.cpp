@@ -483,8 +483,8 @@ void Menu::HighScores()
 	ifstream fin("HighScores.txt");
 	while (!fin.eof())
 	{
-		getline(fin, p[n].playerName, ',');
-		getline(fin, p[n].mode, ',');
+		fin.getline(p[n].playerName, 10, ',');
+		fin.getline(p[n].mode, 7, ',');
 		fin >> p[n].score;
 		fin.ignore();
 		n++;
