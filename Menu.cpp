@@ -670,9 +670,9 @@ void Menu::TutorialScreen()
 	Controller::GoToXY(left + 3, top + 30);
 	cout << "Developers:";
 	SetConsoleOutputCP(65001);
-	Controller::GoToXY(left + 31, top + 25);
+	Controller::GoToXY(left + 31, top + 29);
 	cout << "Dev 1: Nguyễn Ngọc Cảnh - 23127161";
-	Controller::GoToXY(left + 31, top + 27);
+	Controller::GoToXY(left + 31, top + 31);
 	cout << "Dev 2: Lê Hồng Ngọc - 23127236";
 	SetConsoleOutputCP(437);
 
