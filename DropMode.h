@@ -10,7 +10,9 @@
 // struct List {
 //     Node* head;
 //     Node* tail;
-// }:
+//     void Set(int, char);
+//     char Get(int);
+// };
 
 // struct GameBoard
 // {
@@ -20,11 +22,11 @@
 //     int left, top;
 //     int remainCells;
 
-//     pair<int, int> currentCell = {0, 0};
-//     pair<int, int> chosenCell1 = {-1, -1};
-//     pair<int, int> chosenCell2 = {-1, -1};
+//     pair<int, int> currentCell;
+//     pair<int, int> chosenCell1;
+//     pair<int, int> chosenCell2;
 
-//     List *pokemonsBoard;
+//     List pokemonsBoard[8];
 //     char **background;
 
 //     void Render();
@@ -35,9 +37,9 @@
 // struct InfoBoard
 // {
 //     string playerName, mode;
-//     int score = 0;
-//     int lives = 3;
-//     int hints = 3;
+//     int score;
+//     int lives;
+//     int hints;
 //     void Render();
 //     void SaveData();
 // };
@@ -56,4 +58,4 @@
 
 //     static void LosingScreen();
 //     static void WinningScreen();
-// }
+// };

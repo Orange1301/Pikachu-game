@@ -1,8 +1,0 @@
-Cảnh:
-Cái mục Tutorial trong Menu để hướng dẫn cách chơi cho người chơi. Trong đó mình sẽ hiển thị giao diện gần giống như khi chơi game và có kèm thêm hướng dẫn. Nếu làm được thì mình làm còn không thì sẽ tách nó ra bỏ vô báo cáo luôn.
-
-High Scores tui định sẽ bỏ chung tất cả người chơi vô, trong đó điểm của người chơi Hard Mode sẽ được nhân với hệ số 1.5. Lúc hiển thị nó sẽ kiểu như này:
-	No.      Name      Scores      Mode      Final Scores
-Trong file High Scores thì mình sẽ lưu dạng csv, là kiểu:
-	[Name], [Scores], [Mode]
-mỗi dòng là 1 đứa, sắp theo thứ tự điểm giảm dần. Tui sẽ code cho mỗi khi một ván kết thúc thì update lại file này, còn bà từ file này hiển thị ra màn hình theo format ở trên. Code bà viết trong file HighScores.h với HighScores.cpp.
