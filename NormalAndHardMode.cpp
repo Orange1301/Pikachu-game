@@ -276,8 +276,8 @@ void NAHGame::StartGame()
             }
         }
     }
-    infoBoard.SaveData();
     PlaySound(TEXT("Loss.wav"), NULL, SND_FILENAME | SND_ASYNC);
+    infoBoard.SaveData();
     Sleep(3000);
     if (infoBoard.lives == 0)
         LosingScreen("Out of life!");
