@@ -1,67 +1,68 @@
-// #include "Menu.h"
-// #include "Controller.h"
+#pragma once
 
-// struct Node {
-//     char pokemon;
-//     Node* next;
-//     Node* prev;
-// };
-// struct List {
-//     Node* head;
-//     Node* tail;
-//     int height;
-//     void Set(int, char);
-//     char GetPokemon(int);
-// };
+#include "Menu.h"
+#include "Controller.h"
 
-// struct GameBoard
-// {
-//     ~GameBoard();
+struct Node {
+    char pokemon;
+    Node* next;
+    Node* prev;
+};
+struct List {
+    Node* head;
+    Node* tail;
+    int height;
+    void Set(int, char);
+    char GetPokemon(int);
+};
 
-//     int size;
-//     int left, top;
-//     int remainCells;
+struct DGameBoard
+{
+    ~DGameBoard();
 
-//     pair<int, int> currentCell;
-//     pair<int, int> chosenCell1;
-//     pair<int, int> chosenCell2;
-//     pair<pair<int, int>, pair<int, int>> hint;
+    int left, top;
+    int remainCells;
 
-//     vector<char> pokemonsList;
-//     List pokemonsBoard[8];
-//     char **background;
+    pair<int, int> currentCell;
+    pair<int, int> chosenCell1;
+    pair<int, int> chosenCell2;
+    pair<pair<int, int>, pair<int, int>> hint;
 
-//     void Render();
-//     void RenderColumn(int);
-//     void RenderCell(pair<int, int>, int);
-//     void RemoveCell(pair<int, int>);
-// };
+    vector<char> pokemonsList;
+    List pokemonsBoard[8];
+    char **background;
 
-// struct InfoBoard
-// {
-//     string playerName, mode;
-//     int score;
-//     int lives;
-//     int hints;
-//     int remainingTime;
-//     void Render();
-//     void SaveData();
-// };
+    void Render();
+    void RenderColumn(int);
+    void RenderCell(pair<int, int>, int);
+    void RemoveCell(pair<int, int>);
+};
 
-// struct DGame
-// {
-//     static GameBoard gameBoard;
-//     static InfoBoard infoBoard;
+struct DInfoBoard
+{
+    string playerName, mode;
+    int score;
+    int lives;
+    int hints;
+    int remainingTime;
+    void Render();
+    void SaveData();
+};
 
-//     static void SetupGame(int);
-//     static void StartGame();
+struct DGame
+{
+    static DGameBoard gameBoard;
+    static DInfoBoard infoBoard;
 
-//     static bool ExistsLine(pair<int, int>, pair<int, int>);
-//     static vector<pair<int, int>> Path(vector<pair<int, int>>);
-//     static vector<pair<int, int>> CheckMatching(pair<int, int>, pair<int, int>);
-//     static pair<pair<int, int>, pair<int, int>> FindPair();
+    static void SetupGame();
+    static void StartGame();
 
-//     static void LosingScreen(string);
-//     static void WinningScreen();
-//     static void ExitGame();
-// };
+    static bool ExistsLine(pair<int, int>, pair<int, int>);
+    static vector<pair<int, int>> Path(vector<pair<int, int>>);
+    static vector<pair<int, int>> CheckMatching(pair<int, int>, pair<int, int>);
+    static pair<pair<int, int>, pair<int, int>> FindPair();
+
+    static void LosingScreen(string);
+    static void WinningScreen();
+    static void ExitGame();
+};

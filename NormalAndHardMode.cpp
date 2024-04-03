@@ -1,7 +1,7 @@
 #include "NormalAndHardMode.h"
 
-GameBoard NAHGame::gameBoard;
-InfoBoard NAHGame::infoBoard;
+NAHGameBoard NAHGame::gameBoard;
+NAHInfoBoard NAHGame::infoBoard;
 
 using namespace std;
 
@@ -169,9 +169,20 @@ void NAHGame::StartGame()
                 if (infoBoard.hints > 0)
                 {
                     infoBoard.hints--;
-                    Controller::GoToXY(infoBoard.hints * 4 + 103, 25);
-                    Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
-                    cout << "   ";
+                    if (infoBoard.hints > 0)
+                    {
+                        Controller::GoToXY(infoBoard.hints * 4 + 103, 25);
+                        Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
+                        cout << "   ";
+                    }
+                    else
+                    {
+                        Controller::GoToXY(104, 25);
+                        Controller::SetConsoleColor(BRIGHT_WHITE, RED);
+                        SetConsoleOutputCP(65001);
+                        cout << "Cost 30 seconds ⏳";
+                        SetConsoleOutputCP(437);
+                    }
                 }
                 else
                     infoBoard.remainingTime -= 30;
@@ -237,6 +248,9 @@ void NAHGame::StartGame()
                             gameBoard.hint = FindPair();
                             if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
                             {
+                                Controller::GoToXY(gameBoard.left, gameBoard.top - 2);
+                                Controller::SetConsoleColor(LIGHT_YELLOW, RED);
+                                cout << "No more matches? Don't worry, the Pokemons will be reshuffled in a jiffy!";
                                 gameBoard.pokemonsList.clear();
                                 for (int i = gameBoard.remainCells / 2; i > 0; i--)
                                 {
@@ -260,6 +274,10 @@ void NAHGame::StartGame()
                                             k++;
                                         }
                                 gameBoard.hint = FindPair();
+                                gameBoard.RenderCell(gameBoard.currentCell, WHITE);
+                                Controller::GoToXY(gameBoard.left, gameBoard.top - 2);
+                                Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+                                cout << "                                                                         ";
                             }
                         }
 
@@ -296,7 +314,7 @@ void NAHGame::StartGame()
     return;
 }
 
-GameBoard::~GameBoard()
+NAHGameBoard::~NAHGameBoard()
 {
     for (int i = 0; i < size; i++)
         delete[] pokemonsBoard[i];
@@ -309,7 +327,7 @@ GameBoard::~GameBoard()
     background = NULL;
 }
 
-void GameBoard::Render()
+void NAHGameBoard::Render()
 {
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -379,7 +397,7 @@ void GameBoard::Render()
     RenderCell(pair<int, int>({0, 0}), WHITE);
 }
 
-void GameBoard::RenderCell(pair<int, int> cell, int color)
+void NAHGameBoard::RenderCell(pair<int, int> cell, int color)
 {
     char pokemon;
     if (cell.first == -1 || cell.second == -1 || cell.first == size || cell.second == size)
@@ -398,8 +416,10 @@ void GameBoard::RenderCell(pair<int, int> cell, int color)
     }
     else
     {
-        if (color == BRIGHT_WHITE)
+        if (color == WHITE)
             color = GRAY;
+        else if (color == BRIGHT_WHITE)
+            color = WHITE;
         Controller::SetConsoleColor(color, (size == 8) * BLUE + (size == 4) * YELLOW);
         for (int i = 0; i < 3; i++)
         {
@@ -410,7 +430,7 @@ void GameBoard::RenderCell(pair<int, int> cell, int color)
     }
 }
 
-void InfoBoard::Render()
+void NAHInfoBoard::Render()
 {
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(91, 8, 33, 8);
@@ -453,10 +473,10 @@ void InfoBoard::Render()
     Menu::PrintRectangle(91, 30, 33, 2);
     Menu::PrintRectangle(91, 33, 33, 2);
 
-    Controller::SetConsoleColor(BRIGHT_WHITE, GREEN);
+    Controller::SetConsoleColor(BRIGHT_WHITE, LIGHT_PURPLE);
     Controller::GoToXY(104, 31);
     cout << "H : Hint";
-    Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
+    Controller::SetConsoleColor(BRIGHT_WHITE, RED);
     Controller::GoToXY(103, 34);
     cout << "Esc: Exit";
 }
@@ -647,11 +667,12 @@ pair<pair<int, int>, pair<int, int>> NAHGame::FindPair()
     return pair<pair<int, int>, pair<int, int>>({});
 }
 
-void GameBoard::RemoveCell(pair<int, int> cell)
+void NAHGameBoard::RemoveCell(pair<int, int> cell)
 {
     pokemonsBoard[cell.second][cell.first] = '\0';
-    bool t = false, b = false, l = false, r = false;
-    Controller::SetConsoleColor(GRAY, (size == 8) * BLUE + (size == 4) * YELLOW);
+    // Xóa các cạnh và góc nếu các ô xung quanh đều đã bị xóa
+    bool t = false, b = false, l = false, r = false; // top, bottom, left, right, dùng để đánh dấu xem các ô xung quanh ô đang xóa đã bị xóa chưa
+    Controller::SetConsoleColor(WHITE, (size == 8) * BLUE + (size == 4) * YELLOW);
 
     if (cell.second > 0 && pokemonsBoard[cell.second - 1][cell.first] == '\0')
     {
@@ -712,7 +733,7 @@ void GameBoard::RemoveCell(pair<int, int> cell)
     }
 }
 
-void InfoBoard::SaveData()
+void NAHInfoBoard::SaveData()
 {
     fstream f("HighScores.txt", ios::app);
     f << playerName << ',' << mode << ',' << score << '\n';

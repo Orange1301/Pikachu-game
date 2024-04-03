@@ -836,7 +836,7 @@ void Menu::GoodbyeScreen()
                                                                                       ⢿⣝⣂⠡⠤⠜⠒⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⠤⣀⠀⠀⢀⠔⠛⣢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                                                                                       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠐⠃⣤⣈⣺⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 	)";
-	Sleep(3000);
+	Sleep(2000);
 }
 
 void Menu::NormalMode()
@@ -851,4 +851,6 @@ void Menu::HardMode()
 }
 void Menu::DropMode()
 {
+	DGame::SetupGame();
+	DGame::StartGame();
 }
