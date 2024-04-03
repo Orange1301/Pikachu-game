@@ -32,8 +32,8 @@ void NAHGame::SetupGame(int MODE)
     {
     case NORMAL:
         gameBoard.size = 4;
-        gameBoard.left = 22;
-        gameBoard.top = 6;
+        gameBoard.left = 28;
+        gameBoard.top = 12;
         infoBoard.mode = "NORMAL";
 
         f.open("Normal.txt");
@@ -304,8 +304,8 @@ void NAHGame::StartGame()
             }
         }
     }
-    PlaySound(TEXT("Loss.wav"), NULL, SND_FILENAME | SND_ASYNC);
     infoBoard.SaveData();
+    PlaySound(TEXT("Lose.wav"), NULL, SND_FILENAME | SND_ASYNC);
     Sleep(3000);
     if (infoBoard.lives == 0)
         LosingScreen("Out of life!");
@@ -789,6 +789,7 @@ void NAHGame::LosingScreen(string reason)
         case KEY_S:
         case KEY_A:
         case KEY_D:
+            PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -814,6 +815,7 @@ void NAHGame::LosingScreen(string reason)
             yes = !yes;
             break;
         case KEY_ENTER:
+            PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 for (int i = 0; i < 15; i++)
@@ -882,6 +884,7 @@ void NAHGame::WinningScreen()
         case KEY_S:
         case KEY_A:
         case KEY_D:
+            PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -907,6 +910,7 @@ void NAHGame::WinningScreen()
             yes = !yes;
             break;
         case KEY_ENTER:
+            PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 for (int i = 0; i < 15; i++)
@@ -962,6 +966,7 @@ void NAHGame::ExitGame()
         case KEY_S:
         case KEY_A:
         case KEY_D:
+            PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -987,6 +992,7 @@ void NAHGame::ExitGame()
             yes = !yes;
             break;
         case KEY_ENTER:
+            PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Menu::GoodbyeScreen();
