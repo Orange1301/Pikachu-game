@@ -65,6 +65,7 @@ void Menu::MainScreen()
 
 void Menu::PrintAnimation()
 {
+	PlaySound(TEXT("Intro.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	const string logo[7] = {
 		R"(
                                 ,-.----.
@@ -791,6 +792,7 @@ void Menu::GoodbyeScreen()
 {
 	system("color F0");
 	system("cls");
+	PlaySound(TEXT("Goodbye.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	Controller::GoToXY(0, 5);
 	SetConsoleOutputCP(65001);
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
