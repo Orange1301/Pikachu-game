@@ -59,6 +59,7 @@ void Menu::MainScreen()
 		{
 			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			ExitScreen();
+			PrintOptionsBoard(MainOptions);
 		}
 	}
 }

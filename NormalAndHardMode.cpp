@@ -127,12 +127,14 @@ void NAHGame::StartGame()
             int key = _getch();
             if (key == KEY_UP || key == KEY_W)
             {
+                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.second = (gameBoard.currentCell.second + gameBoard.size - 1) % gameBoard.size;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
             else if (key == KEY_DOWN || key == KEY_S)
             {
+                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % gameBoard.size;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
@@ -140,23 +142,25 @@ void NAHGame::StartGame()
 
             else if (key == KEY_LEFT || key == KEY_A)
             {
+                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.first = (gameBoard.currentCell.first + gameBoard.size - 1) % gameBoard.size;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
             else if (key == KEY_RIGHT || key == KEY_D)
             {
+                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
             else if (key == KEY_ESC)
             {
-                infoBoard.SaveData();
                 ExitGame();
             }
             else if (key == KEY_H && infoBoard.remainingTime > 30)
             {
+                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
                 gameBoard.RenderCell(gameBoard.hint.second, LIGHT_PURPLE);
                 Sleep(500);
@@ -190,6 +194,7 @@ void NAHGame::StartGame()
 
             else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
             {
+                PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 if (gameBoard.chosenCell1.first == -1)
                 {
                     gameBoard.chosenCell1 = gameBoard.currentCell;
@@ -995,6 +1000,7 @@ void NAHGame::ExitGame()
             PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
+                infoBoard.SaveData();
                 Menu::GoodbyeScreen();
                 FreeConsole();
                 exit(0);
