@@ -15,9 +15,9 @@
 #define NORMAL 2
 #define HARD 3
 
-struct GameBoard
+struct NAHGameBoard
 {
-    ~GameBoard();
+    ~NAHGameBoard();
 
     int size;
     int left, top;
@@ -37,7 +37,7 @@ struct GameBoard
     void RemoveCell(pair<int, int>);
 };
 
-struct InfoBoard
+struct NAHInfoBoard
 {
     string playerName, mode;
     int score;
@@ -50,8 +50,8 @@ struct InfoBoard
 
 struct NAHGame // NAH = Normal And Hard
 {
-    static GameBoard gameBoard;
-    static InfoBoard infoBoard;
+    static NAHGameBoard gameBoard;
+    static NAHInfoBoard infoBoard;
 
     static void SetupGame(int);
     static void StartGame();

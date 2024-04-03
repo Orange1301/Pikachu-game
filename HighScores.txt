@@ -1,13 +1,1 @@
-unknown,NORMAL,4776
-unknown,NORMAL,0
-unknown,NORMAL,0
-unknown,NORMAL,4776
-unknown,NORMAL,0
-unknown,NORMAL,0
-unknown,NORMAL,4776
-unknown,NORMAL,0
-unknown,NORMAL,0
-unknown,NORMAL,4776
-unknown,NORMAL,0
-unknown,NORMAL,0
-unknown,NORMAL,0
+

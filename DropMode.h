@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Menu.h"
 #include "Controller.h"
 
@@ -14,11 +16,10 @@ struct List {
     char GetPokemon(int);
 };
 
-struct GameBoard
+struct DGameBoard
 {
-    ~GameBoard();
+    ~DGameBoard();
 
-    int size;
     int left, top;
     int remainCells;
 
@@ -37,7 +38,7 @@ struct GameBoard
     void RemoveCell(pair<int, int>);
 };
 
-struct InfoBoard
+struct DInfoBoard
 {
     string playerName, mode;
     int score;
@@ -50,10 +51,10 @@ struct InfoBoard
 
 struct DGame
 {
-    static GameBoard gameBoard;
-    static InfoBoard infoBoard;
+    static DGameBoard gameBoard;
+    static DInfoBoard infoBoard;
 
-    static void SetupGame(int);
+    static void SetupGame();
     static void StartGame();
 
     static bool ExistsLine(pair<int, int>, pair<int, int>);
