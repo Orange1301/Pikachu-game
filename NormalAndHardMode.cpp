@@ -74,7 +74,6 @@ void NAHGame::SetupGame(int MODE)
         gameBoard.pokemonsList.push_back(pokemon);
     }
     random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
-
     gameBoard.pokemonsBoard = new char *[gameBoard.size];
     for (int i = 0; i < gameBoard.size; i++)
     {
@@ -99,6 +98,10 @@ void NAHGame::SetupGame(int MODE)
             for (int j = 0; j < gameBoard.size; j++)
                 gameBoard.pokemonsBoard[i][j] = gameBoard.pokemonsList[i * gameBoard.size + j];
         gameBoard.hint = FindPair();
+        Controller::GoToXY(0, 90);
+        for (int i = 0; i < 16; i++)
+            cout << gameBoard.pokemonsList[i];
+        Sleep(10000);
     }
 }
 
@@ -253,7 +256,7 @@ void NAHGame::StartGame()
                             gameBoard.hint = FindPair();
                             if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
                             {
-                                Controller::GoToXY(gameBoard.left, gameBoard.top - 2);
+                                Controller::GoToXY(4, gameBoard.top - 2);
                                 Controller::SetConsoleColor(LIGHT_YELLOW, RED);
                                 cout << "No more matches? Don't worry, the Pokemons will be reshuffled in a jiffy!";
                                 gameBoard.pokemonsList.clear();
@@ -280,7 +283,7 @@ void NAHGame::StartGame()
                                         }
                                 gameBoard.hint = FindPair();
                                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
-                                Controller::GoToXY(gameBoard.left, gameBoard.top - 2);
+                                Controller::GoToXY(4, gameBoard.top - 2);
                                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
                                 cout << "                                                                         ";
                             }
