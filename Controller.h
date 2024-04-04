@@ -36,14 +36,6 @@
 #define KEY_ESC 27
 #define KEY_H 104
 
-// SOUNDTRACK
-#define MOVE_SOUND 0
-#define ENTER_SOUND 1
-#define ERROR_SOUND 2
-#define WIN_SOUND 4
-#define BACKGROUND_SOUND 5
-#define EFFECT_SOUND 6
-
 using namespace std;
 
 struct Controller
@@ -59,7 +51,4 @@ struct Controller
 	static void DisableMaximize(); // vô hiệu hóa phóng to màn hình
 	static void HideScrollBars();
 	static void ShowCursor(bool);  // ẩn hoặc hiện con trỏ
-	static void PlaySound(int);	   // phát âm thanh
 };
-
-int GetRandomInt(int begin, int end);         //Hàm lấy số nguyên ngẫu nhiên

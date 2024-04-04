@@ -9,7 +9,6 @@ void Controller::SetUpConsole() // thiết kế cấu hình cửa sổ console
 	SetAndCenterWindow();
 	DisableMaximize();
 	HideScrollBars();
-
 }
 
 void Controller::GoToXY(int x, int y) // di chuyển con trỏ đến vị trí cụ thể có toạ độ (x;y) trên cửa sổ console
