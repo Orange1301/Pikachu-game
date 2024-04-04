@@ -33,7 +33,7 @@ void DGame::SetupGame()
     char tempName[11];
     Controller::GoToXY(82, 19);
     cin.getline(tempName, 10);
-    PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+    PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
     infoBoard.playerName = tempName;
     Controller::ShowCursor(false);
 
@@ -43,7 +43,7 @@ void DGame::SetupGame()
 
     ifstream f;
     char temp;
-    f.open("Hard.txt");
+    f.open("Background/Hard.txt");
     gameBoard.background = new char *[33];
     for (int i = 0; i < 33; i++)
     {
@@ -135,14 +135,14 @@ void DGame::StartGame()
             int key = _getch();
             if (key == KEY_UP || key == KEY_W)
             {
-                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.second = (gameBoard.currentCell.second + 8 - 1) % 8;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
             else if (key == KEY_DOWN || key == KEY_S)
             {
-                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.second = (gameBoard.currentCell.second + 1) % 8;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
@@ -150,14 +150,14 @@ void DGame::StartGame()
 
             else if (key == KEY_LEFT || key == KEY_A)
             {
-                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.first = (gameBoard.currentCell.first + 8 - 1) % 8;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
             else if (key == KEY_RIGHT || key == KEY_D)
             {
-                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
                 gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % 8;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
@@ -168,7 +168,7 @@ void DGame::StartGame()
             }
             else if (key == KEY_H && infoBoard.remainingTime > 30)
             {
-                PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
                 gameBoard.RenderCell(gameBoard.hint.second, LIGHT_PURPLE);
                 Sleep(500);
@@ -202,7 +202,7 @@ void DGame::StartGame()
 
             else if (key == KEY_ENTER && 7 - gameBoard.currentCell.second <= gameBoard.pokemonsBoard[gameBoard.currentCell.first].height)
             {
-                PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 if (gameBoard.chosenCell1.first == -1)
                 {
                     gameBoard.chosenCell1 = gameBoard.currentCell;
@@ -227,7 +227,7 @@ void DGame::StartGame()
                             gameBoard.RenderCell(i, LIGHT_GREEN);
                             Sleep(100);
                         }
-                        PlaySound(TEXT("Correct.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                        PlaySound(TEXT("Sound/Correct.wav"), NULL, SND_FILENAME | SND_ASYNC);
                         Sleep(300);
                         for (pair<int, int> i : check)
                             gameBoard.RenderCell(i, BRIGHT_WHITE);
@@ -268,7 +268,7 @@ void DGame::StartGame()
                         {
                             infoBoard.SaveData();
                             gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
-                            PlaySound(TEXT("Win.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                            PlaySound(TEXT("Sound/Win.wav"), NULL, SND_FILENAME | SND_ASYNC);
                             Sleep(3000);
                             WinningScreen();
                             return;
@@ -321,7 +321,7 @@ void DGame::StartGame()
                     }
                     else
                     {
-                        PlaySound(TEXT("Wrong.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                        PlaySound(TEXT("Sound/Wrong.wav"), NULL, SND_FILENAME | SND_ASYNC);
                         gameBoard.RenderCell(gameBoard.chosenCell1, LIGHT_RED);
                         gameBoard.RenderCell(gameBoard.chosenCell2, LIGHT_RED);
                         Sleep(500);
@@ -339,7 +339,7 @@ void DGame::StartGame()
             }
         }
     }
-    PlaySound(TEXT("Lose.wav"), NULL, SND_FILENAME | SND_ASYNC);
+    PlaySound(TEXT("Sound/Lose.wav"), NULL, SND_FILENAME | SND_ASYNC);
     infoBoard.SaveData();
     Sleep(3000);
     if (infoBoard.lives == 0)
@@ -729,7 +729,12 @@ void DGameBoard::RemoveCell(pair<int, int> cell)
 {
     // Xóa node khỏi list
     if (pokemonsBoard[cell.first].height == 0) // Nếu chỉ còn một node duy nhất trong cột
+    {
         delete pokemonsBoard[cell.first].head;
+        pokemonsBoard[cell.first].head = NULL;
+        pokemonsBoard[cell.first].tail = NULL;
+    }
+
     else
     {
         Node* curr = pokemonsBoard[cell.first].head;
@@ -842,6 +847,7 @@ void DGame::LosingScreen(string reason)
         case KEY_S:
         case KEY_A:
         case KEY_D:
+            PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -867,6 +873,7 @@ void DGame::LosingScreen(string reason)
             yes = !yes;
             break;
         case KEY_ENTER:
+            PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 for (int i = 0; i < 15; i++)
@@ -935,6 +942,7 @@ void DGame::WinningScreen()
         case KEY_S:
         case KEY_A:
         case KEY_D:
+            PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -960,6 +968,7 @@ void DGame::WinningScreen()
             yes = !yes;
             break;
         case KEY_ENTER:
+            PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 for (int i = 0; i < 15; i++)
@@ -1015,7 +1024,7 @@ void DGame::ExitGame()
         case KEY_S:
         case KEY_A:
         case KEY_D:
-            PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -1041,7 +1050,7 @@ void DGame::ExitGame()
             yes = !yes;
             break;
         case KEY_ENTER:
-            PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
             if (yes)
             {
                 infoBoard.SaveData();

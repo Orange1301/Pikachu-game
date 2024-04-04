@@ -19,3 +19,10 @@ unknown,NORMAL,4697
 unknown,NORMAL,4658
 unknown,NORMAL,4553
 unknown,NORMAL,0
+unknown,NORMAL,4745
+unknown,NORMAL,2989
+unknown,NORMAL,4273
+unknown,NORMAL,4637
+unknown,NORMAL,4731
+unknown,DROP,13500
+unknown,NORMAL,4762

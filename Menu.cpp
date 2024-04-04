@@ -17,19 +17,19 @@ void Menu::MainScreen()
 		int key = _getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 		{
-			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 3) % 4;
 			PrintOptionsBoard(MainOptions);
 		}
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
 		{
-			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 1) % 4;
 			PrintOptionsBoard(MainOptions);
 		}
 		else if (key == KEY_ENTER)
 		{
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			switch (currentOption)
 			{
 			case 0:
@@ -57,7 +57,7 @@ void Menu::MainScreen()
 		}
 		else if (key == KEY_ESC)
 		{
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			ExitScreen();
 			PrintOptionsBoard(MainOptions);
 		}
@@ -66,7 +66,7 @@ void Menu::MainScreen()
 
 void Menu::PrintAnimation()
 {
-	PlaySound(TEXT("Intro.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound(TEXT("Sound/Intro.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	const string logo[7] = {
 		R"(
                                 ,-.----.
@@ -355,19 +355,19 @@ void Menu::PlayMenu()
 		int key = _getch();
 		if (key == KEY_UP || key == KEY_LEFT || key == KEY_W || key == KEY_A)
 		{
-			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 3) % 4;
 			PrintOptionsBoard(PlayOptions);
 		}
 		else if (key == KEY_DOWN || key == KEY_RIGHT || key == KEY_S || key == KEY_D)
 		{
-			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			currentOption = (currentOption + 1) % 4;
 			PrintOptionsBoard(PlayOptions);
 		}
 		else if (key == KEY_ENTER)
 		{
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			switch (currentOption)
 			{
 			case 0:
@@ -392,7 +392,7 @@ void Menu::PlayMenu()
 		}
 		else if (key == KEY_ESC)
 		{
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			return;
 		}
 	}
@@ -566,7 +566,7 @@ void Menu::HighScores()
 		key = getch();
 		if (key == KEY_ENTER || key == KEY_ESC)
 		{
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			return;
 		}
 	}
@@ -693,7 +693,7 @@ void Menu::TutorialScreen()
 		key = getch();
 		if (key == KEY_ENTER || key == KEY_ESC)
 		{
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			return;
 		}
 	}
@@ -741,7 +741,7 @@ void Menu::ExitScreen()
 		case KEY_S:
 		case KEY_A:
 		case KEY_D:
-			PlaySound(TEXT("Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			if (yes)
 			{
 				Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -767,7 +767,7 @@ void Menu::ExitScreen()
 			yes = !yes;
 			break;
 		case KEY_ENTER:
-			PlaySound(TEXT("Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			if (yes)
 			{
 				GoodbyeScreen();
@@ -793,7 +793,7 @@ void Menu::GoodbyeScreen()
 {
 	system("color F0");
 	system("cls");
-	PlaySound(TEXT("Goodbye.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound(TEXT("Sound/Goodbye.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	Controller::GoToXY(0, 5);
 	SetConsoleOutputCP(65001);
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);

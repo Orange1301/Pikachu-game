@@ -5,11 +5,11 @@ HANDLE Controller::consoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void Controller::SetUpConsole() // thiết kế cấu hình cửa sổ console
 {
-	SetAndCenterWindow(); // căn giữa và thiết lập kích thước cửa sổ console
-	// SetConsoleTitle();			// đặt tiêu đề cho cửa sổ console
 	ShowCursor(false); // ẩn con trỏ trên của sổ console
-	HideScrollBars();
+	SetAndCenterWindow();
 	DisableMaximize();
+	HideScrollBars();
+
 }
 
 void Controller::GoToXY(int x, int y) // di chuyển con trỏ đến vị trí cụ thể có toạ độ (x;y) trên cửa sổ console
@@ -21,8 +21,8 @@ void Controller::SetAndCenterWindow() // căn giữa cửa sổ console và thi�
 {
 	RECT rectClient, rectWindow;
 	GetClientRect(consoleWindow, &rectClient), GetWindowRect(consoleWindow, &rectWindow);
-	int width = 1100;
-	int height = 1100;
+	int width = 1200;
+	int height = 800;
 	int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
 	int posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
 	MoveWindow(consoleWindow, posX, posY, width, height, TRUE);
