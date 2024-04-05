@@ -6,11 +6,11 @@ const string Menu::PlayOptions[4] = {"Normal Mode", "Hard Mode", "Drop Mode", "B
 
 using namespace std;
 
-void Menu::MainScreen()
+void Menu::MainScreen() // Hiển thị màn hình chính
 {
-	PrintAnimation();
-	PrintLogo();
-	PrintOptionsBoard(MainOptions);
+	PrintAnimation();				// Hiển thị hiệu ứng mở đầu
+	PrintLogo();					// In logo game
+	PrintOptionsBoard(MainOptions); // Hiển thị bảng lựa chọn chính
 	while (true)
 	{
 		// xử lý sự kiện nhấn phím
@@ -64,7 +64,7 @@ void Menu::MainScreen()
 	}
 }
 
-void Menu::PrintAnimation()
+void Menu::PrintAnimation() // Hiển thị hiệu ứng mở đầu trò chơi
 {
 	PlaySound(TEXT("Sound/Intro.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	const string logo[7] = {
@@ -204,14 +204,14 @@ void Menu::PrintAnimation()
 			Controller::SetConsoleColor(BRIGHT_WHITE, color[i]);
 			cout << logo[i];
 			Sleep(200);
-			if (_kbhit())
+			if (_kbhit()) // Kiểm tra có phím nào được nhập từ bàn phím không
 			{
 				int key = _getch();
 				flag = 0;
 				break;
 			}
 		}
-		system("cls");
+		system("cls"); // Xoá màn hình hiện tại
 		if (flag == 0)
 		{
 			break;
@@ -219,7 +219,7 @@ void Menu::PrintAnimation()
 	}
 }
 
-void Menu::PrintLogo()
+void Menu::PrintLogo() // In ra logo game
 {
 	// system("cls");
 	Controller::GoToXY(0, 0);
@@ -288,17 +288,18 @@ void Menu::PrintLogo()
 	cout << "23127161 - 23127236";
 }
 
-void Menu::PrintOptionsBoard(const string options[])
+void Menu::PrintOptionsBoard(const string options[]) // In ra bảng lựa chọn chính hoặc lựa chọn chế độ chơi tuỳ thuộc vào chuỗi options được truyền vào
 {
 	int left = 70;
 	int top = 25;
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
+	// Vẽ phần trên của bảng
 	Controller::GoToXY(left, top);
 	putchar(201);
 	for (int i = 1; i < 14; i++)
 		putchar(205);
 	putchar(187);
-	for (int i = 1; i < 4 * 2; i++)
+	for (int i = 1; i < 4 * 2; i++) // Hiển thị từng tuỳ chọn của bảng và các đường kẻ ngang phân cách giữa các ô trong bảng
 	{
 		if (i % 2 != 0)
 		{
@@ -332,11 +333,13 @@ void Menu::PrintOptionsBoard(const string options[])
 			putchar(182);
 		}
 	}
+	// Vẽ phần dưới của bảng
 	Controller::GoToXY(left, top + 4 * 2);
 	putchar(200);
 	for (int i = 1; i < 14; i++)
 		putchar(205);
 	putchar(188);
+	// Vẽ mũi tên chỉ vào ô chứa lựa chọn hiện tại của bảng
 	int arrowLeft = 68;
 	int arrowTop = 25 + currentOption * 2 + 1;
 	Controller::SetConsoleColor(BRIGHT_WHITE, RED);
@@ -346,9 +349,9 @@ void Menu::PrintOptionsBoard(const string options[])
 	putchar(174);
 }
 
-void Menu::PlayMenu()
+void Menu::PlayMenu() // Hiển thị menu Play
 {
-	PrintOptionsBoard(PlayOptions);
+	PrintOptionsBoard(PlayOptions); // In bảng lựa chọn các chế độ chơi
 	while (true)
 	{
 		// xử lý sự kiện nhấn phím
@@ -398,7 +401,7 @@ void Menu::PlayMenu()
 	}
 }
 
-void Menu::PrintRectangle(int left, int top, int width, int height)
+void Menu::PrintRectangle(int left, int top, int width, int height) // Vẽ hình chữ nhật
 {
 	Controller::GoToXY(left, top);
 	putchar(218);
@@ -422,9 +425,9 @@ void Menu::PrintRectangle(int left, int top, int width, int height)
 	putchar(217);
 }
 
-void Menu::HighScores()
+void Menu::HighScores() // Màn hình hiển thị bảng những người chơi cao điểm nhất, thông tin được lấy từ file HighScores.txt
 {
-	system("cls");
+	system("cls"); // Xoá màn hình hiện tại
 	Player playerInfo[100];
 	Controller::SetConsoleColor(BRIGHT_WHITE, PURPLE);
 	cout << R"(
@@ -435,6 +438,7 @@ void Menu::HighScores()
 					       |_| |_|___\____|_| |_| |____/ \____\___/|_| \_\_____|____/ 
 
 	)";
+	// Vẽ bảng chứa thông tin người chơi
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	PrintRectangle(47, 8, 56, 17);
 
@@ -494,6 +498,7 @@ void Menu::HighScores()
 		Controller::GoToXY(i, 10);
 		putchar(196);
 	}
+	// Đọc file "HighScores.txt" và ghi dữ liệu vào bảng theo thứ tự điểm số từ cao đến thấp
 	int y = 11;
 	int n = 0;
 	ifstream fin("HighScores.txt");
@@ -560,6 +565,7 @@ void Menu::HighScores()
 	Controller::GoToXY(83, 28);
 	putchar(174);
 
+	// Xử lí sự kiện nhấn phím để trở về màn hình chính
 	int key;
 	while (true)
 	{
@@ -572,10 +578,11 @@ void Menu::HighScores()
 	}
 }
 
-void Menu::TutorialScreen()
+void Menu::TutorialScreen() // Màn hình hướng dẫn cách chơi game
 {
-	Controller::ShowCursor(0);
-	system("cls");
+	Controller::ShowCursor(0); // Ẩn con trỏ nhấp nháy trên màn hình
+	system("cls");			   // Xoá màn hình hiện tại
+	// Vẽ bảng hướng dẫn cách chơi
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
 	int left = 27, top = 2, width = 96, height = 32;
 	PrintRectangle(left, top, width, height);
@@ -687,6 +694,7 @@ void Menu::TutorialScreen()
 	Controller::GoToXY(82, 38);
 	putchar(174);
 
+	// Xử lí sự kiến nhận phím để trở về màn hình chính
 	int key;
 	while (true)
 	{
@@ -699,7 +707,7 @@ void Menu::TutorialScreen()
 	}
 }
 
-void Menu::ExitScreen()
+void Menu::ExitScreen() // Hiển thị màn hình thoát trò chơi
 {
 	// Xóa option board
 	Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -727,6 +735,7 @@ void Menu::ExitScreen()
 	Controller::GoToXY(84, 32);
 	cout << "   No   ";
 
+	// Xử lí sự kiện nhấn phím
 	int yes = 0;
 	while (true)
 	{
@@ -789,10 +798,10 @@ void Menu::ExitScreen()
 	}
 }
 
-void Menu::GoodbyeScreen()
+void Menu::GoodbyeScreen() // Hiển thị màn hình tạm biệt khi thoát trò chơi
 {
-	system("color F0");
-	system("cls");
+	system("color F0"); // Đặt lại nền màu trắng cho màn hình console
+	system("cls");		// Xoá màn hình hiện tại
 	PlaySound(TEXT("Sound/Goodbye.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	Controller::GoToXY(0, 5);
 	SetConsoleOutputCP(65001);
@@ -840,17 +849,19 @@ void Menu::GoodbyeScreen()
 	Sleep(2000);
 }
 
-void Menu::NormalMode()
+void Menu::NormalMode() // Hiển thị màn hình chơi game của chế độ normal
 {
 	NAHGame::SetupGame(NORMAL);
 	NAHGame::StartGame();
 }
-void Menu::HardMode()
+
+void Menu::HardMode() // Hiển thị màn hình chơi game của chế độ hard
 {
 	NAHGame::SetupGame(HARD);
 	NAHGame::StartGame();
 }
-void Menu::DropMode()
+
+void Menu::DropMode() // Hiển thị màn hình chơi game của chế độ drop
 {
 	DGame::SetupGame();
 	DGame::StartGame();
