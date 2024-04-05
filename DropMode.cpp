@@ -11,13 +11,13 @@ char List::GetPokemon(int n)
         return '\0';
     if (n == height)
         return tail->pokemon;
-    Node* curr = head;
+    Node *curr = head;
     for (int i = 0; i < n; i++)
         curr = curr->next;
     return curr->pokemon;
 }
 
-void DGame::SetupGame()
+void DGame::SetupGame() // Thiết lập trò chơi
 {
     // Hỏi thăm thông tin người chơi
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
@@ -37,6 +37,7 @@ void DGame::SetupGame()
     infoBoard.playerName = tempName;
     Controller::ShowCursor(false);
 
+    // Cài đặt kích thước, vị trí của bảng và đọc file background
     gameBoard.left = 8;
     gameBoard.top = 4;
     infoBoard.mode = "DROP";
@@ -71,7 +72,7 @@ void DGame::SetupGame()
         gameBoard.pokemonsBoard[i].head->pokemon = gameBoard.pokemonsList[i * 8];
         gameBoard.pokemonsBoard[i].head->prev = NULL;
         gameBoard.pokemonsBoard[i].head->next = new Node;
-        Node* curr = gameBoard.pokemonsBoard[i].head->next;
+        Node *curr = gameBoard.pokemonsBoard[i].head->next;
         curr->prev = gameBoard.pokemonsBoard[i].head;
         for (int j = 1; j < 7; j++)
         {
@@ -90,16 +91,17 @@ void DGame::SetupGame()
     infoBoard.lives = 3;
     infoBoard.hints = 3;
     infoBoard.remainingTime = 600;
+    // Các biến liên quan đến vị trí và trạng thái của các ô trong bảng Pokemon
     gameBoard.currentCell = {0, 0};
     gameBoard.chosenCell1 = {-1, -1};
     gameBoard.chosenCell2 = {-1, -1};
-    gameBoard.hint = FindPair();
-    while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+    gameBoard.hint = FindPair();                                       // Tìm cặp nối được
+    while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({})) // Điều kiện bảo rằng trò chơi sẽ không bắt đầu nếu không có cặp Pokemon nào có thể nối được với nhau từ đầu
     {
         random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
         for (int i = 0; i < 8; i++)
         {
-            Node* curr = gameBoard.pokemonsBoard[i].head;
+            Node *curr = gameBoard.pokemonsBoard[i].head;
             for (int j = 0; j < 8; j++)
             {
                 curr->pokemon = gameBoard.pokemonsList[i * 8 + j];
@@ -110,18 +112,18 @@ void DGame::SetupGame()
     }
 }
 
-void DGame::StartGame()
+void DGame::StartGame() // Hàm chính bắt đầu trò chơi
 {
-    system("cls");
-    gameBoard.Render();
-    infoBoard.Render();
+    system("cls");      // Xoá màn hình hiện tại
+    gameBoard.Render(); // In ra bảng game Pokemon
+    infoBoard.Render(); // In ra bảng thông tin người chơi
     int centiSec = 0;
-    while (infoBoard.lives && infoBoard.remainingTime > 0)
+    while (infoBoard.lives && infoBoard.remainingTime > 0) // Kiểm tra có còn mạng và thời gian không
     {
-        if (gameBoard.chosenCell1.first != -1)
+        if (gameBoard.chosenCell1.first != -1) // Đổi màu cho ô được chọn
             gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
         Sleep(10);
-        if (++centiSec == 60)
+        if (++centiSec == 60) // Cập nhật thời gian của trò chơi mỗi khi trôi qua 1 giây
         {
             infoBoard.remainingTime--;
             Controller::GoToXY(113, 21);
@@ -133,6 +135,7 @@ void DGame::StartGame()
         if (kbhit())
         {
             int key = _getch();
+            // Di chuyển tới ô nào thì ô đó sẽ được tô màu trắng đậm hơn
             if (key == KEY_UP || key == KEY_W)
             {
                 PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -162,11 +165,9 @@ void DGame::StartGame()
                 gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % 8;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
-            else if (key == KEY_ESC)
-            {
+            else if (key == KEY_ESC) // Nhấn phím ESC để thoát game
                 ExitGame();
-            }
-            else if (key == KEY_H && infoBoard.remainingTime > 30)
+            else if (key == KEY_H && infoBoard.remainingTime > 30) // Nhấn H để hiện gợi ý 1 cặp Pokemon hợp lệ, cặp Pokemon gợi ý được tô màu tím
             {
                 PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
@@ -178,6 +179,7 @@ void DGame::StartGame()
                 if (gameBoard.chosenCell1.first != -1)
                     gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
 
+                // Kiểm tra số lượt hint, nếu hết 3 lượt thì mỗi lần nhận gợi ý thời gian sẽ bị trừ đi 30s
                 if (infoBoard.hints > 0)
                 {
                     infoBoard.hints--;
@@ -203,13 +205,13 @@ void DGame::StartGame()
             else if (key == KEY_ENTER && 7 - gameBoard.currentCell.second <= gameBoard.pokemonsBoard[gameBoard.currentCell.first].height)
             {
                 PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
-                if (gameBoard.chosenCell1.first == -1)
+                if (gameBoard.chosenCell1.first == -1) // Tô màu xanh lá cho ô được chọn
                 {
                     gameBoard.chosenCell1 = gameBoard.currentCell;
                     gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
                 }
 
-                else if (gameBoard.currentCell == gameBoard.chosenCell1)
+                else if (gameBoard.currentCell == gameBoard.chosenCell1) // Khi nhấn 2 lần vào 1 ô thì huỷ chọn, chuyển lại thành màu trắng
                 {
                     gameBoard.RenderCell(gameBoard.chosenCell1, WHITE);
                     gameBoard.chosenCell1 = {-1, -1};
@@ -220,7 +222,7 @@ void DGame::StartGame()
                     gameBoard.chosenCell2 = gameBoard.currentCell;
                     Controller::GoToXY(94, 37);
                     vector<pair<int, int>> check = CheckMatching(gameBoard.chosenCell1, gameBoard.chosenCell2);
-                    if (check != vector<pair<int, int>>({}))
+                    if (check != vector<pair<int, int>>({})) // Kiểm tra nếu chọn đúng cặp Pokemon
                     {
                         for (pair<int, int> i : check)
                         {
@@ -258,13 +260,13 @@ void DGame::StartGame()
                             for (int i = 0; i < 8; i++)
                                 gameBoard.RenderCell(pair<int, int>({gameBoard.chosenCell2.first, i}), BRIGHT_WHITE);
                         gameBoard.RenderCell(gameBoard.chosenCell2, WHITE);
-
+                        // Cập nhật điểm số
                         gameBoard.remainCells -= 2;
                         infoBoard.score += infoBoard.remainingTime;
                         Controller::GoToXY(97, 23);
                         Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
                         cout << "Current score: " << infoBoard.score;
-                        if (gameBoard.remainCells == 0)
+                        if (gameBoard.remainCells == 0) // Kiểm tra nếu không còn ô nào thì chiến thắng
                         {
                             infoBoard.SaveData();
                             gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
@@ -274,10 +276,11 @@ void DGame::StartGame()
                             return;
                         }
 
+                        // Kiểm tra ô đã chọn có trùng với các ô gợi ý không
                         if (gameBoard.chosenCell1.first == gameBoard.hint.first.first || gameBoard.chosenCell1.first == gameBoard.hint.second.first || gameBoard.chosenCell2.first == gameBoard.hint.first.first || gameBoard.chosenCell2.first == gameBoard.hint.second.first)
                         {
                             gameBoard.hint = FindPair();
-                            if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+                            if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({})) // Nếu không còn cặp Pokemon nào khớp với các ô gợi ý thì hiện thông báo và reshuffing bảng Pokemon
                             {
                                 Controller::GoToXY(gameBoard.left, gameBoard.top - 2);
                                 Controller::SetConsoleColor(LIGHT_YELLOW, RED);
@@ -290,13 +293,13 @@ void DGame::StartGame()
                                     gameBoard.pokemonsList.push_back(pokemon);
                                 }
                             }
-                            while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+                            while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({})) // Tạo lại các cặp Pokemon mới
                             {
                                 random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
                                 int k = 0;
                                 for (int i = 0; i < 8; i++)
                                 {
-                                    Node* curr = gameBoard.pokemonsBoard[i].head;
+                                    Node *curr = gameBoard.pokemonsBoard[i].head;
                                     int j = 7;
                                     while (curr != NULL)
                                     {
@@ -309,17 +312,19 @@ void DGame::StartGame()
                                         k++;
                                     }
                                 }
-                                gameBoard.hint = FindPair();
+                                gameBoard.hint = FindPair(); // Tìm ô gợi ý mới
+                                // Xoá dòng thông báo trên màn hình
                                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
                                 Controller::GoToXY(gameBoard.left, gameBoard.top - 2);
                                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
                                 cout << "                                                                         ";
                             }
                         }
+                        // Reset các ô đã chọn
                         gameBoard.chosenCell1 = {-1, -1};
                         gameBoard.chosenCell2 = {-1, -1};
                     }
-                    else
+                    else // Nếu chọn sai cặp Pokemon, thời gian và số mạng sẽ bị giảm đi
                     {
                         PlaySound(TEXT("Sound/Wrong.wav"), NULL, SND_FILENAME | SND_ASYNC);
                         gameBoard.RenderCell(gameBoard.chosenCell1, LIGHT_RED);
@@ -339,6 +344,7 @@ void DGame::StartGame()
             }
         }
     }
+    // Kết thúc trò chơi do hết mạng hoặc hết thời gian, thông tin sẽ được lưu và hiển thị màn hình thua
     PlaySound(TEXT("Sound/Lose.wav"), NULL, SND_FILENAME | SND_ASYNC);
     infoBoard.SaveData();
     Sleep(3000);
@@ -353,10 +359,10 @@ DGameBoard::~DGameBoard()
 {
     for (int i = 0; i < 8; i++)
     {
-        Node* curr = pokemonsBoard[i].head;
+        Node *curr = pokemonsBoard[i].head;
         while (curr != NULL)
         {
-            Node* next = curr->next;
+            Node *next = curr->next;
             delete curr;
             curr = next;
         }
@@ -369,7 +375,7 @@ DGameBoard::~DGameBoard()
     background = NULL;
 }
 
-void DGameBoard::Render()
+void DGameBoard::Render() // Vẽ toàn bộ bảng chơi Pokemon
 {
     system("cls");
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
@@ -434,7 +440,7 @@ void DGameBoard::Render()
     // In ra các "Pokemon"
     for (int i = 0; i < 8; i++)
     {
-        Node* curr = pokemonsBoard[i].head;
+        Node *curr = pokemonsBoard[i].head;
         for (int j = 7; j > -1; j--)
         {
             Controller::GoToXY(left + 1 + i * 8, top + 1 + j * 4);
@@ -456,15 +462,15 @@ void DGameBoard::Render()
     cout << "       ";
 }
 
-void DGameBoard::RenderCell(pair<int, int> cell, int color)
+void DGameBoard::RenderCell(pair<int, int> cell, int color) // Vẽ 1 ô trong bảng game Pokemon
 {
     char pokemon;
-    if (cell.first == -1 || cell.second == -1 || cell.first == 8 || cell.second == 8)
+    if (cell.first == -1 || cell.second == -1 || cell.first == 8 || cell.second == 8) // Kiểm tra có nằm ngoài biên của bảng hay không
         pokemon = ' ';
     else
         pokemon = pokemonsBoard[cell.first].GetPokemon(7 - cell.second);
     Controller::SetConsoleColor(color, BLACK);
-    if (pokemon != '\0')
+    if (pokemon != '\0') // Kiểm tra nếu ô có chứa Pokemon
     {
         Controller::GoToXY(left + 1 + cell.first * 8, top + 1 + cell.second * 4);
         cout << "       ";
@@ -473,7 +479,7 @@ void DGameBoard::RenderCell(pair<int, int> cell, int color)
         Controller::GoToXY(left + 1 + cell.first * 8, top + 3 + cell.second * 4);
         cout << "       ";
     }
-    else
+    else // Nếu là ô trống sẽ in ra background tại vị trí của ô đó
     {
         if (color == WHITE)
             color = GRAY;
@@ -489,7 +495,7 @@ void DGameBoard::RenderCell(pair<int, int> cell, int color)
     }
 }
 
-void DInfoBoard::Render()
+void DInfoBoard::Render() // Vẽ bảng thông tin người chơi
 {
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(91, 8, 33, 8);
@@ -540,10 +546,10 @@ void DInfoBoard::Render()
     cout << "Esc: Exit";
 }
 // 3 hàm dùng để kiểm tra hai ô được chọn có phải là một cặp nối được hay không, nếu có thì trả về đường nối đó
-bool DGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
+bool DGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2) // Kiểm tra có đường nối nào giữa 2 ô trên bảng game Pokemon không
 {
     pair<int, int> curr = cell1;
-    if (cell1.first == cell2.first)
+    if (cell1.first == cell2.first) // Kiểm tra 2 ô cùng hàng
     {
         int vDirec = (cell1.second < cell2.second) ? 1 : -1;
         while (curr.second + vDirec != cell2.second)
@@ -554,7 +560,7 @@ bool DGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
         }
         return true;
     }
-    if (cell1.second == cell2.second)
+    if (cell1.second == cell2.second) // Kiểm tra 2 ô cùng cột
     {
         int hDirec = (cell1.first < cell2.first) ? 1 : -1;
         while (curr.first + hDirec != cell2.first)
@@ -567,6 +573,9 @@ bool DGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
     }
     return false;
 }
+
+// Nhận đầu vào là một vector chứa tọa độ của các ô trên bảng game Pokemon
+// Và trả về một vector chứa tất cả các ô trên đường đi từ ô đầu tiên đến ô cuối cùng trong vector đầu vào
 vector<pair<int, int>> DGame::Path(vector<pair<int, int>> v)
 {
     int s = v.size();
@@ -574,6 +583,7 @@ vector<pair<int, int>> DGame::Path(vector<pair<int, int>> v)
     vector<pair<int, int>> path = {curr};
     for (int i = 1; i < s; i++)
     {
+        // Kiểm tra ô hiện tại có cùng hàng/cùng cột với ô tiếp theo không
         if (curr.first == v[i].first)
         {
             int vDirec = (curr.second < v[i].second) ? 1 : -1;
@@ -595,6 +605,8 @@ vector<pair<int, int>> DGame::Path(vector<pair<int, int>> v)
     }
     return path;
 }
+
+// Kiểm tra có đường nối nào giữa 2 ô không và trả về đường nối (nếu có)
 vector<pair<int, int>> DGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
     // So sánh hai Pokemon có giống nhau không
@@ -710,7 +722,8 @@ vector<pair<int, int>> DGame::CheckMatching(pair<int, int> cell1, pair<int, int>
     }
     return vector<pair<int, int>>({});
 }
-pair<pair<int, int>, pair<int, int>> DGame::FindPair()
+
+pair<pair<int, int>, pair<int, int>> DGame::FindPair() // Tìm cặp nối hợp lệ, trả về cặp đó (nếu có)
 {
     for (int i = 0; i < 63; i++)
         if (gameBoard.pokemonsBoard[i % 8].GetPokemon(7 - (i / 8)) != '\0')
@@ -725,7 +738,7 @@ pair<pair<int, int>, pair<int, int>> DGame::FindPair()
     return pair<pair<int, int>, pair<int, int>>({});
 }
 
-void DGameBoard::RemoveCell(pair<int, int> cell)
+void DGameBoard::RemoveCell(pair<int, int> cell) // Xoá ô trên bảng Pokemon
 {
     // Xóa node khỏi list
     if (pokemonsBoard[cell.first].height == 0) // Nếu chỉ còn một node duy nhất trong cột
@@ -737,7 +750,7 @@ void DGameBoard::RemoveCell(pair<int, int> cell)
 
     else
     {
-        Node* curr = pokemonsBoard[cell.first].head;
+        Node *curr = pokemonsBoard[cell.first].head;
         for (int i = 0; i < 7 - cell.second; i++)
             curr = curr->next;
         if (curr == pokemonsBoard[cell.first].head)
@@ -791,18 +804,19 @@ void DGameBoard::RemoveCell(pair<int, int> cell)
     }
 }
 
-void DInfoBoard::SaveData()
+void DInfoBoard::SaveData() // Lưu thông tin người chơi vào file HighScores.txt
 {
     fstream f("HighScores.txt", ios::app);
     f << playerName << ',' << mode << ',' << score << '\n';
     f.close();
 }
 
-void DGame::LosingScreen(string reason)
+void DGame::LosingScreen(string reason) // Hiển thị màn hình thua và lí do
 {
-    system("cls");
-    system("color F0");
-    Menu::PrintLogo();
+    system("cls");      // Xoá màn hình console
+    system("color F0"); // Đặt lại nền màu trắng cho màn hình console
+    Menu::PrintLogo();  // In logo game
+    // Vẽ các hình chữ nhật để tạo khung cho màn hình thông báo và lựa chọn Yes, No; Hiển thị điểm số và lí do thua
     Menu::PrintRectangle(56, 20, 42, 16);
     for (int i = 0; i < 15; i++)
     {
@@ -833,6 +847,7 @@ void DGame::LosingScreen(string reason)
     Controller::GoToXY(84, 32);
     cout << "   No   ";
 
+    // Xử lí sự kiện nhấn phím
     int yes = 1;
     while (true)
     {
@@ -893,11 +908,13 @@ void DGame::LosingScreen(string reason)
         }
     }
 }
-void DGame::WinningScreen()
+
+void DGame::WinningScreen() // Hiển thị màn hình thắng
 {
-    system("cls");
-    system("color F0");
-    Menu::PrintLogo();
+    system("cls");      // Xoá màn hình hiện tại
+    system("color F0"); // Đặt lại nền màu trắng cho màn hình console
+    Menu::PrintLogo();  // In logo game
+    // Vẽ các hình chữ nhật để tạo khung cho màn hình thông báo và lựa chọn Yes, No; Hiển thị điểm số của người chơi
     Menu::PrintRectangle(56, 20, 42, 16);
     for (int i = 0; i < 15; i++)
     {
@@ -928,6 +945,7 @@ void DGame::WinningScreen()
     Controller::GoToXY(84, 32);
     cout << "   No   ";
 
+    // Xử lí sự kiện nhấn phím
     int yes = 1;
     while (true)
     {
@@ -989,8 +1007,9 @@ void DGame::WinningScreen()
     }
 }
 
-void DGame::ExitGame()
+void DGame::ExitGame() // Hiển thị màn hình thoát trò chơi
 {
+    // Vẽ các hình chữ nhật để tạo khung cho màn hình thoát game và lựa chọn Yes, No
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     for (int i = 0; i < 3; i++)
     {
@@ -1010,6 +1029,7 @@ void DGame::ExitGame()
     Controller::GoToXY(118, 37);
     cout << "No";
 
+    // Xử lí sự kiện nhấn phím
     int yes = 0;
     while (true)
     {

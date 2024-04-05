@@ -5,7 +5,7 @@ NAHInfoBoard NAHGame::infoBoard;
 
 using namespace std;
 
-void NAHGame::SetupGame(int MODE)
+void NAHGame::SetupGame(int MODE) // Thiết lập trò chơi
 {
     // Hỏi thăm thông tin người chơi
     Controller::SetConsoleColor(BRIGHT_WHITE, YELLOW);
@@ -43,9 +43,10 @@ void NAHGame::SetupGame(int MODE)
             gameBoard.background[i] = new char[33];
             for (int j = 0; j < 33; j++)
                 f.get(gameBoard.background[i][j]);
-            f.get(temp); // lấy dấu xuống dòng vào temp
+            f.get(temp); // Lấy dấu xuống dòng vào temp
         }
         break;
+
     case HARD:
         gameBoard.size = 8;
         gameBoard.left = 8;
@@ -59,7 +60,7 @@ void NAHGame::SetupGame(int MODE)
             gameBoard.background[i] = new char[65];
             for (int j = 0; j < 65; j++)
                 f.get(gameBoard.background[i][j]);
-            f.get(temp); // lấy dấu xuống dòng vào temp
+            f.get(temp); // Lấy dấu xuống dòng vào temp
         }
         break;
     }
@@ -87,11 +88,12 @@ void NAHGame::SetupGame(int MODE)
     infoBoard.lives = 3;
     infoBoard.hints = 3;
     infoBoard.remainingTime = 600;
+    // Các biến liên quan đến vị trí và trạng thái của các ô trong bảng Pokemon
     gameBoard.currentCell = {0, 0};
     gameBoard.chosenCell1 = {-1, -1};
     gameBoard.chosenCell2 = {-1, -1};
-    gameBoard.hint = FindPair();
-    while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+    gameBoard.hint = FindPair(); // Tìm cặp nối được
+    while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({})) // Điều kiện bảo rằng trò chơi sẽ không bắt đầu nếu không có cặp Pokemon nào có thể nối được với nhau từ đầu
     {
         random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
         for (int i = 0; i < gameBoard.size; i++)
@@ -101,18 +103,18 @@ void NAHGame::SetupGame(int MODE)
     }
 }
 
-void NAHGame::StartGame()
+void NAHGame::StartGame() // Hàm chính bắt đầu trò chơi
 {
-    system("cls");
-    gameBoard.Render();
-    infoBoard.Render();
+    system("cls");      // Xoá màn hình hiện tại
+    gameBoard.Render(); // In ra bảng game Pokemon
+    infoBoard.Render(); // In ra bảng thông tin người chơi
     int centiSec = 0;
-    while (infoBoard.lives && infoBoard.remainingTime > 0)
+    while (infoBoard.lives && infoBoard.remainingTime > 0) // Kiểm tra có còn mạng và thời gian hay không
     {
-        if (gameBoard.chosenCell1.first != -1)
+        if (gameBoard.chosenCell1.first != -1) // Đổi màu cho ô được chọn
             gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
         Sleep(10);
-        if (++centiSec == 60)
+        if (++centiSec == 60) // Cập nhật thời gian của trò chơi mỗi khi trôi qua 1 giây
         {
             infoBoard.remainingTime--;
             Controller::GoToXY(113, 21);
@@ -124,6 +126,7 @@ void NAHGame::StartGame()
         if (kbhit())
         {
             int key = _getch();
+            // Di chuyển tới ô nào thì ô đó sẽ được tô màu trắng đậm hơn
             if (key == KEY_UP || key == KEY_W)
             {
                 PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -153,11 +156,9 @@ void NAHGame::StartGame()
                 gameBoard.currentCell.first = (gameBoard.currentCell.first + 1) % gameBoard.size;
                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
             }
-            else if (key == KEY_ESC)
-            {
+            else if (key == KEY_ESC) // Nhấn phím ESC để thoát game
                 ExitGame();
-            }
-            else if (key == KEY_H && infoBoard.remainingTime > 30)
+            else if (key == KEY_H && infoBoard.remainingTime > 30) // Nhấn H để hiện gợi ý 1 cặp Pokemon hợp lệ, cặp Pokemon gợi ý được tô màu tím
             {
                 PlaySound(TEXT("Sound/Move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 gameBoard.RenderCell(gameBoard.hint.first, LIGHT_PURPLE);
@@ -169,6 +170,7 @@ void NAHGame::StartGame()
                 if (gameBoard.chosenCell1.first != -1)
                     gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
 
+                // Kiểm tra số lượt hint, nếu hết 3 lượt thì mỗi lần nhận gợi ý thời gian sẽ bị trừ đi 30s
                 if (infoBoard.hints > 0)
                 {
                     infoBoard.hints--;
@@ -194,13 +196,13 @@ void NAHGame::StartGame()
             else if (key == KEY_ENTER && gameBoard.pokemonsBoard[gameBoard.currentCell.second][gameBoard.currentCell.first])
             {
                 PlaySound(TEXT("Sound/Enter.wav"), NULL, SND_FILENAME | SND_ASYNC);
-                if (gameBoard.chosenCell1.first == -1)
+                if (gameBoard.chosenCell1.first == -1) // Tô màu xanh lá cho ô được chọn
                 {
                     gameBoard.chosenCell1 = gameBoard.currentCell;
                     gameBoard.RenderCell(gameBoard.chosenCell1, GREEN);
                 }
 
-                else if (gameBoard.currentCell == gameBoard.chosenCell1)
+                else if (gameBoard.currentCell == gameBoard.chosenCell1) // Khi nhấn 2 lần vào 1 ô thì huỷ chọn, chuyển lại thành màu trắng
                 {
                     gameBoard.RenderCell(gameBoard.chosenCell1, WHITE);
                     gameBoard.chosenCell1 = {-1, -1};
@@ -210,7 +212,7 @@ void NAHGame::StartGame()
                 {
                     gameBoard.chosenCell2 = gameBoard.currentCell;
                     vector<pair<int, int>> check = CheckMatching(gameBoard.chosenCell1, gameBoard.chosenCell2);
-                    if (check != vector<pair<int, int>>({}))
+                    if (check != vector<pair<int, int>>({})) // Kiểm tra nếu chọn đúng cặp Pokemon
                     {
                         for (pair<int, int> i : check)
                         {
@@ -225,6 +227,7 @@ void NAHGame::StartGame()
                         for (pair<int, int> i : check)
                             gameBoard.RenderCell(i, LIGHT_GREEN);
                         Sleep(400);
+                        // Loại bỏ các ô đã chọn đúng và cập nhật điểm số
                         gameBoard.RemoveCell(gameBoard.chosenCell1);
                         gameBoard.RemoveCell(gameBoard.chosenCell2);
                         for (pair<int, int> i : check)
@@ -237,7 +240,7 @@ void NAHGame::StartGame()
                         Controller::GoToXY(97, 23);
                         Controller::SetConsoleColor(BRIGHT_WHITE, BLUE);
                         cout << "Current score: " << infoBoard.score;
-                        if (gameBoard.remainCells == 0)
+                        if (gameBoard.remainCells == 0) // Kiểm tra nếu không còn ô nào thì chiến thắng
                         {
                             infoBoard.SaveData();
                             gameBoard.RenderCell(gameBoard.currentCell, BRIGHT_WHITE);
@@ -246,11 +249,11 @@ void NAHGame::StartGame()
                             WinningScreen();
                             return;
                         }
-
+                        // Kiểm tra ô đã chọn có trùng với các ô gợi ý không
                         if (gameBoard.chosenCell1 == gameBoard.hint.first || gameBoard.chosenCell1 == gameBoard.hint.second || gameBoard.chosenCell2 == gameBoard.hint.first || gameBoard.chosenCell2 == gameBoard.hint.second)
                         {
                             gameBoard.hint = FindPair();
-                            if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+                            if (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({})) // Nếu không còn cặp Pokemon nào khớp với các ô gợi ý thì hiện thông báo và reshuffing bảng Pokemon
                             {
                                 Controller::GoToXY(4, gameBoard.top - 2);
                                 Controller::SetConsoleColor(LIGHT_YELLOW, RED);
@@ -263,7 +266,7 @@ void NAHGame::StartGame()
                                     gameBoard.pokemonsList.push_back(pokemon);
                                 }
                             }
-                            while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({}))
+                            while (gameBoard.hint == pair<pair<int, int>, pair<int, int>>({})) // Tạo lại các cặp Pokemon mới
                             {
                                 random_shuffle(gameBoard.pokemonsList.begin(), gameBoard.pokemonsList.end());
                                 int k = 0;
@@ -277,18 +280,19 @@ void NAHGame::StartGame()
                                             gameBoard.RenderCell(pair<int, int>({j, i}), BRIGHT_WHITE);
                                             k++;
                                         }
-                                gameBoard.hint = FindPair();
+                                gameBoard.hint = FindPair(); // Tìm ô gợi ý mới
+                                // Xoá dòng thông báo trên màn hình
                                 gameBoard.RenderCell(gameBoard.currentCell, WHITE);
                                 Controller::GoToXY(4, gameBoard.top - 2);
                                 Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
                                 cout << "                                                                         ";
                             }
                         }
-
+                        // Reset các ô đã chọn
                         gameBoard.chosenCell1 = {-1, -1};
                         gameBoard.chosenCell2 = {-1, -1};
                     }
-                    else
+                    else // Nếu chọn sai cặp Pokemon, thời gian và số mạng sẽ bị giảm đi
                     {
                         PlaySound(TEXT("Sound/Wrong.wav"), NULL, SND_FILENAME | SND_ASYNC);
                         gameBoard.RenderCell(gameBoard.chosenCell1, LIGHT_RED);
@@ -308,6 +312,7 @@ void NAHGame::StartGame()
             }
         }
     }
+    // Kết thúc trò chơi do hết mạng hoặc hết thời gian, thông tin sẽ được lưu và hiển thị màn hình thua
     infoBoard.SaveData();
     PlaySound(TEXT("Sound/Lose.wav"), NULL, SND_FILENAME | SND_ASYNC);
     Sleep(3000);
@@ -331,9 +336,9 @@ NAHGameBoard::~NAHGameBoard()
     background = NULL;
 }
 
-void NAHGameBoard::Render()
+void NAHGameBoard::Render() // Vẽ toàn bộ bảng chơi Pokemon
 {
-    system("cls");
+    system("cls"); // xoá màn hình hiện tại
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Controller::GoToXY(left, top);
     // In cạnh trên của bảng
@@ -373,13 +378,11 @@ void NAHGameBoard::Render()
     for (int i = 1; i < size * 4; i++)
     {
         for (int j = 8; j < size * 8; j += 8)
-        {
             if (i % 4 != 0)
             {
                 Controller::GoToXY(j + left, i + top);
                 putchar(179);
             }
-        }
         Sleep(10);
     }
     // In các đường kẻ ngang
@@ -401,15 +404,15 @@ void NAHGameBoard::Render()
     RenderCell(pair<int, int>({0, 0}), WHITE);
 }
 
-void NAHGameBoard::RenderCell(pair<int, int> cell, int color)
+void NAHGameBoard::RenderCell(pair<int, int> cell, int color) // Vẽ 1 ô trong bảng game Pokemon
 {
     char pokemon;
-    if (cell.first == -1 || cell.second == -1 || cell.first == size || cell.second == size)
+    if (cell.first == -1 || cell.second == -1 || cell.first == size || cell.second == size) // Kiểm tra có nằm ngoài biên của bảng hay không
         pokemon = ' ';
     else
         pokemon = pokemonsBoard[cell.second][cell.first];
     Controller::SetConsoleColor(color, BLACK);
-    if (pokemon != '\0')
+    if (pokemon != '\0') // Kiểm tra nếu ô có chứa Pokemon
     {
         Controller::GoToXY(left + 1 + cell.first * 8, top + 1 + cell.second * 4);
         cout << "       ";
@@ -418,7 +421,7 @@ void NAHGameBoard::RenderCell(pair<int, int> cell, int color)
         Controller::GoToXY(left + 1 + cell.first * 8, top + 3 + cell.second * 4);
         cout << "       ";
     }
-    else
+    else // Nếu là ô trống sẽ in ra background tại vị trí của ô đó
     {
         if (color == WHITE)
             color = GRAY;
@@ -434,7 +437,7 @@ void NAHGameBoard::RenderCell(pair<int, int> cell, int color)
     }
 }
 
-void NAHInfoBoard::Render()
+void NAHInfoBoard::Render() // Vẽ bảng thông tin người chơi
 {
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     Menu::PrintRectangle(91, 8, 33, 8);
@@ -486,10 +489,10 @@ void NAHInfoBoard::Render()
 }
 
 // 3 hàm dùng để kiểm tra hai ô được chọn có phải là một cặp nối được hay không, nếu có thì trả về đường nối đó
-bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
+bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2) // Kiểm tra có đường nối nào giữa 2 ô trên bảng game Pokemon không
 {
     pair<int, int> curr = cell1;
-    if (cell1.first == cell2.first)
+    if (cell1.first == cell2.first) // Kiểm tra 2 ô cùng hàng
     {
         int vDirec = (cell1.second < cell2.second) ? 1 : -1;
         while (curr.second + vDirec != cell2.second)
@@ -500,7 +503,7 @@ bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
         }
         return true;
     }
-    if (cell1.second == cell2.second)
+    if (cell1.second == cell2.second) // Kiểm tra 2 ô cùng cột
     {
         int hDirec = (cell1.first < cell2.first) ? 1 : -1;
         while (curr.first + hDirec != cell2.first)
@@ -513,6 +516,9 @@ bool NAHGame::ExistsLine(pair<int, int> cell1, pair<int, int> cell2)
     }
     return false;
 }
+
+// Nhận đầu vào là một vector chứa tọa độ của các ô trên bảng game Pokemon
+// Và trả về một vector chứa tất cả các ô trên đường đi từ ô đầu tiên đến ô cuối cùng trong vector đầu vào
 vector<pair<int, int>> NAHGame::Path(vector<pair<int, int>> v)
 {
     int s = v.size();
@@ -520,6 +526,7 @@ vector<pair<int, int>> NAHGame::Path(vector<pair<int, int>> v)
     vector<pair<int, int>> path = {curr};
     for (int i = 1; i < s; i++)
     {
+        // Kiểm tra ô hiện tại có cùng hàng/cùng cột với ô tiếp theo không
         if (curr.first == v[i].first)
         {
             int vDirec = (curr.second < v[i].second) ? 1 : -1;
@@ -541,6 +548,8 @@ vector<pair<int, int>> NAHGame::Path(vector<pair<int, int>> v)
     }
     return path;
 }
+
+// Kiểm tra có đường nối nào giữa 2 ô không và trả về đường nối (nếu có)
 vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, int> cell2)
 {
     // So sánh hai Pokemon có giống nhau không
@@ -596,12 +605,10 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         while (temp1.second > -2 && temp1.second < gameBoard.size + 1)
         {
             if ((temp1.second == -1 || temp1.second == gameBoard.size || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')) && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2))
-            {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
-            }
-            else
-                break;
+                else
+                    break;
             temp1.second -= vDirec;
             temp2.second -= vDirec;
         }
@@ -610,12 +617,10 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         while (temp1.second > -2 && temp1.second < gameBoard.size + 1)
         {
             if ((temp1.second == -1 || temp1.second == gameBoard.size || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')) && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2))
-            {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
-            }
-            else
-                break;
+                else
+                    break;
             temp1.second += vDirec;
             temp2.second += vDirec;
         }
@@ -630,12 +635,10 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         while (temp1.first > -2 && temp1.first < gameBoard.size + 1)
         {
             if ((temp1.first == -1 || temp1.first == gameBoard.size || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')) && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2))
-            {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
-            }
-            else
-                break;
+                else
+                    break;
             temp1.first -= hDirec;
             temp2.first -= hDirec;
         }
@@ -644,19 +647,18 @@ vector<pair<int, int>> NAHGame::CheckMatching(pair<int, int> cell1, pair<int, in
         while (temp1.first > -2 && temp1.first < gameBoard.size + 1)
         {
             if ((temp1.first == -1 || temp1.first == gameBoard.size || (gameBoard.pokemonsBoard[temp1.second][temp1.first] == '\0' && gameBoard.pokemonsBoard[temp2.second][temp2.first] == '\0')) && ExistsLine(cell1, temp1) && ExistsLine(temp2, cell2))
-            {
                 if (ExistsLine(temp1, temp2))
                     return Path(vector<pair<int, int>>({cell1, temp1, temp2, cell2}));
-            }
-            else
-                break;
+                else
+                    break;
             temp1.first += hDirec;
             temp2.first += hDirec;
         }
     }
     return vector<pair<int, int>>({});
 }
-pair<pair<int, int>, pair<int, int>> NAHGame::FindPair()
+
+pair<pair<int, int>, pair<int, int>> NAHGame::FindPair() // Tìm cặp nối hợp lệ, trả về cặp đó (nếu có)
 {
     for (int i = 0; i < gameBoard.size * gameBoard.size - 1; i++)
         if (gameBoard.pokemonsBoard[i / gameBoard.size][i % gameBoard.size] != '\0')
@@ -671,7 +673,7 @@ pair<pair<int, int>, pair<int, int>> NAHGame::FindPair()
     return pair<pair<int, int>, pair<int, int>>({});
 }
 
-void NAHGameBoard::RemoveCell(pair<int, int> cell)
+void NAHGameBoard::RemoveCell(pair<int, int> cell) // Xoá ô trên bảng Pokemon
 {
     pokemonsBoard[cell.second][cell.first] = '\0';
     // Xóa các cạnh và góc nếu các ô xung quanh đều đã bị xóa
@@ -714,7 +716,7 @@ void NAHGameBoard::RemoveCell(pair<int, int> cell)
         }
         r = true;
     }
-
+    // Vẽ lại cạnh và góc của bảng Pokemon
     if (t && l && pokemonsBoard[cell.second - 1][cell.first - 1] == '\0')
     {
         Controller::GoToXY(left + cell.first * 8, top + cell.second * 4);
@@ -737,18 +739,19 @@ void NAHGameBoard::RemoveCell(pair<int, int> cell)
     }
 }
 
-void NAHInfoBoard::SaveData()
+void NAHInfoBoard::SaveData() // Lưu thông tin người chơi vào file HighScores.txt
 {
     fstream f("HighScores.txt", ios::app);
     f << playerName << ',' << mode << ',' << score << '\n';
     f.close();
 }
 
-void NAHGame::LosingScreen(string reason)
+void NAHGame::LosingScreen(string reason) // Hiển thị màn hình thua và lí do
 {
-    system("cls");
-    system("color F0");
-    Menu::PrintLogo();
+    system("cls");      // Xoá màn hình console
+    system("color F0"); // Đặt lại nền màu trắng cho màn hình console
+    Menu::PrintLogo();  // In logo game
+    // Vẽ các hình chữ nhật để tạo khung cho màn hình thông báo và lựa chọn Yes, No; Hiển thị điểm số và lí do thua
     Menu::PrintRectangle(56, 20, 42, 16);
     for (int i = 0; i < 15; i++)
     {
@@ -778,7 +781,8 @@ void NAHGame::LosingScreen(string reason)
     Menu::PrintRectangle(83, 31, 8, 2);
     Controller::GoToXY(84, 32);
     cout << "   No   ";
-
+    
+    // Xử lí sự kiện nhấn phím
     int yes = 1;
     while (true)
     {
@@ -839,11 +843,13 @@ void NAHGame::LosingScreen(string reason)
         }
     }
 }
-void NAHGame::WinningScreen()
+
+void NAHGame::WinningScreen() // Hiển thị màn hình thắng
 {
-    system("cls");
-    system("color F0");
-    Menu::PrintLogo();
+    system("cls");      // Xoá màn hình hiện tại
+    system("color F0"); // Đặt lại nền màu trắng cho màn hình console
+    Menu::PrintLogo();  // In logo game
+    // Vẽ các hình chữ nhật để tạo khung cho màn hình thông báo và lựa chọn Yes, No; Hiển thị điểm số của người chơi
     Menu::PrintRectangle(56, 20, 42, 16);
     for (int i = 0; i < 15; i++)
     {
@@ -874,6 +880,7 @@ void NAHGame::WinningScreen()
     Controller::GoToXY(84, 32);
     cout << "   No   ";
 
+    // Xử lí sự kiện nhấn phím
     int yes = 1;
     while (true)
     {
@@ -935,8 +942,9 @@ void NAHGame::WinningScreen()
     }
 }
 
-void NAHGame::ExitGame()
+void NAHGame::ExitGame() // Hiển thị màn hình thoát trò chơi
 {
+    // Vẽ các hình chữ nhật để tạo khung cho màn hình thoát game và lựa chọn Yes, No
     Controller::SetConsoleColor(BRIGHT_WHITE, BLACK);
     for (int i = 0; i < 3; i++)
     {
@@ -955,7 +963,7 @@ void NAHGame::ExitGame()
     Menu::PrintRectangle(114, 36, 8, 2);
     Controller::GoToXY(118, 37);
     cout << "No";
-
+    // Xử lí sự kiện nhấn phím
     int yes = 0;
     while (true)
     {

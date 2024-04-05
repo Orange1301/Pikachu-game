@@ -12,14 +12,17 @@
 #include "Menu.h"
 #include "Controller.h"
 
-struct Node {
+struct Node
+{
     char pokemon;
-    Node* next;
-    Node* prev;
+    Node *next;
+    Node *prev;
 };
-struct List {
-    Node* head;
-    Node* tail;
+
+struct List
+{
+    Node *head;
+    Node *tail;
     int height;
     void Set(int, char);
     char GetPokemon(int);

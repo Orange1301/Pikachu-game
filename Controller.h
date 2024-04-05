@@ -40,15 +40,16 @@ using namespace std;
 
 struct Controller
 {
-	Controller(){};						   // constructer
-	~Controller(){};					   // destructer
-	static HWND consoleWindow;			   // con trỏ xử lí cửa sổ console
-	static HANDLE consoleOutput;		   // con trỏ  xử lí output console
-	static void SetUpConsole();			   // thiết lập cửa sổ console
-	static void GoToXY(int, int);		   // di chuyển con trỏ đến vị trí x, y
-	static void SetAndCenterWindow();	   // căn giữa và thiết lập độ phân giải màn hình console
-	static void SetConsoleColor(int, int); // thiết lập màu chữ và màu nền
-	static void DisableMaximize(); // vô hiệu hóa phóng to màn hình
-	static void HideScrollBars();
-	static void ShowCursor(bool);  // ẩn hoặc hiện con trỏ
+	Controller(){};						   // constructor
+	~Controller(){};					   // destructor
+	static HWND consoleWindow;			   // Con trỏ xử lí cửa sổ console
+	static HANDLE consoleOutput;		   // Con trỏ  xử lí output console
+	static void SetUpConsole();			   // Thiết lập cửa sổ console
+	static void GoToXY(int, int);		   // Di chuyển con trỏ đến vị trí x, y
+	static void SetAndCenterWindow();	   // Căn giữa và thiết lập độ phân giải màn hình console
+	static void SetConsoleColor(int, int); // Thiết lập màu chữ và màu nền
+	static void DisableMaximize();		   // Vô hiệu hóa phóng to màn hình
+	static void HideScrollBars();		   // Ẩn thanh cuộn
+	static void ShowCursor(bool);		   // Ẩn hoặc hiện con trỏ
 };
+
