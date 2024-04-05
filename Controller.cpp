@@ -5,7 +5,7 @@ HANDLE Controller::consoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void Controller::SetUpConsole() // Thiết kế cấu hình cửa sổ console
 {
-	ShowCursor(false);	  // Ẩn hoặc hiện con trỏ trên của sổ console
+	ShowCursor(false);	  // Ẩn con trỏ trên của sổ console
 	SetAndCenterWindow(); // Căn giữa và thiết lập kích thước cửa sổ console
 	DisableMaximize();	  // Vô hiệu hoá phóng to màn hình
 	HideScrollBars();	  // Ẩn thanh cuộn

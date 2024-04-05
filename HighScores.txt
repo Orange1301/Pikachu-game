@@ -1,4 +1,0 @@
-abc,NORMAL,4758
-unknown,HARD,3460
-unknown,DROP,10831
-unknown,NORMAL,1155

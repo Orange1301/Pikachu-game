@@ -40,8 +40,8 @@ using namespace std;
 
 struct Controller
 {
-	Controller(){};						   // constructer
-	~Controller(){};					   // destructer
+	Controller(){};						   // constructor
+	~Controller(){};					   // destructor
 	static HWND consoleWindow;			   // Con trỏ xử lí cửa sổ console
 	static HANDLE consoleOutput;		   // Con trỏ  xử lí output console
 	static void SetUpConsole();			   // Thiết lập cửa sổ console
@@ -52,3 +52,4 @@ struct Controller
 	static void HideScrollBars();		   // Ẩn thanh cuộn
 	static void ShowCursor(bool);		   // Ẩn hoặc hiện con trỏ
 };
+

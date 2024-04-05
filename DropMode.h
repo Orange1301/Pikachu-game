@@ -1,5 +1,14 @@
 #pragma once
 
+#include <iostream>
+#include <windows.h>
+#include <conio.h>
+#include <fstream>
+#include <algorithm> // hàm random_shuffle
+#include <vector>    // sử dụng cùng hàm random_suffle để tạo danh sách pokemons ngẫu nhiên
+#include <cstdlib>
+#include <ctime>
+#include <string>
 #include "Menu.h"
 #include "Controller.h"
 
