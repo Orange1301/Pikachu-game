@@ -7,4 +7,4 @@ In this project, we developed a simplified version of this Pikachu Puzzle Game b
 (instead of figures).
 
 Use case diagram:
-![image](https://github.com/Orange1301/Pikachu-game/assets/130559533/d1b32883-dac9-4060-a9f1-b048a2a74113)
+![image](https://github.com/Orange1301/Pikachu-game/assets/130559533/4046f233-0f00-4a7a-945a-a33c6d51978c)
