@@ -1,5 +1,4 @@
 **Introduction:**
-
 Pikachu Puzzle Game (commonly known as Matching Game) includes a board of multiple cells, each of which
 presents a figure. The player finds and matches a pair of cells that contain the same figure and connect each other
 in some particular pattern. A legal match will make the two cells disappear. The game ends when all matching
